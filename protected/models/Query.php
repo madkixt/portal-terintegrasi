@@ -50,7 +50,7 @@ class Query extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('judulQuery, isiQuery, databaseName, notes, creationDate, createdBy', 'required'),
+			array('judulQuery, isiQuery, databaseName', 'required'),
 			array('createdBy, lastModifiedBy, lastNotesEditor', 'numerical', 'integerOnly'=>true),
 			array('judulQuery', 'length', 'max'=>50),
 			array('databaseName', 'length', 'max'=>30),
