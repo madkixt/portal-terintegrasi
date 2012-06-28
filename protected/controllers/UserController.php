@@ -152,6 +152,24 @@ class UserController extends Controller
 		));
 	}
 
+	public function actionAssign() {
+		$model=$this->loadModel($id);
+		
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['User']))
+		{
+			$model->attributes=$_POST['User'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->userID));
+		}
+
+		$this->render('assign',array(
+			'model'=>$model,
+		));
+	}
+	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
