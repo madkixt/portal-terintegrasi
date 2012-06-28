@@ -17,7 +17,6 @@ $this->menu=array(
 		'userID',
 		'admin',
 		'username',
-		'password',
 		'description',
 		'creationDate',
 		'modifiedDate',
