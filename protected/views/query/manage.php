@@ -28,7 +28,7 @@ if (Yii::app()->urlManager != null && Yii::app()->urlManager->urlFormat === 'pat
 
 ?>
 
-<h1>Manage Query</h1>
+<h1>Manage Queries</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
