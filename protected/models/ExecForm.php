@@ -2,7 +2,7 @@
 
 /** halaman eksekusi query */
 
-class ExecutionForm extends CFormModel
+class ExecForm extends CFormModel
 {
 	public $judulQuery;
 	public $isiQuery;
@@ -15,7 +15,7 @@ class ExecutionForm extends CFormModel
 	{
 		return array(
 			array('database,mesin','required'),
-			array('database,mesin','authenticate'),
+		//	array('database,mesin','authenticate'),
 		);
 	}
 	
@@ -27,6 +27,12 @@ class ExecutionForm extends CFormModel
 		return array(
 			'rememberMe'=>'Remember me next time',
 		);
+	}
+	
+	
+	
+	public function exec()
+	{
 	}
 
 }
