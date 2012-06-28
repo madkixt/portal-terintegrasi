@@ -131,4 +131,11 @@ class Query extends BaseEntity
 			$this->lastNotesEditor = Yii::app()->user->id;
 		}
 	}
+	
+	public function getNotesEditorUsername() {
+		$user = $this->lastNotesEditor0;
+		if (null == $user)
+			return null;
+		return $user->username;
+	}
 }

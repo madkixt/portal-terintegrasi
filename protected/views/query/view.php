@@ -25,8 +25,17 @@ $this->menu=array(
 		'creationDate',
 		'modifiedDate',
 		'notesModifiedDate',
-		'createdBy',
-		'lastModifiedBy',
-		'lastNotesEditor',
+		array(
+			'name' => 'createdBy',
+			'value' => CHtml::encode($model->creatorUsername)
+		),
+		array(
+			'name' => 'lastModifiedBy',
+			'value' => CHtml::encode($model->editorUsername)
+		),
+		array(
+			'name' => 'lastNotesEditor',
+			'value' => CHtml::encode($model->notesEditorUsername)
+		)
 	),
 )); ?>
