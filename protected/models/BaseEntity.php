@@ -6,7 +6,7 @@ abstract class BaseEntity extends CActiveRecord {
 			$this->creationDate = new CDbExpression('NOW()');
 			$this->createdBy = Yii::app()->user->id;
 		} else {
-			$this->lastModifiedDate = new CDbExpression('NOW()');
+			$this->modifiedDate = new CDbExpression('NOW()');
 			$this->lastModifiedBy = Yii::app()->user->id;
 		}
 		
