@@ -87,7 +87,7 @@ class UserController extends Controller
 	public function actionEdit($id)
 	{
 		$model=$this->loadModel($id);
-
+		$model->password = "";
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
