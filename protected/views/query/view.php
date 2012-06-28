@@ -9,6 +9,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Back to Manage Query', 'url'=>array('manage')),
+	array('label'=>'Create Query', 'url'=>array('add')),
+	array('label'=>'Update Query', 'url'=>array('edit', 'id'=>$model->queryID)),
+	array('label'=>'Delete Query', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->queryID),'confirm'=>'Are you sure you want to delete this item?')),
 );
 ?>
 
