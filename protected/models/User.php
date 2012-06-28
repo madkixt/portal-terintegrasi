@@ -29,6 +29,9 @@
  */
 class User extends CActiveRecord
 {
+	const ROLE_USER = 0;
+	const ROLE_ADMIN = 1;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -94,7 +97,7 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'userID' => 'User',
+			'userID' => 'ID',
 			'admin' => 'Admin',
 			'username' => 'Username',
 			'password' => 'Password',
@@ -130,5 +133,20 @@ class User extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	protected function afterValidate() {
+		$this->password = $this->encrypt($this->password);
+	}
+	
+	public function encrypt($pwd) {
+		return md5($pwd);
+	}
+	
+	public function getUserRoles() {
+		return array(
+			self::ROLE_USER => 'User',
+			self::ROLE_ADMIN => 'Admin'
+		);
 	}
 }

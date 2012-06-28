@@ -1,12 +1,10 @@
 <?php
 $this->breadcrumbs=array(
-	'Queries'=>array('index'),
-	'Manage',
+	'Queries'
 );
 
 $this->menu=array(
-	array('label'=>'List Query', 'url'=>array('index')),
-	array('label'=>'Create Query', 'url'=>array('create')),
+	array('label'=>'Add Query', 'url'=>array('add'))
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -21,9 +19,16 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
+
+if (Yii::app()->urlManager != null && Yii::app()->urlManager->urlFormat === 'path') {
+	$path = true;
+} else {
+	$path = false;
+}
+
 ?>
 
-<h1>Manage Queries</h1>
+<h1>Manage Query</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -43,7 +48,11 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'filter'=>$model,
 	'columns'=>array(
 		'queryID',
-		'judulQuery',
+		array(
+			'class' => 'CDataColumn',
+			'name' => 'judulQuery',
+			'value' => 'CHtml::link(CHtml::encode("Goodbye"))'
+		),
 		'isiQuery',
 		'databaseName',
 		'notes',
@@ -57,6 +66,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		*/
 		array(
 			'class'=>'CButtonColumn',
-		),
-	),
+		)
+	)
 )); ?>

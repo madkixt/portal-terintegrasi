@@ -1,12 +1,11 @@
 <?php
 $this->breadcrumbs=array(
-	'Queries'=>array('index'),
-	'Create',
+	'Queries'=>array('manage'),
+	'Add',
 );
 
 $this->menu=array(
-	array('label'=>'List Query', 'url'=>array('index')),
-	array('label'=>'Manage Query', 'url'=>array('admin')),
+	array('label'=>'Back to Manage Query', 'url'=>array('manage'))
 );
 ?>
 

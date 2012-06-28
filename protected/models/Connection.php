@@ -82,7 +82,7 @@ class Connection extends BaseEntity
 	public function attributeLabels()
 	{
 		return array(
-			'connectionID' => 'Connection',
+			'connectionID' => 'ID',
 			'serverName' => 'Server Name',
 			'IPAddress' => 'IP Address',
 			'username' => 'Username',

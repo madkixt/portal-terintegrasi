@@ -1,15 +1,11 @@
 <?php
 $this->breadcrumbs=array(
-	'Queries'=>array('index'),
+	'Queries'=>array('manage'),
 	$model->queryID,
 );
 
 $this->menu=array(
-	array('label'=>'List Query', 'url'=>array('index')),
-	array('label'=>'Create Query', 'url'=>array('create')),
-	array('label'=>'Update Query', 'url'=>array('update', 'id'=>$model->queryID)),
-	array('label'=>'Delete Query', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->queryID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Query', 'url'=>array('admin')),
+	array('label'=>'Back to Manage Query', 'url'=>array('manage')),
 );
 ?>
 

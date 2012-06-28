@@ -1,15 +1,11 @@
 <?php
 $this->breadcrumbs=array(
-	'Users'=>array('index'),
+	'Users'=>array('manage'),
 	$model->userID,
 );
 
 $this->menu=array(
-	array('label'=>'List User', 'url'=>array('index')),
-	array('label'=>'Create User', 'url'=>array('create')),
-	array('label'=>'Update User', 'url'=>array('update', 'id'=>$model->userID)),
-	array('label'=>'Delete User', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage User', 'url'=>array('admin')),
+	array('label'=>'Back to Manage User', 'url'=>array('manage')),
 );
 ?>
 

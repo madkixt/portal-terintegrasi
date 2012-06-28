@@ -1,15 +1,12 @@
 <?php
 $this->breadcrumbs=array(
-	'Connections'=>array('index'),
+	'Connections'=>array('manage'),
 	$model->connectionID=>array('view','id'=>$model->connectionID),
-	'Update',
+	'Edit',
 );
 
 $this->menu=array(
-	array('label'=>'List Connection', 'url'=>array('index')),
-	array('label'=>'Create Connection', 'url'=>array('create')),
-	array('label'=>'View Connection', 'url'=>array('view', 'id'=>$model->connectionID)),
-	array('label'=>'Manage Connection', 'url'=>array('admin')),
+	array('label'=>'Back to Manage Connection', 'url'=>array('manage')),
 );
 ?>
 
