@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Users'=>array('manage')
+	'Users'
 );
 
 $this->menu=array(
@@ -43,8 +43,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'userID',
 		array(
 			'class' => 'CDataColumn',
+			'name' => 'admin',
 			'value' => 'User::model()->userRoles[$data["admin"]]',
-			'name' => 'admin'
 		),
 		'username',
 		'description',

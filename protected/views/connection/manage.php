@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Connections'=>array('manage')
+	'Connections'
 );
 
 $this->menu=array(
