@@ -2,7 +2,7 @@
 
 class SiteController extends Controller
 {
-	public $defaultAction = 'index';
+	public $defaultAction = 'exec';
 	
 	/**
 	 * Declares class-based actions.
@@ -97,27 +97,27 @@ class SiteController extends Controller
 	/**
 	 * Displays the execution page
 	 */
-	public function actionExecution()
+	public function actionExec()
 	{
-		$model=new ExecutionForm;
+		$model=new ExecForm;
 
 		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='execution-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 
 		// collect user input data
-		if(isset($_POST['ExecutionForm']))
+		if(isset($_POST['ExecForm']))
 		{
-			$model->attributes=$_POST['ExecuitonForm'];
+			$model->attributes=$_POST['ExecForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->execution())
+			if($model->validate() && $model->exec())
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
-		$this->render('execution',array('model'=>$model));
+		$this->render('exec',array('model'=>$model));
 	}	
 	
 
