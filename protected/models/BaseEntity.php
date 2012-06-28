@@ -12,6 +12,20 @@ abstract class BaseEntity extends CActiveRecord {
 		
 		return parent::beforeValidate();
 	}
+	
+	public function getCreatorUsername() {
+		$user = $this->createdBy0;
+		if (null == $user)
+			return null;
+		return $user->username;
+	}
+	
+	public function getEditorUsername() {
+		$user = $this->lastModifiedBy0;
+		if (null == $user)
+			return null;
+		return $user->username;
+	}
 }
 
 ?>
