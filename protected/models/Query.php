@@ -82,7 +82,7 @@ class Query extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'queryID' => 'Query',
+			'queryID' => 'ID',
 			'judulQuery' => 'Judul Query',
 			'isiQuery' => 'Isi Query',
 			'databaseName' => 'Database Name',

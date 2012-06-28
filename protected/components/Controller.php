@@ -20,4 +20,12 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+	
+	public function filterAdmin($filterChain) {
+		if (!Yii::app()->user->getState('admin')) {
+			throw new CHttpException(403, "You are not authorized to view this page.");
+		}
+	
+		$filterChain->run();
+	}
 }

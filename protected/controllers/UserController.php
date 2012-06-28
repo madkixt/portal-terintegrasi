@@ -15,6 +15,7 @@ class UserController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
+			'admin'
 		);
 	}
 
@@ -26,7 +27,7 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			/*array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -37,10 +38,10 @@ class UserController extends Controller
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
-			),
+			),*/
 			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
+				'users'=>array('?'),
+			)
 		);
 	}
 
@@ -59,7 +60,7 @@ class UserController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionAdd()
 	{
 		$model=new User;
 
@@ -73,7 +74,7 @@ class UserController extends Controller
 				$this->redirect(array('view','id'=>$model->userID));
 		}
 
-		$this->render('create',array(
+		$this->render('add',array(
 			'model'=>$model,
 		));
 	}
@@ -83,7 +84,7 @@ class UserController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionEdit($id)
 	{
 		$model=$this->loadModel($id);
 
@@ -97,7 +98,7 @@ class UserController extends Controller
 				$this->redirect(array('view','id'=>$model->userID));
 		}
 
-		$this->render('update',array(
+		$this->render('edit',array(
 			'model'=>$model,
 		));
 	}
@@ -116,7 +117,7 @@ class UserController extends Controller
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
@@ -125,25 +126,25 @@ class UserController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	/*public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('User');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
-	}
+	}*/
 
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionManage()
 	{
 		$model=new User('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['User']))
 			$model->attributes=$_GET['User'];
 
-		$this->render('admin',array(
+		$this->render('manage',array(
 			'model'=>$model,
 		));
 	}

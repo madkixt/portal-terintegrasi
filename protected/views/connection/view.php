@@ -1,15 +1,11 @@
 <?php
 $this->breadcrumbs=array(
-	'Connections'=>array('index'),
+	'Connections'=>array('manage'),
 	$model->connectionID,
 );
 
 $this->menu=array(
-	array('label'=>'List Connection', 'url'=>array('index')),
-	array('label'=>'Create Connection', 'url'=>array('create')),
-	array('label'=>'Update Connection', 'url'=>array('update', 'id'=>$model->connectionID)),
-	array('label'=>'Delete Connection', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->connectionID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Connection', 'url'=>array('admin')),
+	array('label'=>'Back to Manage Connection', 'url'=>array('manage')),
 );
 ?>
 

@@ -23,10 +23,12 @@ class UserIdentity extends CUserIdentity
 		if ($user === null) {
 			$this->errorCode = self::ERROR_USERNAME_INVALID;
 		} else {
-			if ($user->password !== $this->password) {
+			if ($user->password !== $user->encrypt($this->password)) {
 				$this->errorCode = self::ERROR_PASSWORD_INVALID;
 			} else {
 				$this->_id = $user->userID;
+				$this->setState('admin', (1 == $user->admin) ? true : false);
+				
 				$this->errorCode = self::ERROR_NONE;
 			}
 		}

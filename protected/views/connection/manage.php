@@ -1,12 +1,10 @@
 <?php
 $this->breadcrumbs=array(
-	'Connections'=>array('index'),
-	'Manage',
+	'Connections'=>array('manage')
 );
 
 $this->menu=array(
-	array('label'=>'List Connection', 'url'=>array('index')),
-	array('label'=>'Create Connection', 'url'=>array('create')),
+	array('label'=>'Add Connection', 'url'=>array('add'))
 );
 
 Yii::app()->clientScript->registerScript('search', "
