@@ -135,7 +135,7 @@ class User extends BaseEntity
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('userID',$this->userID);
-		$criteria->compare('admin', 1);
+		$criteria->compare('admin', $this->array_search_ci($this->admin, $this->userRoles));
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('creationDate',$this->creationDate,true);
