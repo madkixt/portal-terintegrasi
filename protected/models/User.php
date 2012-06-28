@@ -27,11 +27,11 @@
  * @property Connection[] $tblConnections
  * @property Query[] $tblQueries
  */
-class User extends CActiveRecord
+class User extends BaseEntity
 {
 	const ROLE_USER = 0;
 	const ROLE_ADMIN = 1;
-
+	public $password_repeat;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -58,11 +58,13 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, creationDate', 'required'),
-			array('admin, createdBy, lastModifiedBy', 'numerical', 'integerOnly'=>true),
+			array('username, password', 'required'),
+			array('username','unique'),
+			array('admin', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>20),
 			array('password', 'length', 'max'=>32),
-			array('description, modifiedDate', 'safe'),
+			array('password','compare'),
+			array('description, password_repeat', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('userID, admin, username, description, creationDate, modifiedDate, createdBy, lastModifiedBy', 'safe', 'on'=>'search'),
