@@ -4,7 +4,7 @@ echo Yii::app()->user->getFlash('tes1');
 
 $this->breadcrumbs=array(
 	'Queries'=>array('manage'),
-	$model->queryID,
+	$model->judulQuery,
 );
 
 $this->menu=array(

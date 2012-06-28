@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Queries'=>array('manage'),
-	$model->queryID=>array('view','id'=>$model->queryID),
+	$model->judulQuery => array('view','id'=>$model->queryID),
 	'Update',
 );
 
