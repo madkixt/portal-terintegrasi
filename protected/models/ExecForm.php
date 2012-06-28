@@ -29,7 +29,11 @@ class ExecForm extends CFormModel
 		);
 	}
 	
-	
+	public static function getJudulQueryOptions()
+	{
+		return array(
+		);
+	}
 	
 	public function exec()
 	{

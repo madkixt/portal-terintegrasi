@@ -29,7 +29,7 @@ $this->breadcrumbs=array(
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'judulQuery'); ?>
-		<?php echo $form->textField($model,'judulQuery'); ?>
+			<?php echo $form->dropDownList($model,'judulQuery', $model->getJudulQueryOptions()); ?>
 		<?php echo $form->error($model,'judulQuery'); ?>
 	</div>
 	
