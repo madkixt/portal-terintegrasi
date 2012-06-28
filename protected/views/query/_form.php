@@ -33,44 +33,8 @@
 		<?php echo $form->error($model,'notes'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'creationDate'); ?>
-		<?php echo $form->textField($model,'creationDate'); ?>
-		<?php echo $form->error($model,'creationDate'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'modifiedDate'); ?>
-		<?php echo $form->textField($model,'modifiedDate'); ?>
-		<?php echo $form->error($model,'modifiedDate'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'notesModifiedDate'); ?>
-		<?php echo $form->textField($model,'notesModifiedDate'); ?>
-		<?php echo $form->error($model,'notesModifiedDate'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'createdBy'); ?>
-		<?php echo $form->textField($model,'createdBy'); ?>
-		<?php echo $form->error($model,'createdBy'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'lastModifiedBy'); ?>
-		<?php echo $form->textField($model,'lastModifiedBy'); ?>
-		<?php echo $form->error($model,'lastModifiedBy'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'lastNotesEditor'); ?>
-		<?php echo $form->textField($model,'lastNotesEditor'); ?>
-		<?php echo $form->error($model,'lastNotesEditor'); ?>
-	</div>
-
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Add Query' : 'Save'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

@@ -1,4 +1,7 @@
 <?php
+echo Yii::app()->user->getFlash('tes');
+echo Yii::app()->user->getFlash('tes1');
+
 $this->breadcrumbs=array(
 	'Queries'=>array('manage'),
 	$model->queryID,

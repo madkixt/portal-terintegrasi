@@ -22,7 +22,7 @@
  * @property User $lastNotesEditor0
  * @property User[] $tblUsers
  */
-class Query extends CActiveRecord
+class Query extends BaseEntity
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -54,7 +54,7 @@ class Query extends CActiveRecord
 			array('createdBy, lastModifiedBy, lastNotesEditor', 'numerical', 'integerOnly'=>true),
 			array('judulQuery', 'length', 'max'=>50),
 			array('databaseName', 'length', 'max'=>30),
-			array('modifiedDate, notesModifiedDate', 'safe'),
+			array('notes', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('queryID, judulQuery, isiQuery, databaseName, notes, creationDate, modifiedDate, notesModifiedDate, createdBy, lastModifiedBy, lastNotesEditor', 'safe', 'on'=>'search'),
@@ -122,5 +122,13 @@ class Query extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	protected function afterValidate() {
+		$oldNotes = Query::model()->findByPk($this->queryID)->notes;
+		if ($oldNotes !== $this->notes) {
+			$this->notesModifiedDate = new CDbExpression('NOW()');
+			$this->lastNotesEditor = Yii::app()->user->id;
+		}
 	}
 }
