@@ -115,9 +115,9 @@ class Query extends BaseEntity
 		$criteria->compare('creationDate',$this->creationDate,true);
 		$criteria->compare('modifiedDate',$this->modifiedDate,true);
 		$criteria->compare('notesModifiedDate',$this->notesModifiedDate,true);
-		$criteria->compare('createdBy',$this->createdBy);
-		$criteria->compare('lastModifiedBy',$this->lastModifiedBy);
-		$criteria->compare('lastNotesEditor',$this->lastNotesEditor);
+		$this->searchUsername($criteria, 'createdBy', $this->createdBy);
+		$this->searchUsername($criteria, 'lastModifiedBy', $this->lastModifiedBy);
+		$this->searchUsername($criteria, 'lastNotesEditor', $this->lastNotesEditor);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
