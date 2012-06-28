@@ -55,7 +55,7 @@ class Connection extends BaseEntity
 			array('IPAddress', 'length', 'max'=>15),
 			array('password', 'length', 'max'=>32),
 			array('password', 'compare'),
-			array('description, modifiedDate', 'safe'),
+			array('description', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('connectionID, serverName, IPAddress, username, description, creationDate, modifiedDate, createdBy, lastModifiedBy', 'safe', 'on'=>'search'),
@@ -114,8 +114,8 @@ class Connection extends BaseEntity
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('creationDate',$this->creationDate,true);
 		$criteria->compare('modifiedDate',$this->modifiedDate,true);
-		$criteria->compare('createdBy',$this->createdBy);
-		$criteria->compare('lastModifiedBy',$this->lastModifiedBy);
+		$this->searchUsername($criteria, 'createdBy', $this->createdBy);
+		$this->searchUsername($criteria, 'lastModifiedBy', $this->lastModifiedBy);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

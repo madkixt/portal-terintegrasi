@@ -39,6 +39,17 @@ abstract class BaseEntity extends CActiveRecord {
 		}
 		return -1;
 	}
+	
+	public function searchUsername($criteria, $column, $needle) {
+		if ($needle != false) {
+			$users = User::model()->findAll("username LIKE '%" . $needle . "%'");
+			$PKs = array();
+			foreach ($users as $u) {
+				$PKs[] = $u->primaryKey;
+			}
+			$criteria->addInCondition($column, $PKs);
+		}
+	}
 }
 
 ?>
