@@ -49,6 +49,15 @@ class User extends BaseEntity
 	{
 		return 'tbl_user';
 	}
+	
+	/*return array user atau admin*/
+	public function getAdminOptions()
+	{
+		return array(
+			self::ROLE_USER=>'User',
+			self::ROLE_ADMIN=>'Admin',
+		);
+	}
 
 	/**
 	 * @return array validation rules for model attributes.
