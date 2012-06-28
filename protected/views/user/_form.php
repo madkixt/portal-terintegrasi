@@ -24,6 +24,12 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'password'); ?>
 		<?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
+		<?php echo $form->error($model,'password_repeat'); ?>
+	</div>
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'password_repeat'); ?>
+		<?php echo $form->passwordField($model,'password_repeat',array('size'=>32,'maxlength'=>32)); ?>
 		<?php echo $form->error($model,'password'); ?>
 	</div>
 
@@ -31,30 +37,6 @@
 		<?php echo $form->labelEx($model,'description'); ?>
 		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'description'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'creationDate'); ?>
-		<?php echo $form->textField($model,'creationDate'); ?>
-		<?php echo $form->error($model,'creationDate'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'modifiedDate'); ?>
-		<?php echo $form->textField($model,'modifiedDate'); ?>
-		<?php echo $form->error($model,'modifiedDate'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'createdBy'); ?>
-		<?php echo $form->textField($model,'createdBy'); ?>
-		<?php echo $form->error($model,'createdBy'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'lastModifiedBy'); ?>
-		<?php echo $form->textField($model,'lastModifiedBy'); ?>
-		<?php echo $form->error($model,'lastModifiedBy'); ?>
 	</div>
 
 	<div class="row buttons">
