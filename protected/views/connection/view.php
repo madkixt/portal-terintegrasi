@@ -6,6 +6,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Back to Manage Connection', 'url'=>array('manage')),
+	array('label'=>'Add User', 'url'=>array('add')),
+	array('label'=>'Edit User', 'url'=>array('edit', 'id'=>$model->connectionID)),
+	array('label'=>'Delete User', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->connectionID),'confirm'=>'Are you sure you want to delete this item?')),
+
 );
 ?>
 
