@@ -51,7 +51,7 @@ class User extends BaseEntity
 	}
 	
 	/*return array user atau admin*/
-	public function getAdminOptions()
+	public static function getAdminOptions()
 	{
 		return array(
 			self::ROLE_USER=>'User',
@@ -99,6 +99,8 @@ class User extends BaseEntity
 			'users1' => array(self::HAS_MANY, 'User', 'lastModifiedBy'),
 			'tblConnections' => array(self::MANY_MANY, 'Connection', 'tbl_user_connection(userID, connectionID)'),
 			'tblQueries' => array(self::MANY_MANY, 'Query', 'tbl_user_query(userID, queryID)'),
+			'Admin'=>array(self::BELONGS_TO,'Admin','admin'),
+			'User'=>array(self::BELONGS_TO,'User','admin'),
 		);
 	}
 
@@ -109,7 +111,7 @@ class User extends BaseEntity
 	{
 		return array(
 			'userID' => 'ID',
-			'admin' => 'Admin',
+			'admin' => 'Role',
 			'username' => 'Username',
 			'password' => 'Password',
 			'description' => 'Description',
@@ -120,6 +122,7 @@ class User extends BaseEntity
 		);
 	}
 
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

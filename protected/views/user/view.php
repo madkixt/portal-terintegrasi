@@ -11,11 +11,15 @@ $this->menu=array(
 
 <h1>View User #<?php echo $model->userID; ?></h1>
 
+
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'userID',
-		'admin',
+		array(
+			'value'=>$model->userRoles[$model->admin],
+			'name'=>'admin'
+		),
 		'username',
 		'description',
 		'creationDate',
