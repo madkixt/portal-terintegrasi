@@ -140,11 +140,28 @@ class User extends BaseEntity
 		$criteria->compare('creationDate',$this->creationDate,true);
 		$criteria->compare('modifiedDate',$this->modifiedDate,true);
 		
-		$creator = User::model()->findByAttributes(array('username' => $this->createdBy));
-		$editor = User::model()->findByAttributes(array('username' => $this->lastModifiedBy));
+		if ($this->createdBy != false) {
+			$users = User::model()->findAll("username LIKE '%" . $this->createdBy . "%'");
+			$creatorPk = array();
+			foreach ($users as $u) {
+				$creatorPk[] = $u->primaryKey;
+			}
+			$criteria->addInCondition('createdBy', $creatorPk);
+		}
+		if ($this->lastModifiedBy != false) {
+			$users = User::model()->findAll("username LIKE '%" . $this->lastModifiedBy . "%'");
+			$editorPk = array();
+			foreach ($users as $u) {
+				$editorPk[] = $u->primaryKey;
+			}
+			$criteria->addInCondition('lastModifiedBy', $creatorPk);
+		}
 		
-		$criteria->compare('createdBy', ($creator == null) ? '' : $creator->username, true);
-		$criteria->compare('lastModifiedBy', ($editor == null) ? '' : $editor->username);
+		/*if ($this->lastModifiedBy != false) {
+			$editor = $this->lastModifiedBy0;
+			$editorID = (null == $editor) ? -1 : $editor->userID;
+			$criteria->compare('lastModifiedBy', $editorID);
+		}*/
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
