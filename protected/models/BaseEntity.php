@@ -28,12 +28,16 @@ abstract class BaseEntity extends CActiveRecord {
 	}
 	
 	public function array_search_ci($needle, $haystack) {
+		if ($needle == false)
+			return null;
+			
 		for ($i = 0; $i < count($haystack); $i++) {
 			$pos = stripos($haystack[$i], $needle);
 			if ($pos !== false) {
 				return $i;
 			}
 		}
+		return -1;
 	}
 }
 
