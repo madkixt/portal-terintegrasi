@@ -11,7 +11,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'admin'); ?>
-		<?php echo $form->textField($model,'admin'); ?>
+		<?php echo $form->dropDownList($model,'admin', $model->getAdminOptions()); ?>
 		<?php echo $form->error($model,'admin'); ?>
 	</div>
 
