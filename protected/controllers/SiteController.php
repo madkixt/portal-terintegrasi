@@ -93,6 +93,33 @@ class SiteController extends Controller
 		// display the login form
 		$this->render('login',array('model'=>$model));
 	}
+	
+	/**
+	 * Displays the execution page
+	 */
+	public function actionExecution()
+	{
+		$model=new ExecutionForm;
+
+		// if it is ajax validation request
+		if(isset($_POST['ajax']) && $_POST['ajax']==='execution-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		// collect user input data
+		if(isset($_POST['ExecutionForm']))
+		{
+			$model->attributes=$_POST['ExecuitonForm'];
+			// validate user input and redirect to the previous page if valid
+			if($model->validate() && $model->execution())
+				$this->redirect(Yii::app()->user->returnUrl);
+		}
+		// display the login form
+		$this->render('execution',array('model'=>$model));
+	}	
+	
 
 	/**
 	 * Logs out the current user and redirect to homepage.
