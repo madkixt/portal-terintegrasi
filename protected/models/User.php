@@ -139,8 +139,12 @@ class User extends BaseEntity
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('creationDate',$this->creationDate,true);
 		$criteria->compare('modifiedDate',$this->modifiedDate,true);
-		$criteria->compare('createdBy',$this->createdBy);
-		$criteria->compare('lastModifiedBy',$this->lastModifiedBy);
+		
+		$creator = User::model()->findByAttributes(array('username' => $this->createdBy));
+		$editor = User::model()->findByAttributes(array('username' => $this->lastModifiedBy));
+		
+		$criteria->compare('createdBy', ($creator == null) ? '' : $creator->username, true);
+		$criteria->compare('lastModifiedBy', ($editor == null) ? '' : $editor->username);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
