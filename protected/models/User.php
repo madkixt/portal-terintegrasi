@@ -99,8 +99,7 @@ class User extends BaseEntity
 			'users1' => array(self::HAS_MANY, 'User', 'lastModifiedBy'),
 			'tblConnections' => array(self::MANY_MANY, 'Connection', 'tbl_user_connection(userID, connectionID)'),
 			'tblQueries' => array(self::MANY_MANY, 'Query', 'tbl_user_query(userID, queryID)'),
-			'Admin'=>array(self::BELONGS_TO,'Admin','admin'),
-			'User'=>array(self::BELONGS_TO,'User','admin'),
+
 		);
 	}
 
@@ -147,6 +146,7 @@ class User extends BaseEntity
 			'criteria'=>$criteria,
 		));
 	}
+	
 	
 	protected function afterValidate() {
 		$this->password = $this->encrypt($this->password);
