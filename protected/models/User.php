@@ -65,7 +65,7 @@ class User extends CActiveRecord
 			array('description, modifiedDate', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('userID, admin, username, password, description, creationDate, modifiedDate, createdBy, lastModifiedBy', 'safe', 'on'=>'search'),
+			array('userID, admin, username, description, creationDate, modifiedDate, createdBy, lastModifiedBy', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -123,7 +123,6 @@ class User extends CActiveRecord
 		$criteria->compare('userID',$this->userID);
 		$criteria->compare('admin',$this->admin);
 		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('creationDate',$this->creationDate,true);
 		$criteria->compare('modifiedDate',$this->modifiedDate,true);
