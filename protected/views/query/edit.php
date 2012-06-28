@@ -2,7 +2,7 @@
 $this->breadcrumbs=array(
 	'Queries'=>array('manage'),
 	$model->judulQuery => array('view','id'=>$model->queryID),
-	'Update',
+	'Edit',
 );
 
 $this->menu=array(

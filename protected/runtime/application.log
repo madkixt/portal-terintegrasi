@@ -3819,3 +3819,52 @@ Stack trace:
 REQUEST_URI=/portal/index.php?r=connection/edit&id=3
 HTTP_REFERER=http://localhost/portal/index.php?r=connection/view&id=3
 ---
+2012/06/28 11:16:00 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "index/query".' in C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php:280
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('index/query')
+#1 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/portal/index.php?r=index/query&id=2
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/06/28 11:16:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "index/exec".' in C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php:280
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('index/exec')
+#1 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/portal/index.php?r=index/exec&id=2
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/06/28 11:16:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "index/exec".' in C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php:280
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('index/exec')
+#1 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/portal/index.php?r=index/exec&id=2
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/06/28 11:48:51 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "assignQuery".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('assignQuery')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('assignQuery')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('user/assignQuer...')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=user/assignQuery
+HTTP_REFERER=http://localhost/portal/index.php?r=user/view&id=1
+---
+2012/06/28 11:48:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "assignConnection".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('assignConnectio...')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('assignConnectio...')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('user/assignConn...')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=user/assignConnection
+HTTP_REFERER=http://localhost/portal/index.php?r=user/view&id=1
+---

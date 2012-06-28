@@ -9,7 +9,7 @@ class CQueryDataColumn extends CDataColumn {
 			$url = CHtml::link($data->judulQuery, $this->name);
 			$url = substr($url, strpos($url, ">") + 1);
 			$url = substr($url, 0, strpos($url, "<"));
-			echo CHtml::link($data->judulQuery, array("index/query", 'id' => $data->queryID));
+			echo CHtml::link($data->judulQuery, array("site/exec", 'id' => $data->queryID));
 			
 			$value = "";
 		}
