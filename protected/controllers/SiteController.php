@@ -116,11 +116,12 @@ class SiteController extends Controller
 	public function actionExec()
 	{
 		if (!isset($_GET['id'])) {
-		
+			
 		}
 		
-		$model=new ExecForm;
-
+		$model = new ExecForm;
+		$model->loadModel();
+		
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
 		{
@@ -131,13 +132,13 @@ class SiteController extends Controller
 		// collect user input data
 		if(isset($_POST['ExecForm']))
 		{
-			$model->attributes=$_POST['ExecForm'];
+			$query = Query::model()->findByPk($_POST['ExecForm']['queryID']);
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->exec())
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
-		$this->render('exec',array('model'=>$model));
+		$this->render('exec',array('model' => $model));
 	}	
 	
 

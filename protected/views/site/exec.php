@@ -17,9 +17,9 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'mesin'); ?>
-		<?php echo $form->dropDownList($model,'mesin',$model->getMesin()); ?>
-		<?php echo $form->error($model,'mesin'); ?>
+		<?php echo $form->labelEx($model,'connection'); ?>
+		<?php echo $form->dropDownList($model,'connection',$model->getConnection()); ?>
+		<?php echo $form->error($model,'connection'); ?>
 	</div>
 	
 	<div class="row">
@@ -29,9 +29,9 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	</div>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'judulQuery'); ?>
-			<?php echo $form->dropDownList($model,'judulQuery', $model->getJudulQueryOptions()); ?>
-		<?php echo $form->error($model,'judulQuery'); ?>
+		<?php echo $form->labelEx($model,'queryID'); ?>
+			<?php echo $form->dropDownList($model,'queryID', CHtml::listData($model->queries, 'queryID', 'judulQuery'), array('onchange'=>'this.form.submit()')); ?>
+		<?php echo $form->error($model,'queryID'); ?>
 	</div>
 	
 	<div class="row">
