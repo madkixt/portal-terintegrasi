@@ -121,4 +121,17 @@ class Connection extends BaseEntity
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function getName() {
+		return $this->IPAddress . ':' . $this->username;
+	}
+	
+	protected function afterSave()
+	{
+		if($this->hasEventHandler('onAfterSave'))
+			$this->onAfterSave(new CEvent($this));
+		
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->insert('tbl_user_connection', array('userID' => Yii::app()->user->getID(), 'connectionID' => $this->connectionID));
+	}
 }

@@ -7201,3 +7201,129 @@ REQUEST_URI=/portal/index.php?r=user/manage
 in C:\xampp\htdocs\portal\protected\views\user\manage.php (56)
 in C:\xampp\htdocs\portal\protected\controllers\UserController.php (162)
 in C:\xampp\htdocs\portal\protected\components\Controller.php (29)
+2012/06/29 08:32:12 [error] [exception.CException] exception 'CException' with message 'Property "User.tbl_Queries" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('tbl_Queries')
+#1 C:\xampp\htdocs\portal\protected\models\ExecForm.php(55): CActiveRecord->__get('tbl_Queries')
+#2 C:\xampp\htdocs\portal\protected\views\site\exec.php(33): ExecForm::getJudulQueryOptions()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(127): require('C:\xampp\htdocs...')
+#4 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(96): CBaseController->renderInternal('C:\xampp\htdocs...', Array, true)
+#5 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(870): CBaseController->renderFile('C:\xampp\htdocs...', Array, true)
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(783): CController->renderPartial('exec', Array, true)
+#7 C:\xampp\htdocs\portal\protected\controllers\SiteController.php(136): CController->render('exec', Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): SiteController->actionExec()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#11 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#12 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#14 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#15 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#16 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#18 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('')
+#19 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#20 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/portal/index.php
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/06/29 08:32:38 [error] [exception.CException] exception 'CException' with message 'Property "User.tbl_Queries" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('tbl_Queries')
+#1 C:\xampp\htdocs\portal\protected\models\ExecForm.php(55): CActiveRecord->__get('tbl_Queries')
+#2 C:\xampp\htdocs\portal\protected\views\site\exec.php(33): ExecForm::getJudulQueryOptions()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(127): require('C:\xampp\htdocs...')
+#4 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(96): CBaseController->renderInternal('C:\xampp\htdocs...', Array, true)
+#5 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(870): CBaseController->renderFile('C:\xampp\htdocs...', Array, true)
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(783): CController->renderPartial('exec', Array, true)
+#7 C:\xampp\htdocs\portal\protected\controllers\SiteController.php(136): CController->render('exec', Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): SiteController->actionExec()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#10 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#11 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#12 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#14 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#15 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#16 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#18 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('')
+#19 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#20 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/portal/index.php
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/06/29 08:44:09 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:337
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('site')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=site
+HTTP_REFERER=http://localhost/portal/index.php?r=site
+---
+2012/06/29 08:44:25 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:337
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('site')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=site
+HTTP_REFERER=http://localhost/portal/index.php?r=site
+---
+2012/06/29 08:44:29 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:337
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('site')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=site
+HTTP_REFERER=http://localhost/portal/index.php?r=site
+---
+2012/06/29 08:44:30 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:337
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('site')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=site
+HTTP_REFERER=http://localhost/portal/index.php?r=site
+---

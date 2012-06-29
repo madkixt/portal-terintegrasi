@@ -36,7 +36,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'isiQuery'); ?>
-		<?php echo $form->textArea($model,'isiQuery',array('cols'=>60,'rows'=>5)); ?>
+		<?php echo $form->textArea($model, 'isiQuery', array('cols'=>60,'rows'=>5)); ?>
 		<?php echo $form->error($model,'isiQuery'); ?>
 	</div>
 	

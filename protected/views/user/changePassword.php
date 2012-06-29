@@ -1,28 +1,27 @@
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'changePassword-form',
+	'id'=>'change-password-form',
 	'enableAjaxValidation'=>false,
-	'clientOptions'=>array('validateOnSubmit'=>true),
+	'clientOptions' => array('validateOnSubmit'=>true),
 ));
 ?>
-
 
 <h1>Change Password</h1>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'old password'); ?>
+		<?php echo $form->labelEx($model,'oldpwd'); ?>
 		<?php echo $form->passwordField($model,'oldpwd'); ?>
 		<?php echo $form->error($model,'oldpwd'); ?>
 	</div>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'new password'); ?>
+		<?php echo $form->labelEx($model,'newpwd'); ?>
 		<?php echo $form->passwordField($model,'newpwd'); ?>
 		<?php echo $form->error($model,'newpwd'); ?>
 	</div>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'repeat new password'); ?>
+		<?php echo $form->labelEx($model,'repeatnew'); ?>
 		<?php echo $form->passwordField($model,'repeatnew'); ?>
 		<?php echo $form->error($model,'repeatnew'); ?>
 	</div>

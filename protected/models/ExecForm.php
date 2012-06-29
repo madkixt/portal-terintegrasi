@@ -40,10 +40,8 @@ class ExecForm extends CFormModel
 	/*memeperoleh mesin*/
 	public static function getMesin()
 	{
-		$userID = Yii::app()->user->getId();
-		$user = User::model()->findByPk($userID);
-		$cons = $user->tblConnections;
-		$mesinArray= CHtml::listData($cons, 'connectionID', 'IPAddress');
+		$user = User::model()->findByPk(Yii::app()->user->getId());
+		$mesinArray= CHtml::listData($user->tblConnections, 'connectionID', 'name');
 		return $mesinArray;
 	}
 	
@@ -51,7 +49,8 @@ class ExecForm extends CFormModel
 	/*memperoleh judul query*/
 	public static function getJudulQueryOptions()
 	{
-		$judulArray= CHtml::listData(query::model()->findAll(),'queryID','judulQuery');
+		$user = User::model()->findByPk(Yii::app()->user->getId());
+		$judulArray= CHtml::listData($user->tblQueries, 'queryID', 'judulQuery');
 		return $judulArray;
 	}
 	
