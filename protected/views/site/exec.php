@@ -13,11 +13,15 @@ $this->breadcrumbs=array(
 	'enableAjaxValidation'=>false,
 )); ?>
 
+<?php
+
+?>
+
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'mesin'); ?>
-		<?php echo $form->textField($model,'mesin',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->dropDownList($model,'mesin',$model->getMesin()); ?>
 		<?php echo $form->error($model,'mesin'); ?>
 	</div>
 	
@@ -35,7 +39,7 @@ $this->breadcrumbs=array(
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'isiQuery'); ?>
-		<?php echo $form->textField($model,'isiQuery'); ?>
+		<?php echo $form->textArea($model,'isiQuery',array('cols'=>60,'rows'=>5)); ?>
 		<?php echo $form->error($model,'isiQuery'); ?>
 	</div>
 	
