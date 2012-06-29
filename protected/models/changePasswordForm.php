@@ -13,7 +13,6 @@ class changePasswordForm extends CFormModel
 	{
 		return array(
 			array('oldpwd, newpwd, repeatnew','required'),
-			array('oldpwd','authenticate'),
 			array('oldpwd,newpwd,repeat_new','safe'),
 			array('newpwd','compare'),
 			array('old_pwd','checkOld'),
@@ -35,44 +34,19 @@ class changePasswordForm extends CFormModel
 	/**
 	 * Authenticates the password.
 	 */
-	public function authenticate($attribute,$params)
-	{
-		if(!$this->hasErrors())
-		{
-			$this->_identity=new UserIdentity($this->oldpwd);
-			if(!$this->_identity->authenticate())
-				$this->addError('oldpwd','Incorrect username or password.');
-		}
-	}
-	
+
 	public function checkOld($attribute,$params)
 	{
-		$record=User::model()->findByAttributes(array('newpwd'=>$this)) 
-	}
-	
-	public function changePassword()
-	{
-		$model=$this->loadModel(Yii::app()->user->id);
-		if(isset($_POST['oldpwd'], $_POST['newpwd'], $_POST['repeatnew']))
-		{
-			if($model->validatePwd($_POST['oldpwd']))
-			{
-				$a = $_POST['newpwd'];
-				$model->password=md5($model->$a);
-				$model->save(false);
-					$this->redirect(array('view','id'=>$model->id));
-			}
+		$record=User::model()->findByAttributes(array('newpwd'=>$this->attributes['oldpwd']));
+		if($record===null){
+			$this->addError($attribute, 'Invalid password');
 		}
-		
-		$this->render('reset',array('model'=>$model));
+		else {
+				$this->addError('oldpwd',"Invalid Password");
+		}
 	}
 	
-	protected function afterValidate()
-	{
-		$this->password = $this->encrypt($this->password);
-	}
 	
-	public function encrypt($pwd) {
-		return md5($pwd);
-	}
+
+*/
 }
