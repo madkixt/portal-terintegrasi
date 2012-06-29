@@ -75,7 +75,7 @@ class ConnectionController extends Controller
 	public function actionEdit($id)
 	{
 		$model=$this->loadModel($id);
-
+		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 

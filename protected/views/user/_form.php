@@ -27,7 +27,7 @@
 		<?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
 		<?php echo $form->error($model,'password'); ?>
 	</div>
-	
+
 	<div class="row">
 		<?php echo $form->labelEx($model,'password_repeat'); ?>
 		<?php echo $form->passwordField($model,'password_repeat',array('size'=>32,'maxlength'=>32)); ?>
@@ -36,7 +36,8 @@
 
 <?php } else if (Yii::app()->controller->action->id == 'edit') { ?>
 	<div class="row">
-		[<?php echo CHtml::link('Change Password', array('changePassword')); ?>]
+		
+		[<?php echo CHtml::link('Change Password', array('user/changePassword', 'id'=>$model->userID)); ?>]
 	</div>
 <?php } ?>
 	
