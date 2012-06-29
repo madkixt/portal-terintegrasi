@@ -25,7 +25,14 @@ $this->menu=array(
 		'description',
 		'creationDate',
 		'modifiedDate',
-		'createdBy',
-		'lastModifiedBy',
+		array(
+			'name' => 'createdBy',
+			'value' => CHtml::encode($model->creatorUsername)
+		),
+		array(
+			'name' => 'lastModifiedBy',
+			'value' => CHtml::encode($model->editorUsername)
+		)
 	),
+	'nullDisplay' => ''
 )); ?>

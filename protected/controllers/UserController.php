@@ -15,7 +15,7 @@ class UserController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin',
+			'admin - view, edit',
 			'admin2 + edit, delete'
 		);
 	}
@@ -52,6 +52,8 @@ class UserController extends Controller
 	 */
 	public function actionView($id)
 	{
+		if (!Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->getId()))
+			throw new CHttpException(403, "You are not authorized to view this page.");
 		
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
@@ -88,6 +90,9 @@ class UserController extends Controller
 	 */
 	public function actionEdit($id)
 	{
+		if (!Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->getId()))
+			throw new CHttpException(403, "You are not authorized to view this page.");
+			
 		$model=$this->loadModel($id);
 		
 		// Uncomment the following line if AJAX validation is needed
@@ -177,20 +182,13 @@ class UserController extends Controller
 		));
 	}
 
-	public function actionAssign() {
+	public function actionAssignQuery($id) {
 		$model=$this->loadModel($id);
 		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
-		{
-			$model->attributes=$_POST['User'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->userID));
-		}
-
-		$this->render('assign',array(
+		$this->render('assignQuery',array(
 			'model'=>$model,
 		));
 	}

@@ -6,10 +6,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Add User', 'url'=>array('add')),
-	array('label'=>'Edit User', 'url'=>array('edit', 'id'=>$model->userID)),
-	array('label' => 'Assign Queries', 'url' => array('assignQuery')),
+	array('label'=>'Edit User', 'url'=>array('edit', 'id'=>$model->userID), 'visible' => $model->editClickable),
+	array('label' => 'Assign Queries', 'url' => array('assignQuery', 'id' => $model->userID)),
 	array('label' => 'Assign Connections', 'url' => array('assignConnection')),
-	array('label'=>'Delete User', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Delete User', 'url'=>'#', 'visible' => Yii::app()->user->getState('admin') && !$model->admin, 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Back to Manage User', 'url'=>array('manage')),
 );
 ?>
@@ -29,7 +29,14 @@ $this->menu=array(
 		'description',
 		'creationDate',
 		'modifiedDate',
-		'createdBy',
-		'lastModifiedBy',
+		array(
+			'name' => 'createdBy',
+			'value' => CHtml::encode($model->creatorUsername)
+		),
+		array(
+			'name' => 'lastModifiedBy',
+			'value' => CHtml::encode($model->editorUsername)
+		)
 	),
+	'nullDisplay' => ''
 )); ?>

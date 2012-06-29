@@ -37,7 +37,11 @@ if (Yii::app()->urlManager != null && Yii::app()->urlManager->urlFormat === 'pat
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+
+$templ = (Yii::app()->user->getState('admin')) ? '{view} {update} {delete}' : '{view} {update}';
+
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'query-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
@@ -60,6 +64,8 @@ if (Yii::app()->urlManager != null && Yii::app()->urlManager->urlFormat === 'pat
 		*/
 		array(
 			'class'=>'CButtonColumn',
+			'template' => $templ
 		)
-	)
+	),
+	'nullDisplay' => ''
 )); ?>

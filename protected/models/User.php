@@ -165,4 +165,24 @@ class User extends BaseEntity
 			self::ROLE_ADMIN => 'Admin'
 		);
 	}
+	
+	public function getEditClickable() {
+		if ($this->userID === Yii::app()->user->getId())
+			return true;
+		
+		if (!Yii::app()->user->getState('admin'))
+			return false;
+		
+		if ($this->admin)
+			return false;
+			
+		return true;
+	}
+	
+	public function getDeleteClickable() {
+		if ($this->admin || !Yii::app()->user->getState('admin'))
+			return false;
+		
+		return true;
+	}
 }

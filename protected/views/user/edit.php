@@ -10,7 +10,7 @@ $this->menu=array(
 	array('label'=>'View User', 'url'=>array('view', 'id'=>$model->userID)),
 	array('label' => 'Assign Queries', 'url' => array('assignQuery')),
 	array('label' => 'Assign Connections', 'url' => array('assignConnection')),
-	array('label'=>'Delete User', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Delete User', 'url'=>'#', 'visible' => Yii::app()->user->getState('admin') && !$model->admin, 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Back to Manage User', 'url'=>array('manage')),
 );
 ?>
