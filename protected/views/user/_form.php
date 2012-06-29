@@ -39,7 +39,13 @@
 		[<?php echo CHtml::link('Change Password', array('changePassword')); ?>]
 	</div>
 <?php } ?>
-
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'description'); ?>
+		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'description'); ?>
+	</div>
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Add' : 'Save'); ?>
 	</div>
