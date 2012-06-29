@@ -2,6 +2,7 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'changePassword-form',
 	'enableAjaxValidation'=>false,
+	'clientOptions'=>array('validateOnSubmit'=>true),
 ));
 ?>
 

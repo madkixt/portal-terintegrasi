@@ -115,18 +115,19 @@ class UserController extends Controller
 	public function actionChangePassword($id)
 	{
 		$model = new changePasswordForm;
-		$model-> oldpwd;
 		
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->userID));
+			$model->save();
+			$this->render('changePassword',array('model'=>$model));
 		}
+		else {
 		
 		$this->render('changePassword',array(
 			'model'=>$model,
 		));
+		}
 	}
 	
 
