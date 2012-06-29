@@ -89,13 +89,14 @@ class UserController extends Controller
 	public function actionEdit($id)
 	{
 		$model=$this->loadModel($id);
-		$model->password = "";
+		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+		
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
+			$model->password_repeat = $model->password;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->userID));
 		}
@@ -104,6 +105,25 @@ class UserController extends Controller
 			'model'=>$model,
 		));
 	}
+	
+	/*action change password*/
+	public function actionChangePassword($id)
+	{
+		$model = new changePasswordForm;
+		$model-> oldpwd;
+		
+		if(isset($_POST['User']))
+		{
+			$model->attributes=$_POST['User'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->userID));
+		}
+		
+		$this->render('changePassword',array(
+			'model'=>$model,
+		));
+	}
+	
 
 	/**
 	 * Deletes a particular model.
