@@ -4,17 +4,17 @@
 
 class ExecForm extends CFormModel
 {
-	public $judulQuery;
+	public $queryID;
 	public $isiQuery;
 	public $database;
-	public $mesin;
-	
+	public $connection;
+	public $queries;
 	
 	/*rules */
 	public function rules()
 	{
 		return array(
-			array('database,mesin','required'),
+			array('isiQuery, database, koneksi','required'),
 		//	array('database,mesin','authenticate'),
 		);
 	}
@@ -33,29 +33,29 @@ class ExecForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'rememberMe'=>'Remember me next time',
+			'queryID' => 'Judul Query',
+			'isiQuery' => 'Query',
+			'database' => 'Database',
+			'mesin' => 'Koneksi'
 		);
 	}
 	
 	/*memeperoleh mesin*/
-	public static function getMesin()
+	public static function getConnection()
 	{
 		$user = User::model()->findByPk(Yii::app()->user->getId());
 		$mesinArray= CHtml::listData($user->tblConnections, 'connectionID', 'name');
 		return $mesinArray;
 	}
 	
-
-	/*memperoleh judul query*/
-	public static function getJudulQueryOptions()
-	{
-		$user = User::model()->findByPk(Yii::app()->user->getId());
-		$judulArray= CHtml::listData($user->tblQueries, 'queryID', 'judulQuery');
-		return $judulArray;
+	public function loadModel() {
+		$this->queries = User::model()->findByPk(Yii::app()->user->getId())->tblQueries;
+		$this->database = $this->queries[0]->databaseName;
+		$this->isiQuery = $this->queries[0]->isiQuery;
 	}
 	
 	public function exec()
 	{
+		
 	}
-
 }

@@ -7327,3 +7327,200 @@ Stack trace:
 REQUEST_URI=/portal/index.php?r=site
 HTTP_REFERER=http://localhost/portal/index.php?r=site
 ---
+2012/06/29 09:46:02 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:337
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(310): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('site')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=site
+HTTP_REFERER=http://localhost/portal/index.php
+---
+2012/06/29 09:47:54 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to view this page.' in C:\xampp\htdocs\portal\protected\components\Controller.php:26
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): Controller->filterAdmin(Object(CFilterChain))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('manage')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('user/manage')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=user/manage
+HTTP_REFERER=http://localhost/portal/index.php?r=user/view&id=2
+---
+2012/06/29 09:48:07 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to view this page.' in C:\xampp\htdocs\portal\protected\components\Controller.php:26
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): Controller->filterAdmin(Object(CFilterChain))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('delete')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('user/delete')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=user/delete
+---
+2012/06/29 09:48:11 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to view this page.' in C:\xampp\htdocs\portal\protected\components\Controller.php:26
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): Controller->filterAdmin(Object(CFilterChain))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('delete')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('user/delete')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=user/delete&id=2
+---
+2012/06/29 09:48:56 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to view this page.' in C:\xampp\htdocs\portal\protected\components\Controller.php:26
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): Controller->filterAdmin(Object(CFilterChain))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('delete')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('user/delete')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=user/delete
+---
+2012/06/29 10:06:47 [error] [exception.CException] exception 'CException' with message 'Property "ExecForm.queryOptions" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\portal\protected\views\site\exec.php(3): CComponent->__get('queryOptions')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(127): require('C:\xampp\htdocs...')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(96): CBaseController->renderInternal('C:\xampp\htdocs...', Array, true)
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(870): CBaseController->renderFile('C:\xampp\htdocs...', Array, true)
+#4 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(783): CController->renderPartial('exec', Array, true)
+#5 C:\xampp\htdocs\portal\protected\controllers\SiteController.php(142): CController->render('exec', Array)
+#6 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): SiteController->actionExec()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#10 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#11 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#12 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#14 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#16 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('site')
+#17 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#18 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#19 {main}
+REQUEST_URI=/portal/index.php?r=site
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/06/29 10:06:58 [error] [php] Missing argument 2 for CHtml::listData(), called in C:\xampp\htdocs\portal\protected\views\site\exec.php on line 33 and defined (C:\xampp\htdocs\Yii_portal\framework\web\helpers\CHtml.php:1652)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(96): SiteController->renderInternal()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(870): SiteController->renderFile()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(783): SiteController->renderPartial()
+#3 C:\xampp\htdocs\portal\protected\controllers\SiteController.php(142): SiteController->render()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): SiteController->actionExec()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#10 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#11 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#12 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#14 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#15 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#16 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/index.php?r=site
+in C:\xampp\htdocs\portal\protected\views\site\exec.php (33)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (142)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/06/29 10:09:47 [error] [exception.CException] exception 'CException' with message 'Property "Query.database" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('database')
+#1 C:\xampp\htdocs\portal\protected\models\ExecForm.php(53): CActiveRecord->__get('database')
+#2 C:\xampp\htdocs\portal\protected\controllers\SiteController.php(123): ExecForm->loadModel()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): SiteController->actionExec()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#9 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#10 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#11 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('site')
+#14 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/portal/index.php?r=site
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/06/29 10:10:52 [error] [exception.CException] exception 'CException' with message 'Property "Query.database" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('database')
+#1 C:\xampp\htdocs\portal\protected\models\ExecForm.php(53): CActiveRecord->__get('database')
+#2 C:\xampp\htdocs\portal\protected\controllers\SiteController.php(123): ExecForm->loadModel()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): SiteController->actionExec()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#9 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#10 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#11 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('site')
+#14 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/portal/index.php?r=site
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/06/29 10:11:02 [error] [php] Undefined variable: model (C:\xampp\htdocs\portal\protected\models\ExecForm.php:54)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/index.php?r=site
+in C:\xampp\htdocs\portal\protected\models\ExecForm.php (54)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (123)
+in C:\xampp\htdocs\portal\index.php (13)
