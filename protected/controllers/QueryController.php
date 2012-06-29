@@ -15,6 +15,7 @@ class QueryController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
+			'admin + delete'
 		);
 	}
 

@@ -4,6 +4,22 @@ class SiteController extends Controller
 {
 	public $defaultAction = 'exec';
 	
+	public function filters()
+	{
+		return array(
+			'accessControl + exec', // perform access control for CRUD operations
+		);
+	}
+	
+	public function accessRules()
+	{
+		return array(
+			array('deny',  // deny all anonymous users
+				'users' => array('?'),
+			),
+		);
+	}
+	
 	/**
 	 * Declares class-based actions.
 	 */

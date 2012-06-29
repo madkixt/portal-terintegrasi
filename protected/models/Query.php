@@ -125,10 +125,12 @@ class Query extends BaseEntity
 	}
 	
 	protected function afterValidate() {
-		$oldNotes = Query::model()->findByPk($this->queryID)->notes;
-		if ($oldNotes !== $this->notes) {
-			$this->notesModifiedDate = new CDbExpression('NOW()');
-			$this->lastNotesEditor = Yii::app()->user->id;
+		if (Yii::app()->controller->action->id == 'edit') {		
+			$oldNotes = Query::model()->findByPk($this->queryID)->notes;
+			if ($oldNotes !== $this->notes) {
+				$this->notesModifiedDate = new CDbExpression('NOW()');
+				$this->lastNotesEditor = Yii::app()->user->id;
+			}
 		}
 	}
 	
@@ -138,4 +140,20 @@ class Query extends BaseEntity
 			return null;
 		return $user->username;
 	}
+	
+	/*protected function beforeDelete()
+	{
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->delete('tbl_user_query', 'queryID = :qid', array(':qid' => $this->queryID));
+		//throw new CHttpException(403, count($user_query));
+		
+		if($this->hasEventHandler('onBeforeDelete'))
+		{
+			$event=new CModelEvent($this);
+			$this->onBeforeDelete($event);
+			return $event->isValid;
+		}
+		else
+			return true;
+	}*/
 }

@@ -1,8 +1,5 @@
 <?php
 $this->pageTitle=Yii::app()->name . ' - Exec';
-$this->breadcrumbs=array(
-	'Exec',
-);
 ?>
 
 <h1>Execution</h1>
