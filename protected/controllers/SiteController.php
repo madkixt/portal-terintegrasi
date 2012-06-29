@@ -115,6 +115,10 @@ class SiteController extends Controller
 	 */
 	public function actionExec()
 	{
+		if (!isset($_GET['id'])) {
+		
+		}
+		
 		$model=new ExecForm;
 
 		// if it is ajax validation request

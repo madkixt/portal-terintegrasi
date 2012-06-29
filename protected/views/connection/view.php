@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Connections'=>array('manage'),
-	"$model->IPAddress:$model->username"
+	$model->name
 );
 
 $this->menu=array(

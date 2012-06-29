@@ -141,19 +141,12 @@ class Query extends BaseEntity
 		return $user->username;
 	}
 	
-	/*protected function beforeDelete()
+	protected function afterSave()
 	{
-		$cmd = Yii::app()->db->createCommand();
-		$cmd->delete('tbl_user_query', 'queryID = :qid', array(':qid' => $this->queryID));
-		//throw new CHttpException(403, count($user_query));
+		if($this->hasEventHandler('onAfterSave'))
+			$this->onAfterSave(new CEvent($this));
 		
-		if($this->hasEventHandler('onBeforeDelete'))
-		{
-			$event=new CModelEvent($this);
-			$this->onBeforeDelete($event);
-			return $event->isValid;
-		}
-		else
-			return true;
-	}*/
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->insert('tbl_user_query', array('userID' => Yii::app()->user->getID(), 'queryID' => $this->queryID));
+	}
 }

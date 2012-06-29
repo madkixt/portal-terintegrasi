@@ -112,21 +112,21 @@ class UserController extends Controller
 	}
 	
 	/*action change password*/
-	public function actionChangePassword($id)
+	public function actionChangePassword()
 	{
-		$model = new changePasswordForm;
+		$model = new ChangePasswordForm;
+		$user = $this->loadModel(Yii::app()->user->getId());
 		
-		if(isset($_POST['User']))
+		if(isset($_POST['ChangePasswordForm']))
 		{
-			$model->attributes=$_POST['User'];
-			$model->save();
-			$this->render('changePassword',array('model'=>$model));
+			$model->attributes = $_POST['ChangePasswordForm'];
+			$user->password = $user->encrypt($model->newpwd);
+			
+			if ($user->save(false))
+				$this->redirect(array('view', 'id' => $user->userID));
 		}
 		else {
-		
-		$this->render('changePassword',array(
-			'model'=>$model,
-		));
+			$this->render('changePassword', array('model' => $model));
 		}
 	}
 	
