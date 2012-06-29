@@ -15,7 +15,8 @@ class UserController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin'
+			'admin',
+			'admin2 + edit, delete'
 		);
 	}
 
@@ -113,6 +114,10 @@ class UserController extends Controller
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
+			if ($id == Yii::app()->user->getId()) {
+				throw new CHttpException(403, "You are not authorized to do this action.");
+			}
+			
 			// we only allow deletion via POST request
 			$this->loadModel($id)->delete();
 
@@ -121,7 +126,7 @@ class UserController extends Controller
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
 		}
 		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request.');
 	}
 
 	/**
@@ -194,5 +199,18 @@ class UserController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	public function filterAdmin2($filterChain) {
+		$user = User::model()->findByPk($_GET['id']);
+		
+		if ($user->admin && (Yii::app()->user->getId() !== $user->userID)) {
+			if (Yii::app()->controller->action->id == 'edit')
+				throw new CHttpException(403, "You are not authorized to view this page.");
+			else if (Yii::app()->controller->action->id == 'delete')
+				throw new CHttpException(403, "You are not authorized to do this action.");
+		}
+		
+		$filterChain->run();
 	}
 }
