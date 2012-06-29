@@ -20,7 +20,8 @@
 		<?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
-
+	
+<?php if (Yii::app()->controller->action->id == 'add') { ?>
 	<div class="row">
 		<?php echo $form->labelEx($model,'password'); ?>
 		<?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
@@ -33,11 +34,11 @@
 		<?php echo $form->error($model,'password_repeat'); ?>
 	</div>
 
+<?php } else if (Yii::app()->controller->action->id == 'edit') { ?>
 	<div class="row">
-		<?php echo $form->labelEx($model,'description'); ?>
-		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'description'); ?>
+		[<?php echo CHtml::link('Change Password', array('changePassword')); ?>]
 	</div>
+<?php } ?>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Add' : 'Save'); ?>
