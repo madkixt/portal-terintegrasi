@@ -12,10 +12,17 @@ class ChangePasswordForm extends CFormModel
 	public function rules()
 	{
 		return array(
+<<<<<<< .mine
+			array('oldpwd, newpwd, repeatnew','required'),
+			array('oldpwd,newpwd,repeatnew','safe'),
+			array('newpwd','compare'),
+			array('oldpwd','checkOld'),
+=======
 			array('oldpwd, newpwd, repeatnew', 'required'),
 			//array('oldpwd, newpwd, repeat_new','safe'),
 			array('newpwd', 'compare'),
 			//array('oldpwd','checkOld'),
+>>>>>>> .r55
 		);
 	}
 
@@ -46,4 +53,9 @@ class ChangePasswordForm extends CFormModel
 			$this->addError('oldpwd',"Invalid Password");
 		}
 	}
+<<<<<<< .mine
+	
+	
+=======
+>>>>>>> .r55
 }
