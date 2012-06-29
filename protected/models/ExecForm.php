@@ -19,6 +19,14 @@ class ExecForm extends CFormModel
 		);
 	}
 	
+	/*relation*/
+	public function relations()
+	{
+		return array(
+			'judulQuery'=>array(self::HAS_MANY,'ExecForm','queryID'),
+		);
+	}
+	
 	/**
 	 * Declares attribute labels.
 	 */
@@ -29,10 +37,22 @@ class ExecForm extends CFormModel
 		);
 	}
 	
+	/*memeperoleh mesin*/
+	public static function getMesin()
+	{
+		$userID = Yii::app()->user->getId();
+		$user = User::model()->findByPk($userID);
+		$cons = $user->tblConnections;
+		$mesinArray= CHtml::listData($cons, 'connectionID', 'IPAddress');
+		return $mesinArray;
+	}
+	
+
+	/*memperoleh judul query*/
 	public static function getJudulQueryOptions()
 	{
-		return array(
-		);
+		$judulArray= CHtml::listData(query::model()->findAll(),'queryID','judulQuery');
+		return $judulArray;
 	}
 	
 	public function exec()
