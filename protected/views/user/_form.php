@@ -37,7 +37,7 @@
 <?php } else if (Yii::app()->controller->action->id == 'edit') { ?>
 	<div class="row">
 		
-		[<?php echo CHtml::link('Change Password', array('user/changePassword')); ?>]
+		[<?php echo CHtml::link('Change Password', array('user/changePassword','id'=>$model->userID)); ?>]
 	</div>
 <?php } ?>
 	
