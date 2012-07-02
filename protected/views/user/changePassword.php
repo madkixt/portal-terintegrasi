@@ -1,8 +1,7 @@
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'change-password-form',
+	'id'=>'changepassword-form',
 	'enableAjaxValidation'=>false,
-	'clientOptions' => array('validateOnSubmit'=>true),
 ));
 ?>
 
@@ -21,15 +20,14 @@
 	</div>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'repeatnew'); ?>
-		<?php echo $form->passwordField($model,'repeatnew'); ?>
-		<?php echo $form->error($model,'repeatnew'); ?>
+		<?php echo $form->labelEx($model,'newpwd_repeat'); ?>
+		<?php echo $form->passwordField($model,'newpwd_repeat'); ?>
+		<?php echo $form->error($model,'newpwd_repeat'); ?>
 	</div>
 	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Save'); ?>
 	</div>
 	
-
 <?php $this->endWidget(); ?>
 </div><!-- form -->
