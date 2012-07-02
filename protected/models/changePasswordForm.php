@@ -6,24 +6,17 @@ class ChangePasswordForm extends CFormModel
 {
 	public $oldpwd;
 	public $newpwd;
-	public $repeatnew;
+	public $newpwd_repeat;
 	
 	/**rules**/
 	public function rules()
 	{
 		return array(
-<<<<<<< .mine
-			array('oldpwd, newpwd, repeatnew','required'),
-			array('oldpwd,newpwd,repeatnew','safe'),
-			array('newpwd','compare'),
-			array('oldpwd','checkOld'),
-=======
-			array('oldpwd, newpwd, repeatnew', 'required'),
-			//array('oldpwd, newpwd, repeat_new','safe'),
+			array('oldpwd, newpwd, newpwd_repeat','required'),
+			array('oldpwd','checking'),
 			array('newpwd', 'compare'),
-			//array('oldpwd','checkOld'),
->>>>>>> .r55
 		);
+		
 	}
 
 	/**
@@ -31,31 +24,47 @@ class ChangePasswordForm extends CFormModel
 	 */
 	public function attributeLabels()
 	{
+		
 		return array(
 			'oldpwd' => 'Old Password',
 			'newpwd' => 'New Password',
-			'repeatnew' => 'Repeat Password',
+			'newpwd_repeat' => 'Repeat Password',
 		);
 	}
 	
 	/**
 	 * Authenticates the password.
 	 */
-
-	public function checkOld($attribute,$params)
-	{
-		$record=User::model()->findByAttributes(array('newpwd'=>$this->attributes['oldpwd']));
+	 
+	public function checking($attribute,$params)
+	{	
+	
+		$old= md5($this->oldpwd);
+		print_r($old);
+		$username = Yii::app()->user->name;
+		$user = User::model()->findByAttributes(array('username'=>$username, 'password'=>$old));
 		
-		if($record===null){
-			$this->addError($attribute, 'Invalid password');
+	
+		
+		if($user===null){
+			$this->addError($attribute, 'Invalid password2');
 		}
-		else {
-			$this->addError('oldpwd',"Invalid Password");
-		}
-	}
-<<<<<<< .mine
+		
+		
+	}	
 	
 	
-=======
->>>>>>> .r55
+/*
+    $record=User::model()->findByAttributes(array('password'=>$this->attributes['oldpwd']));
+
+	
+    if($record===null){
+        $this->addError($attribute, 'Invalid password');
+    }
+	*/
+
+			
+	
+	
+
 }
