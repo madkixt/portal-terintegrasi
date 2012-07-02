@@ -35,7 +35,10 @@ $('.search-form form').submit(function(){
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'userID',
+		array(
+			'name' => 'userID',
+			'htmlOptions' => array('width' => '50px')
+		),
 		array(
 			'class' => 'CDataColumn',
 			'name' => 'admin',
@@ -43,12 +46,6 @@ $('.search-form form').submit(function(){
 		),
 		'username',
 		'description',
-		/*
-		'creationDate',
-		'modifiedDate',
-		'createdBy',
-		'lastModifiedBy',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 			'buttons' => array(

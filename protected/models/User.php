@@ -134,15 +134,17 @@ class User extends BaseEntity
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+		$criteria->with = array('createdBy0', 'lastModifiedBy0');
+		$criteria->together = true;
 
-		$criteria->compare('userID',$this->userID);
+		$criteria->compare('t.userID',$this->userID);
 		$criteria->compare('admin', $this->array_search_ci($this->admin, $this->userRoles));
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('creationDate',$this->creationDate,true);
 		$criteria->compare('modifiedDate',$this->modifiedDate,true);
-		$this->searchUsername($criteria, 'createdBy', $this->createdBy);
-		$this->searchUsername($criteria, 'lastModifiedBy', $this->lastModifiedBy);
+		$criteria->compare('createdBy0.username', $this->createdBy, true);
+		$criteria->compare('lastModifiedBy0.username', $this->lastModifiedBy, true);
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -183,5 +185,25 @@ class User extends BaseEntity
 			return false;
 		
 		return true;
+	}
+	
+	public function getAssignable() {
+		return !$this->admin && Yii::app()->user->getState('admin');
+	}
+	
+	public function getAssignableQueries() {
+		return Yii::app()->db->createCommand()
+			->select('queryID, judulQuery')
+			->from('tbl_query')
+			->where('queryID NOT IN (SELECT queryID FROM tbl_user_query WHERE userID = :userID)', array(':userID' => $this->userID))
+			->queryAll();
+	}
+	
+	public function getAssignableConnections() {
+		return Yii::app()->db->createCommand()
+			->select('connectionID, IPAddress, username')
+			->from('tbl_connection')
+			->where('connectionID NOT IN (SELECT connectionID FROM tbl_user_connection WHERE userID = :userID)', array(':userID' => $this->userID))
+			->queryAll();
 	}
 }

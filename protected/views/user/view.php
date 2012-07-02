@@ -5,12 +5,12 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Add User', 'url'=>array('add')),
+	array('label'=>'Add User', 'url'=>array('add'), 'visible' => Yii::app()->user->getState('admin')),
 	array('label'=>'Edit User', 'url'=>array('edit', 'id'=>$model->userID), 'visible' => $model->editClickable),
-	array('label' => 'Assign Queries', 'url' => array('assignQuery', 'id' => $model->userID)),
-	array('label' => 'Assign Connections', 'url' => array('assignConnection')),
-	array('label'=>'Delete User', 'url'=>'#', 'visible' => Yii::app()->user->getState('admin') && !$model->admin, 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Back to Manage User', 'url'=>array('manage')),
+	array('label' => 'Assign Query', 'url' => array('assignQuery', 'id' => $model->userID), 'visible' => $model->assignable),
+	array('label' => 'Assign Connection', 'url' => array('assignConnection', 'id' => $model->userID), 'visible' => $model->assignable),
+	array('label'=>'Delete User', 'url'=>'#', 'visible' => $model->deleteClickable, 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Back to Manage User', 'url'=>array('manage'), 'visible' => Yii::app()->user->getState('admin')),
 );
 ?>
 

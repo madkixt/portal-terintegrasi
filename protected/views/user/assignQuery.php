@@ -1,16 +1,17 @@
 <?php
 $this->breadcrumbs=array(
 	'Users'=>array('manage'),
-	$model->username => array('view','id'=>$model->userID),
+	$user->username => array('view', 'id' => $user->userID),
 	'Assign Query',
 );
 
 $this->menu=array(
-	array('label'=>'Add User', 'url'=>array('add')),
-	array('label'=>'View User', 'url'=>array('view', 'id'=>$model->userID)),
-	array('label' => 'Assign Connections', 'url' => array('assignConnection')),
-	array('label'=>'Delete User', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Back to Manage User', 'url'=>array('manage')),
+	array('label'=>'Add User', 'url'=>array('add'), 'visible' => Yii::app()->user->getState('admin')),
+	array('label'=>'View User', 'url'=>array('view', 'id'=> $user->userID)),
+	array('label'=>'Edit User', 'url'=>array('edit', 'id'=> $user->userID), 'visible' => $user->editClickable),
+	array('label' => 'Assign Connection', 'url' => array('assignConnection', 'id' => $user->userID), 'visible' => $user->assignable),
+	array('label'=>'Delete User', 'url'=>'#', 'visible' => $user->deleteClickable, 'linkOptions'=>array('submit'=>array('delete','id'=>$user->userID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Back to Manage User', 'url'=>array('manage'), 'visible' => Yii::app()->user->getState('admin')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -27,43 +28,34 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Assign Queries</h1>
+<h1>Assign Query to <?php echo $user->username ?></h1>
 
-<?php
-$dataProv = new CArrayDataProvider($model->tblQueries, array(
-	'keyField' => 'queryID'
-));
+<div class="form">
 
-$cam = new CAssetManager;
-$u = $cam->baseUrl . "/buttons/view.png";
-echo "<a href='$u'>view</a>";
-
-$this->widget('zii.widgets.grid.CGridView', array(
-	'dataProvider'=> $dataProv,
-	'columns' => array(
-		'queryID',
-		'judulQuery',
-		'isiQuery',
-		'databaseName',
-		'notes',
-		array (
-			'class' => 'CButtonColumn',
-			'template' => '{view} {edit} {delete}',
-			'buttons' => array(
-				'view' => array(
-					'url' => 'Yii::app()->createUrl("query/view", array("id" => $data->queryID))',
-					'imageUrl' => Yii::app()->request->baseUrl . "/images/buttons/view.png"
-				),
-				'edit' => array(
-					'url' => 'Yii::app()->createUrl("query/edit", array("id" => $data->queryID))',
-					'imageUrl' => Yii::app()->request->baseUrl . "/images/buttons/edit.png"
-				),
-				'delete' => array(
-					'url' => 'Yii::app()->createUrl("query/delete", array("id" => $data->queryID))',
-					'imageUrl' => Yii::app()->request->baseUrl . "/images/buttons/delete.png"
-				),
-			),
-		)
-	),
-));
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'query-form',
+	'enableAjaxValidation'=>false,
+)); 
 ?>
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+	<?php echo $form->errorSummary($model); ?>
+	
+	
+	
+	<div class="row">
+		<?php echo $form->labelEx($model, 'queryID'); ?>
+		<?php echo $form->dropDownList($model, 'queryID', CHtml::listData($user->assignableQueries, 'queryID', 'judulQuery')); ?>
+		<?php echo $form->error($model,'queryID'); ?>
+	</div>
+	
+	<br />
+	
+	<div class="row buttons">
+		<?php echo CHtml::submitButton('Assign'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+
+</div><!-- form -->

@@ -125,15 +125,20 @@ class QueryController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage()
+	public function actionManage($id = null)
 	{
-		$model=new Query('search');
+		if (($id != null) && !Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->id))
+			throw new CHttpException(403, 'You are not authorized to view this page.');
+		
+		$model = new Query('search');
+		
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Query']))
-			$model->attributes=$_GET['Query'];
+			$model->attributes = $_GET['Query'];
 
 		$this->render('manage',array(
 			'model'=>$model,
+			'id' => $id
 		));
 	}
 

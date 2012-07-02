@@ -30,7 +30,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'queryID'); ?>
-			<?php echo $form->dropDownList($model,'queryID', CHtml::listData($model->queries, 'queryID', 'judulQuery'), array('onchange'=>'this.form.submit()')); ?>
+		<?php echo $form->dropDownList($model,'queryID', CHtml::listData($model->queries, 'queryID', 'judulQuery'), array('onchange'=>'this.form.submit()')); ?>
 		<?php echo $form->error($model,'queryID'); ?>
 	</div>
 	
