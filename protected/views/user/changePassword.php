@@ -1,4 +1,7 @@
 <div class="form">
+
+
+
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'changepassword-form',
 	'enableAjaxValidation'=>false,
