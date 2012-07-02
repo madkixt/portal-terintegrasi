@@ -112,10 +112,14 @@ class UserController extends Controller
 	}
 	
 	/*action change password*/
-	public function actionChangePassword()
+	public function actionChangePassword($id)
 	{
 		$model = new ChangePasswordForm;
-		$user = $this->loadModel(Yii::app()->user->getId());
+		//$user = $this->loadModel(Yii::app()->user->getId());
+		$user= $this->loadModel($id);
+		$model->user = User::model()->findByPk($id);
+		
+	
 		
 		if(isset($_POST['ChangePasswordForm']))
 		{
