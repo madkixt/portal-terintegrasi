@@ -39,14 +39,24 @@ if (Yii::app()->urlManager != null && Yii::app()->urlManager->urlFormat === 'pat
 
 <?php
 
-$templ = (Yii::app()->user->getState('admin')) ? '{view} {update} {delete}' : '{view} {update}';
+if (Yii::app()->user->getState('admin')) {
+	if (($id != null) && (($user = User::model()->findByPk($id)) != null) && !$user->admin)
+		$templ = '{view} {update} {remove} {delete}';
+	else
+		$templ = '{view} {update} {delete}';
+} else {
+	$templ = '{view} {update} {remove}';
+}
 
 $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'query-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		'queryID',
+	'id' => 'query-grid',
+	'dataProvider' => $model->search($id),
+	'filter' => $model,
+	'columns' => array(
+		array(
+			'name' => 'queryID',
+			'htmlOptions' => array('width' => '50px')
+		),
 		array(
 			'class' => 'CQueryDataColumn',
 			'name' => 'judulQuery'
@@ -54,17 +64,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		'isiQuery',
 		'databaseName',
 		'notes',
-		/*
-		'creationDate',
-		'modifiedDate',
-		'notesModifiedDate',
-		'createdBy',
-		'lastModifiedBy',
-		'lastNotesEditor',
-		*/
 		array(
 			'class'=>'CButtonColumn',
-			'template' => $templ
+			'template' => $templ,
+			'buttons' => array(
+				'remove' => array(
+					'label' => 'Remove',
+					'imageUrl' => Yii::app()->request->baseUrl . '/images/buttons/remove.png'
+				)
+			),
+			'htmlOptions' => array('width' => '75px')
 		)
 	),
 	'nullDisplay' => ''

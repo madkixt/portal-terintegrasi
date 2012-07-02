@@ -1,42 +1,22 @@
 <?php
 
-/** halaman eksekusi query */
-
-class ExecForm extends CFormModel
-{
-	public $judulQuery;
-	public $isiQuery;
-	public $database;
-	public $mesin;
+class AssignQueryForm extends CFormModel {
+	public $userID;
+	public $queryID;
 	
-	
-	/*rules */
 	public function rules()
 	{
 		return array(
-			array('database,mesin','required'),
-		//	array('database,mesin','authenticate'),
+			array('userID, queryID', 'required'),
 		);
 	}
 	
-	/**
-	 * Declares attribute labels.
-	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
-			'rememberMe'=>'Remember me next time',
+			'userID' => 'User',
+			'queryID' => 'Query',
 		);
 	}
-	
-	public static function getJudulQueryOptions()
-	{
-		return array(
-		);
-	}
-	
-	public function exec()
-	{
-	}
-
 }
+
+?>

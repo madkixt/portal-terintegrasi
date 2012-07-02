@@ -106,6 +106,8 @@ class Connection extends BaseEntity
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+		$criteria->with = array('createdBy0', 'lastModifiedBy0');
+		$criteria->together = true;
 
 		$criteria->compare('connectionID',$this->connectionID);
 		$criteria->compare('serverName',$this->serverName,true);
@@ -114,8 +116,8 @@ class Connection extends BaseEntity
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('creationDate',$this->creationDate,true);
 		$criteria->compare('modifiedDate',$this->modifiedDate,true);
-		$this->searchUsername($criteria, 'createdBy', $this->createdBy);
-		$this->searchUsername($criteria, 'lastModifiedBy', $this->lastModifiedBy);
+		$criteria->compare('createdBy0.username', $this->createdBy, true);
+		$criteria->compare('lastModifiedBy0.username', $this->lastModifiedBy, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

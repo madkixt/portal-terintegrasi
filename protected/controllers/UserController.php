@@ -66,7 +66,7 @@ class UserController extends Controller
 	 */
 	public function actionAdd()
 	{
-		$model=new User;
+		$model = new User;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -188,14 +188,33 @@ class UserController extends Controller
 	}
 
 	public function actionAssignQuery($id) {
-		$model=$this->loadModel($id);
+		if (($user = User::model()->findByPk($id)) == null)
+			throw new CHttpException(403, 'No such user.');
 		
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		$this->render('assignQuery',array(
-			'model'=>$model,
-		));
+		$model = new AssignQueryForm;
+		$model->userID = $id;
+		
+		if(isset($_POST['AssignQueryForm'])) {
+			$model->attributes = $_POST['AssignQueryForm'];	
+		}
+		else {
+			$this->render('assignQuery', array('user' => $user, 'model' => $model));
+		}
+	}
+	
+	public function actionAssignConnection($id) {
+		if (($user = User::model()->findByPk($id)) == null)
+			throw new CHttpException(403, 'No such user.');
+		
+		$model = new AssignConnectionForm;
+		$model->userID = $id;
+		
+		if(isset($_POST['AssignConnectionForm'])) {
+			$model->attributes = $_POST['AssignConnectionForm'];	
+		}
+		else {
+			$this->render('assignConnection', array('user' => $user, 'model' => $model));
+		}
 	}
 	
 	/**

@@ -35,18 +35,14 @@ $('.search-form form').submit(function(){
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'connectionID',
+		array(
+			'name' => 'connectionID',
+			'htmlOptions' => array('width' => '50px')
+		),
 		'serverName',
 		'IPAddress',
 		'username',
 		'description',
-		/*
-		'password',
-		'creationDate',
-		'modifiedDate',
-		'createdBy',
-		'lastModifiedBy',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 		),
