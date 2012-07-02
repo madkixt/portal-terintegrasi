@@ -2,8 +2,10 @@
 
 /*change Password Form class*/
 
+
 class ChangePasswordForm extends CFormModel
 {
+	public $user;
 	public $oldpwd;
 	public $newpwd;
 	public $newpwd_repeat;
@@ -37,17 +39,20 @@ class ChangePasswordForm extends CFormModel
 	 */
 	 
 	public function checking($attribute,$params)
-	{	
-	
+	{
 		$old= md5($this->oldpwd);
 		print_r($old);
-		$username = Yii::app()->user->name;
+		print_r('    ');
+	
+		$useridd = $this->user->userID;
+	//	print_r($useridd);
+		$username = $this->user->username;
+	//	print_r($username);
 		$user = User::model()->findByAttributes(array('username'=>$username, 'password'=>$old));
 		
-	
 		
 		if($user===null){
-			$this->addError($attribute, 'Invalid password2');
+			$this->addError($attribute, 'Invalid password');
 		}
 		
 		
