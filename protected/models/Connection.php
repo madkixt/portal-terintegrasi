@@ -100,13 +100,26 @@ class Connection extends BaseEntity
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($id = null)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
+		if (!Yii::app()->user->getState('admin'))
+			$id = Yii::app()->user->id;
+		
 		$criteria=new CDbCriteria;
 		$criteria->with = array('createdBy0', 'lastModifiedBy0');
+		
+		if ($id != null) {
+			$criteria->with['tblUsers'] = array(
+				'condition' => 'tblUsers.userID = :userID',
+				'params' => array(
+					':userID' => 2
+				)
+			);
+		}
+		
 		$criteria->together = true;
 
 		$criteria->compare('connectionID',$this->connectionID);
@@ -133,7 +146,29 @@ class Connection extends BaseEntity
 		if($this->hasEventHandler('onAfterSave'))
 			$this->onAfterSave(new CEvent($this));
 		
+		if ($this->isNewRecord) {
+			if (Yii::app()->user->getState('admin'))
+				$this->insertAdmin();
+			else {
+				$cmd = Yii::app()->db->createCommand();
+				$cmd->insert('tbl_user_connection', array('userID' => Yii::app()->user->getID(), 'connectionID' => $this->connectionID));
+			}
+		}
+	}
+	
+	/* Assigns the newly inserted Connection to all admins */
+	private function insertAdmin() {
+		$admins = User::model()->findAllByAttributes(array(
+			'admin' => 1
+		));
+		
 		$cmd = Yii::app()->db->createCommand();
-		$cmd->insert('tbl_user_connection', array('userID' => Yii::app()->user->getID(), 'connectionID' => $this->connectionID));
+		$cmd->text = 'INSERT INTO tbl_user_connection(userID, connectionID) VALUES (:userID, :connectionID)';
+		$cmd->bindValue(':connectionID', $this->connectionID, PDO::PARAM_INT);
+		
+		foreach ($admins as $admin) {
+			$cmd->bindValue(':userID', $admin->userID, PDO::PARAM_INT);
+			$cmd->execute();
+		}
 	}
 }

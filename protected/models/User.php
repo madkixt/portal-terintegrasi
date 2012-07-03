@@ -156,10 +156,49 @@ class User extends BaseEntity
 		$this->password = $this->encrypt($this->password);
 	}
 	
+	protected function afterSave()
+	{
+		if($this->hasEventHandler('onAfterSave'))
+			$this->onAfterSave(new CEvent($this));
+		
+		if ($this->admin) {
+			$this->adminAssignQueries();
+			$this->adminAssignConnections();
+		}
+	}
+	
+	/* Assigns all existing Queries to the newly inserted admin */
+	public function adminAssignQueries() {
+		$queries = Query::model()->findAll();
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->text = 'INSERT INTO tbl_user_query(userID, queryID) VALUES (:userID, :queryID)';
+		$cmd->bindValue(':userID', $this->userID, PDO::PARAM_INT);
+		
+		foreach ($queries as $query) {
+			$cmd->bindValue(':queryID', $query->queryID, PDO::PARAM_INT);
+			$cmd->execute();
+		}
+	}
+	
+	/* Assigns all existing Connections to the newly inserted admin */
+	public function adminAssignConnections() {
+		$connections = Connection::model()->findAll();
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->text = 'INSERT INTO tbl_user_connection(userID, connectionID) VALUES (:userID, :connectionID)';
+		$cmd->bindValue(':userID', $this->userID, PDO::PARAM_INT);
+		
+		foreach ($connections as $connection) {
+			$cmd->bindValue(':connectionID', $connection->connectionID, PDO::PARAM_INT);
+			$cmd->execute();
+		}
+	}
+	
+	/* Encrypts password with md5 */
 	public function encrypt($pwd) {
 		return md5($pwd);
 	}
 	
+	/* Returns the available user roles */
 	public function getUserRoles() {
 		return array(
 			self::ROLE_USER => 'User',
@@ -167,6 +206,7 @@ class User extends BaseEntity
 		);
 	}
 	
+	/* Returns whether another user can click this user's edit link */
 	public function getEditClickable() {
 		if ($this->userID === Yii::app()->user->getId())
 			return true;
@@ -180,6 +220,7 @@ class User extends BaseEntity
 		return true;
 	}
 	
+	/* Returns whether another user can click this user's delete link */
 	public function getDeleteClickable() {
 		if ($this->admin || !Yii::app()->user->getState('admin'))
 			return false;
@@ -187,10 +228,12 @@ class User extends BaseEntity
 		return true;
 	}
 	
+	/* Returns whether another user can click this user's assign links */
 	public function getAssignable() {
 		return !$this->admin && Yii::app()->user->getState('admin');
 	}
 	
+	/* Returns queries not yet assigned to this user */
 	public function getAssignableQueries() {
 		return Yii::app()->db->createCommand()
 			->select('queryID, judulQuery')
@@ -199,6 +242,7 @@ class User extends BaseEntity
 			->queryAll();
 	}
 	
+	/* Returns connections not yet assigned to this user */
 	public function getAssignableConnections() {
 		return Yii::app()->db->createCommand()
 			->select('connectionID, IPAddress, username')

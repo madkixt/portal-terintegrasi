@@ -122,7 +122,7 @@ class Query extends BaseEntity
 		
 		$criteria->together = true;
 		
-		$criteria->compare('queryID',$this->queryID);
+		$criteria->compare('t.queryID',$this->queryID);
 		$criteria->compare('judulQuery',$this->judulQuery,true);
 		$criteria->compare('databaseName',$this->databaseName,true);
 		$criteria->compare('notes',$this->notes,true);
@@ -160,14 +160,17 @@ class Query extends BaseEntity
 		if($this->hasEventHandler('onAfterSave'))
 			$this->onAfterSave(new CEvent($this));
 		
-		$cmd = Yii::app()->db->createCommand();
-		if (Yii::app()->user->getState('admin'))
-			$this->insertAdmin();
-		else
-			$cmd->insert('tbl_user_query', array('userID' => Yii::app()->user->getID(), 'queryID' => $this->queryID));
-		
+		if ($this->isNewRecord) {
+			if (Yii::app()->user->getState('admin'))
+				$this->insertAdmin();
+			else {
+				$cmd = Yii::app()->db->createCommand();
+				$cmd->insert('tbl_user_query', array('userID' => Yii::app()->user->getID(), 'queryID' => $this->queryID));
+			}
+		}
 	}
 	
+	/* Assigns the newly inserted Query to all admins */
 	private function insertAdmin() {
 		$admins = User::model()->findAllByAttributes(array(
 			'admin' => 1
@@ -177,7 +180,7 @@ class Query extends BaseEntity
 		$cmd->bindValue(':queryID', $this->queryID, PDO::PARAM_INT);
 		
 		foreach ($admins as $admin) {
-			$cmd->bindValue(':userID', $admin->userID);
+			$cmd->bindValue(':userID', $admin->userID, PDO::PARAM_INT);
 			$cmd->execute();
 		}
 	}
