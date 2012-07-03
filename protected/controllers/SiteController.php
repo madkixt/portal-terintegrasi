@@ -90,14 +90,12 @@ class SiteController extends Controller
 	public function actionLogin()
 	{
 		$model=new LoginForm;
-
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
-
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
@@ -118,9 +116,8 @@ class SiteController extends Controller
 		if (!isset($_GET['id'])) {
 			
 		}
-		
 		$model = new ExecForm;
-		$model->loadModel();
+//		$model->loadModel();
 		
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
@@ -128,16 +125,16 @@ class SiteController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
-
 		// collect user input data
 		if(isset($_POST['ExecForm']))
 		{
-			$query = Query::model()->findByPk($_POST['ExecForm']['queryID']);
+			$model->attributes=$_POST['ExecForm'];
+			//$query = Query::model()->findByPk($_POST['ExecForm']['queryID']);
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->exec())
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
-		// display the login form
+		// display the exec form
 		$this->render('exec',array('model' => $model));
 	}	
 	

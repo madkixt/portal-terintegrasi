@@ -41,18 +41,23 @@ class ExecForm extends CFormModel
 	}
 	
 	/*memeperoleh mesin*/
-	public static function getConnection()
+/*	public static function getConnection()
 	{
 		$user = User::model()->findByPk(Yii::app()->user->getId());
 		$mesinArray= CHtml::listData($user->tblConnections, 'connectionID', 'name');
 		return $mesinArray;
 	}
+*/	
 	
+	
+/*
 	public function loadModel() {
-		$this->queries = User::model()->findByPk(Yii::app()->user->getId())->tblQueries;
+		$this->queries = User::model()->findByPk(Yii::app()->user->getId()); // ->tblQueries;
 		$this->database = $this->queries[0]->databaseName;
-		$this->isiQuery = $this->queries[0]->isiQuery;
+		$this->isiQuery = $this->queries[0]->isiQuery ;
 	}
+
+*/
 	
 	public function exec()
 	{
