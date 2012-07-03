@@ -18,7 +18,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'connection'); ?>
-		<?php echo $form->dropDownList($model,'connection',$model->getConnection()); ?>
+		<?php echo $form->dropDownList($model,'connection',array('size'=>20,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'connection'); ?>
 	</div>
 	
@@ -30,7 +30,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'queryID'); ?>
-		<?php echo $form->dropDownList($model,'queryID', CHtml::listData($model->queries, 'queryID', 'judulQuery'), array('onchange'=>'this.form.submit()')); ?>
+		<?php echo $form->textArea($model, 'queryID', array('cols'=>60,'rows'=>5)); ?>
 		<?php echo $form->error($model,'queryID'); ?>
 	</div>
 	
