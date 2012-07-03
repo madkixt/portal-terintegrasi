@@ -16,11 +16,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'isiQuery'); ?>
-		<?php echo $form->textArea($model,'isiQuery',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'databaseName'); ?>
 		<?php echo $form->textField($model,'databaseName',array('size'=>30,'maxlength'=>30)); ?>
 	</div>

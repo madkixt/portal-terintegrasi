@@ -8,10 +8,6 @@
 	<?php echo CHtml::encode($data->judulQuery); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('isiQuery')); ?>:</b>
-	<?php echo CHtml::encode($data->isiQuery); ?>
-	<br />
-
 	<b><?php echo CHtml::encode($data->getAttributeLabel('databaseName')); ?>:</b>
 	<?php echo CHtml::encode($data->databaseName); ?>
 	<br />

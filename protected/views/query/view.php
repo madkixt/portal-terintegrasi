@@ -30,7 +30,6 @@ if (Yii::app()->user->getState('admin')) {
 	'attributes'=>array(
 		'queryID',
 		'judulQuery',
-		'isiQuery',
 		'databaseName',
 		'notes',
 		'creationDate',
