@@ -21,7 +21,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Connections</h1>
+<h1>Manage <?php if ($username != null) {echo CHtml::link($username, array('/user', 'id' => $id)); echo "'s";} ?> Connections</h1>
 
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
@@ -32,7 +32,7 @@ $('.search-form form').submit(function(){
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'connection-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$model->search($id),
 	'filter'=>$model,
 	'columns'=>array(
 		array(

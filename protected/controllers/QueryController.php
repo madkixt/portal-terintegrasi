@@ -59,7 +59,7 @@ class QueryController extends Controller
 		{
 			$model->attributes=$_POST['Query'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->queryID));
+				$this->redirect(array('view', 'id' => $model->queryID));
 		}
 
 		$this->render('add',array(
@@ -135,10 +135,15 @@ class QueryController extends Controller
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Query']))
 			$model->attributes = $_GET['Query'];
-
+		
+		$username = null;
+		if ($id != null)
+			$username = User::model()->findByPk($id)->username;
+		
 		$this->render('manage',array(
 			'model'=>$model,
-			'id' => $id
+			'id' => $id,
+			'username' => $username
 		));
 	}
 
@@ -166,5 +171,16 @@ class QueryController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	public function getVisibleButtons($id) {
+		if (Yii::app()->user->getState('admin')) {
+			if (($id != null) && (($user = User::model()->findByPk($id)) != null) && !$user->admin)
+				return '{view} {update} {remove} {delete}';
+				
+			return '{view} {update} {delete}';
+		}
+		
+		return '{view} {update} {remove}';
 	}
 }

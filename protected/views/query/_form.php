@@ -9,6 +9,33 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
+<?php
+$curStatement = 0;
+
+Yii::app()->clientScript->registerScript('adder', "
+$('#addStatement').bind('click', function() {
+	alert('c');
+	var extraDiv = $('#statement');
+	var inputs = $('#statement textarea');
+	
+	extraDiv.html('');
+	var i = 0;
+	
+	for (; i < inputs.length; i++) {
+		extraDiv.html(extraDiv.html() + 
+			'<tr><td>Statement ' +	 (i + 1) + '</td><td><textarea name=\'statement[' + i + ']\' rows=\'8\' cols=\'20\'>' + inputs[i].value + '</textarea></td></tr>'
+		);
+	}
+	
+	extraDiv.html(extraDiv.html() + 
+		'<tr><td>Statement ' + (i + 1) + '</td><td><textarea name=\'statement[' + i + ']\' rows=\'8\' cols=\'20\'>haha</textarea><br /></td></tr>'
+	);
+})
+"); ?>
+
+	<?php echo CHtml::link('Add statement','#',array('id'=>'addStatement')); ?>
+	<table id='statement'></table>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'judulQuery'); ?>
 		<?php echo $form->textField($model,'judulQuery',array('size'=>50,'maxlength'=>50)); ?>

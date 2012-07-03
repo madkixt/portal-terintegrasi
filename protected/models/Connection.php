@@ -115,7 +115,7 @@ class Connection extends BaseEntity
 			$criteria->with['tblUsers'] = array(
 				'condition' => 'tblUsers.userID = :userID',
 				'params' => array(
-					':userID' => 2
+					':userID' => $id
 				)
 			);
 		}

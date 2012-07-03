@@ -188,33 +188,39 @@ class UserController extends Controller
 	}
 
 	public function actionAssignQuery($id) {
-		if (($user = User::model()->findByPk($id)) == null)
-			throw new CHttpException(403, 'No such user.');
+		$user = $this->loadModel($id);
+		if ($user->admin)
+			throw new CHttpException(404, 'The requested page does not exist.');
 		
 		$model = new AssignQueryForm;
-		$model->userID = $id;
 		
 		if(isset($_POST['AssignQueryForm'])) {
-			$model->attributes = $_POST['AssignQueryForm'];	
+			$model->attributes = $_POST['AssignQueryForm'];
+			if ($model->validate()) {
+				$user->assignQuery($model->queryID);
+				Yii::app()->user->setFlash('assignQuerySuccess', 'Query ' . Query::model()->findByPk($model->queryID)->judulQuery . ' has been assigned to ' . $user->username);
+			}
 		}
-		else {
-			$this->render('assignQuery', array('user' => $user, 'model' => $model));
-		}
+		
+		$this->render('assignQuery', array('user' => $user, 'model' => $model));
 	}
 	
 	public function actionAssignConnection($id) {
-		if (($user = User::model()->findByPk($id)) == null)
-			throw new CHttpException(403, 'No such user.');
+		$user = $this->loadModel($id);
+		if ($user->admin)
+			throw new CHttpException(404, 'The requested page does not exist.');
 		
 		$model = new AssignConnectionForm;
-		$model->userID = $id;
 		
 		if(isset($_POST['AssignConnectionForm'])) {
-			$model->attributes = $_POST['AssignConnectionForm'];	
+			$model->attributes = $_POST['AssignConnectionForm'];
+			if ($model->validate()) {
+				$user->assignConnection($model->connectionID);
+				Yii::app()->user->setFlash('assignConnectionSuccess', 'Connection ' . Connection::model()->findByPk($model->connectionID)->name . ' has been assigned to ' . $user->username);
+			}
 		}
-		else {
-			$this->render('assignConnection', array('user' => $user, 'model' => $model));
-		}
+		
+		$this->render('assignConnection', array('user' => $user, 'model' => $model));
 	}
 	
 	/**

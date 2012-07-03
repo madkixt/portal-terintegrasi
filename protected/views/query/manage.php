@@ -19,16 +19,9 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
-
-if (Yii::app()->urlManager != null && Yii::app()->urlManager->urlFormat === 'path') {
-	$path = true;
-} else {
-	$path = false;
-}
-
 ?>
 
-<h1>Manage Queries</h1>
+<h1>Manage <?php if ($username != null) {echo CHtml::link($username, array('/user', 'id' => $id)); echo "'s";} ?> Queries</h1>
 
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
@@ -38,16 +31,6 @@ if (Yii::app()->urlManager != null && Yii::app()->urlManager->urlFormat === 'pat
 </div><!-- search-form -->
 
 <?php
-
-if (Yii::app()->user->getState('admin')) {
-	if (($id != null) && (($user = User::model()->findByPk($id)) != null) && !$user->admin)
-		$templ = '{view} {update} {remove} {delete}';
-	else
-		$templ = '{view} {update} {delete}';
-} else {
-	$templ = '{view} {update} {remove}';
-}
-
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'query-grid',
 	'dataProvider' => $model->search($id),
@@ -65,7 +48,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		'notes',
 		array(
 			'class'=>'CButtonColumn',
-			'template' => $templ,
+			'template' => $this->getVisibleButtons($id),
 			'buttons' => array(
 				'remove' => array(
 					'label' => 'Remove',

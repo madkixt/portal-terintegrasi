@@ -21,7 +21,7 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
 	
-	public $defaultAction = 'manage';
+	public $defaultAction = 'view';
 	
 	public function filterAdmin($filterChain) {
 		if (!Yii::app()->user->getState('admin')) {
