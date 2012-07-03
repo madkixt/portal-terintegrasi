@@ -9841,3 +9841,486 @@ Stack trace:
 REQUEST_URI=/portal/index.php?r=query%2Fmanage&Query%5BqueryID%5D=&Query%5BjudulQuery%5D=&Query%5BisiQuery%5D=&Query%5BdatabaseName%5D=&Query%5Bnotes%5D=&Query%5BcreationDate%5D=&Query%5BmodifiedDate%5D=&Query%5BnotesModifiedDate%5D=&Query%5BcreatedBy%5D=w&Query%5BlastModifiedBy%5D=&Query%5BlastNotesEditor%5D=&ajax=query-grid
 HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
 ---
+2012/07/03 02:21:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "manage".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=gii
+---
+2012/07/03 02:21:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii/index".' in C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php:280
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii/index')
+#1 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/portal/index.php?r=gii/index
+---
+2012/07/03 02:21:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "manage".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=gii
+---
+2012/07/03 02:21:24 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "manage".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii/model')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=gii/model
+---
+2012/07/03 02:21:53 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii/login".' in C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php:280
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii/login')
+#1 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/portal/index.php?r=gii/login
+---
+2012/07/03 02:23:24 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii/login".' in C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php:280
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii/login')
+#1 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/portal/index.php?r=gii/login
+---
+2012/07/03 02:25:27 [error] [php] Undefined offset: 0 (C:\xampp\htdocs\portal\protected\models\ExecForm.php:53)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/index.php?r=gii
+in C:\xampp\htdocs\portal\protected\models\ExecForm.php (53)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (123)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/07/03 02:25:34 [error] [php] Undefined offset: 0 (C:\xampp\htdocs\portal\protected\models\ExecForm.php:53)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/index.php?r=gii
+in C:\xampp\htdocs\portal\protected\models\ExecForm.php (53)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (123)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/07/03 02:25:40 [error] [php] Undefined offset: 0 (C:\xampp\htdocs\portal\protected\models\ExecForm.php:53)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/index.php?r=user
+in C:\xampp\htdocs\portal\protected\models\ExecForm.php (53)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (123)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/07/03 02:25:59 [error] [php] Undefined offset: 0 (C:\xampp\htdocs\portal\protected\models\ExecForm.php:53)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/index.php?r=user/manage
+in C:\xampp\htdocs\portal\protected\models\ExecForm.php (53)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (123)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/07/03 02:26:21 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "manage".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=gii
+---
+2012/07/03 02:27:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "manage".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=gii
+---
+2012/07/03 02:27:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "gii/index".' in C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php:280
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii/index')
+#1 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/portal/index.php?r=gii/index
+---
+2012/07/03 02:27:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "manage".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii/default')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=gii/default
+---
+2012/07/03 02:27:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "manage".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('gii/model')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=gii/model
+HTTP_REFERER=http://localhost/portal/index.php?r=gii/default/index
+---
+2012/07/03 02:37:06 [error] [exception.CException] exception 'CException' with message 'Property "Query.isiQuery" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('isiQuery')
+#1 C:\xampp\htdocs\portal\protected\models\Query.php(127): CActiveRecord->__get('isiQuery')
+#2 C:\xampp\htdocs\portal\protected\views\query\manage.php(53): Query->search(NULL)
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(127): require('C:\xampp\htdocs...')
+#4 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(96): CBaseController->renderInternal('C:\xampp\htdocs...', Array, true)
+#5 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(870): CBaseController->renderFile('C:\xampp\htdocs...', Array, true)
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(783): CController->renderPartial('manage', Array, true)
+#7 C:\xampp\htdocs\portal\protected\controllers\QueryController.php(142): CController->render('manage', Array)
+#8 [internal function]: QueryController->actionManage(NULL)
+#9 C:\xampp\htdocs\Yii_portal\framework\web\actions\CAction.php(107): ReflectionMethod->invokeArgs(Object(QueryController), Array)
+#10 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(48): CAction->runWithParamsInternal(Object(QueryController), Object(ReflectionMethod), Array)
+#11 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#12 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#13 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#14 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#15 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#16 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#17 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#18 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#19 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('manage')
+#20 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('query/manage')
+#21 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#22 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#23 {main}
+REQUEST_URI=/portal/index.php?r=query/manage
+HTTP_REFERER=http://localhost/portal/index.php?r=user
+---
+2012/07/03 02:43:32 [error] [system.db.CDbCommand] CDbCommand::fetchColumn() failed: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'queryID' in where clause is ambiguous. The SQL statement executed was: SELECT COUNT(DISTINCT `t`.`queryID`) FROM `tbl_query` `t`  LEFT OUTER JOIN `tbl_statement` `statements` ON (`statements`.`queryID`=`t`.`queryID`)  LEFT OUTER JOIN `tbl_user` `createdBy0` ON (`t`.`createdBy`=`createdBy0`.`userID`)  LEFT OUTER JOIN `tbl_user` `lastModifiedBy0` ON (`t`.`lastModifiedBy`=`lastModifiedBy0`.`userID`)  LEFT OUTER JOIN `tbl_user` `lastNotesEditor0` ON (`t`.`lastNotesEditor`=`lastNotesEditor0`.`userID`)  WHERE (queryID=:ycp0).
+in C:\xampp\htdocs\portal\protected\views\query\manage.php (79)
+in C:\xampp\htdocs\portal\protected\controllers\QueryController.php (142)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/07/03 02:43:32 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'queryID' in where clause is ambiguous. The SQL statement executed was: SELECT COUNT(DISTINCT `t`.`queryID`) FROM `tbl_query` `t`  LEFT OUTER JOIN `tbl_statement` `statements` ON (`statements`.`queryID`=`t`.`queryID`)  LEFT OUTER JOIN `tbl_user` `createdBy0` ON (`t`.`createdBy`=`createdBy0`.`userID`)  LEFT OUTER JOIN `tbl_user` `lastModifiedBy0` ON (`t`.`lastModifiedBy`=`lastModifiedBy0`.`userID`)  LEFT OUTER JOIN `tbl_user` `lastNotesEditor0` ON (`t`.`lastNotesEditor`=`lastNotesEditor0`.`userID`)  WHERE (queryID=:ycp0)' in C:\xampp\htdocs\Yii_portal\framework\db\CDbCommand.php:528
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\CDbCommand.php(425): CDbCommand->queryInternal('fetchColumn', 0, Array)
+#1 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveFinder.php(762): CDbCommand->queryScalar()
+#2 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveFinder.php(155): CJoinElement->count(Object(CDbCriteria))
+#3 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(1540): CActiveFinder->count(Object(CDbCriteria))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\CActiveDataProvider.php(179): CActiveRecord->count(Object(CDbCriteria))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\CDataProvider.php(193): CActiveDataProvider->calculateTotalItemCount()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CActiveDataProvider.php(129): CDataProvider->getTotalItemCount()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CDataProvider.php(137): CActiveDataProvider->fetchData()
+#8 C:\xampp\htdocs\Yii_portal\framework\zii\widgets\CBaseListView.php(105): CDataProvider->getData()
+#9 C:\xampp\htdocs\Yii_portal\framework\zii\widgets\grid\CGridView.php(269): CBaseListView->init()
+#10 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(148): CGridView->init()
+#11 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(173): CBaseController->createWidget('zii.widgets.gri...', Array)
+#12 C:\xampp\htdocs\portal\protected\views\query\manage.php(79): CBaseController->widget('zii.widgets.gri...', Array)
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(127): require('C:\xampp\htdocs...')
+#14 C:\xampp\htdocs\Yii_portal\framework\web\CBaseController.php(96): CBaseController->renderInternal('C:\xampp\htdocs...', Array, true)
+#15 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(870): CBaseController->renderFile('C:\xampp\htdocs...', Array, true)
+#16 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(783): CController->renderPartial('manage', Array, true)
+#17 C:\xampp\htdocs\portal\protected\controllers\QueryController.php(142): CController->render('manage', Array)
+#18 [internal function]: QueryController->actionManage(NULL)
+#19 C:\xampp\htdocs\Yii_portal\framework\web\actions\CAction.php(107): ReflectionMethod->invokeArgs(Object(QueryController), Array)
+#20 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(48): CAction->runWithParamsInternal(Object(QueryController), Object(ReflectionMethod), Array)
+#21 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#22 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#23 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#24 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#25 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#26 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#27 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#28 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#29 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('manage')
+#30 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('query/manage')
+#31 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#32 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#33 {main}
+REQUEST_URI=/portal/index.php?r=query%2Fmanage&Query%5BqueryID%5D=1&Query%5BjudulQuery%5D=&Query%5BdatabaseName%5D=&Query%5Bnotes%5D=&Query_page=1&ajax=query-grid
+HTTP_REFERER=http://localhost/portal/index.php?r=query/manage
+---
+2012/07/03 02:46:46 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "query".' in C:\xampp\htdocs\Yii_portal\framework\web\CController.php:484
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(271): CController->missingAction('query')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('query')
+#2 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('user/query')
+#3 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/portal/index.php?r=user/query&id=2
+HTTP_REFERER=http://localhost/portal/index.php?r=user/view&id=2
+---
+2012/07/03 02:49:38 [error] [php] Undefined offset: 0 (C:\xampp\htdocs\portal\protected\models\ExecForm.php:53)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/
+in C:\xampp\htdocs\portal\protected\models\ExecForm.php (53)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (123)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/07/03 02:49:41 [error] [php] Undefined offset: 0 (C:\xampp\htdocs\portal\protected\models\ExecForm.php:53)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/index.php
+in C:\xampp\htdocs\portal\protected\models\ExecForm.php (53)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (123)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/07/03 02:49:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "login".' in C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php:280
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('login')
+#1 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/portal/index.php?r=login
+---
+2012/07/03 02:49:53 [error] [php] Undefined offset: 0 (C:\xampp\htdocs\portal\protected\models\ExecForm.php:53)
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): SiteController->runAction()
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CAccessControlFilter->filter()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): SiteController->filterAccessControl()
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): SiteController->run()
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController()
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CWebApplication->run()
+REQUEST_URI=/portal/index.php
+in C:\xampp\htdocs\portal\protected\models\ExecForm.php (53)
+in C:\xampp\htdocs\portal\protected\controllers\SiteController.php (123)
+in C:\xampp\htdocs\portal\index.php (13)
+2012/07/03 03:28:41 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to view this page.' in C:\xampp\htdocs\portal\protected\controllers\QueryController.php:131
+Stack trace:
+#0 [internal function]: QueryController->actionManage('1')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\actions\CAction.php(107): ReflectionMethod->invokeArgs(Object(QueryController), Array)
+#2 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(48): CAction->runWithParamsInternal(Object(QueryController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#10 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('manage')
+#12 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('query/manage')
+#13 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/portal/index.php?r=query/manage&id=1
+---
+2012/07/03 03:33:35 [error] [exception.CException] exception 'CException' with message 'Property "Query.isiQuery" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('isiQuery')
+#1 C:\xampp\htdocs\portal\protected\models\ExecForm.php(54): CActiveRecord->__get('isiQuery')
+#2 C:\xampp\htdocs\portal\protected\controllers\SiteController.php(123): ExecForm->loadModel()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): SiteController->actionExec()
+#4 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#9 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#10 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#11 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('')
+#14 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/portal/index.php
+HTTP_REFERER=http://localhost/portal/index.php?r=connection&id=2
+---
+2012/07/03 03:35:25 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to view this page.' in C:\xampp\htdocs\portal\protected\controllers\QueryController.php:131
+Stack trace:
+#0 [internal function]: QueryController->actionManage('3')
+#1 C:\xampp\htdocs\Yii_portal\framework\web\actions\CAction.php(107): ReflectionMethod->invokeArgs(Object(QueryController), Array)
+#2 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(48): CAction->runWithParamsInternal(Object(QueryController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#10 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('manage')
+#12 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('query/manage')
+#13 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/portal/index.php?r=query/manage&id=3
+---
+2012/07/03 03:36:41 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to view this page.' in C:\xampp\htdocs\portal\protected\components\Controller.php:28
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): Controller->filterAdmin(Object(CFilterChain))
+#1 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#2 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#3 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('')
+#9 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('connection')
+#10 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/portal/index.php?r=connection
+---
+2012/07/03 03:36:53 [error] [exception.CException] exception 'CException' with message 'Property "Connection.connection" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('connection')
+#1 C:\xampp\htdocs\portal\protected\models\Connection.php(166): CActiveRecord->__get('connection')
+#2 C:\xampp\htdocs\portal\protected\models\Connection.php(151): Connection->insertAdmin()
+#3 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(1034): Connection->afterSave()
+#4 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(787): CActiveRecord->insert(NULL)
+#5 C:\xampp\htdocs\portal\protected\controllers\ConnectionController.php(61): CActiveRecord->save()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): ConnectionController->actionAdd()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\portal\protected\components\Controller.php(31): CFilterChain->run()
+#10 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): Controller->filterAdmin(Object(CFilterChain))
+#11 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#12 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#14 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#15 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#16 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#17 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('add')
+#19 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('connection/add')
+#20 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#21 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#22 {main}
+REQUEST_URI=/portal/index.php?r=connection/add
+HTTP_REFERER=http://localhost/portal/index.php?r=connection/add
+---
+2012/07/03 03:37:30 [error] [exception.CException] exception 'CException' with message 'Property "Connection.connection" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('connection')
+#1 C:\xampp\htdocs\portal\protected\models\Connection.php(166): CActiveRecord->__get('connection')
+#2 C:\xampp\htdocs\portal\protected\models\Connection.php(151): Connection->insertAdmin()
+#3 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(1034): Connection->afterSave()
+#4 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(787): CActiveRecord->insert(NULL)
+#5 C:\xampp\htdocs\portal\protected\controllers\ConnectionController.php(61): CActiveRecord->save()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): ConnectionController->actionAdd()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\portal\protected\components\Controller.php(31): CFilterChain->run()
+#10 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): Controller->filterAdmin(Object(CFilterChain))
+#11 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#12 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#14 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#15 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#16 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#17 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('add')
+#19 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('connection/add')
+#20 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#21 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#22 {main}
+REQUEST_URI=/portal/index.php?r=connection/add
+HTTP_REFERER=http://localhost/portal/index.php?r=connection/add
+---
+2012/07/03 03:37:50 [error] [exception.CException] exception 'CException' with message 'Property "Connection.connection" is not defined.' in C:\xampp\htdocs\Yii_portal\framework\base\CComponent.php:131
+Stack trace:
+#0 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(144): CComponent->__get('connection')
+#1 C:\xampp\htdocs\portal\protected\models\Connection.php(166): CActiveRecord->__get('connection')
+#2 C:\xampp\htdocs\portal\protected\models\Connection.php(151): Connection->insertAdmin()
+#3 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(1034): Connection->afterSave()
+#4 C:\xampp\htdocs\Yii_portal\framework\db\ar\CActiveRecord.php(787): CActiveRecord->insert(NULL)
+#5 C:\xampp\htdocs\portal\protected\controllers\ConnectionController.php(61): CActiveRecord->save()
+#6 C:\xampp\htdocs\Yii_portal\framework\web\actions\CInlineAction.php(50): ConnectionController->actionAdd()
+#7 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\portal\protected\components\Controller.php(31): CFilterChain->run()
+#10 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): Controller->filterAdmin(Object(CFilterChain))
+#11 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#12 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#13 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#14 C:\xampp\htdocs\Yii_portal\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#15 C:\xampp\htdocs\Yii_portal\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#16 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(292): CFilterChain->run()
+#17 C:\xampp\htdocs\Yii_portal\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(276): CController->run('add')
+#19 C:\xampp\htdocs\Yii_portal\framework\web\CWebApplication.php(135): CWebApplication->runController('connection/add')
+#20 C:\xampp\htdocs\Yii_portal\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#21 C:\xampp\htdocs\portal\index.php(13): CApplication->run()
+#22 {main}
+REQUEST_URI=/portal/index.php?r=connection/add
+HTTP_REFERER=http://localhost/portal/index.php?r=connection/add
+---

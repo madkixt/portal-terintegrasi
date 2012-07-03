@@ -125,15 +125,16 @@ class ConnectionController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage()
+	public function actionManage($id = null)
 	{
-		$model=new Connection('search');
+		$model = new Connection('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Connection']))
 			$model->attributes=$_GET['Connection'];
 
 		$this->render('manage',array(
 			'model'=>$model,
+			'id' => $id
 		));
 	}
 
