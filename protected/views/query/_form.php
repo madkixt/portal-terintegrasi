@@ -16,12 +16,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'isiQuery'); ?>
-		<?php echo $form->textArea($model,'isiQuery',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'isiQuery'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'databaseName'); ?>
 		<?php echo $form->textField($model,'databaseName',array('size'=>30,'maxlength'=>30)); ?>
 		<?php echo $form->error($model,'databaseName'); ?>

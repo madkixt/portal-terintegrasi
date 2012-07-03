@@ -61,7 +61,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			'class' => 'CQueryDataColumn',
 			'name' => 'judulQuery'
 		),
-		'isiQuery',
 		'databaseName',
 		'notes',
 		array(

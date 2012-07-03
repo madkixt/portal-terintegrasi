@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'tbl_query':
  * @property integer $queryID
  * @property string $judulQuery
- * @property string $isiQuery
  * @property string $databaseName
  * @property string $notes
  * @property string $creationDate
@@ -20,6 +19,7 @@
  * @property User $createdBy0
  * @property User $lastModifiedBy0
  * @property User $lastNotesEditor0
+ * @property Statement[] $statements
  * @property User[] $tblUsers
  */
 class Query extends BaseEntity
@@ -50,14 +50,14 @@ class Query extends BaseEntity
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('judulQuery, isiQuery, databaseName', 'required'),
-			array('createdBy, lastModifiedBy, lastNotesEditor', 'numerical', 'integerOnly'=>true),
+			array('judulQuery, databaseName', 'required'),
+			array('createdBy, lastModifiedBy, lastNotesEditor', 'numerical', 'integerOnly' => true),
 			array('judulQuery', 'length', 'max'=>50),
 			array('databaseName', 'length', 'max'=>30),
 			array('notes', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('queryID, judulQuery, isiQuery, databaseName, notes, creationDate, modifiedDate, notesModifiedDate, createdBy, lastModifiedBy, lastNotesEditor', 'safe', 'on'=>'search'),
+			array('queryID, judulQuery, databaseName, notes, creationDate, modifiedDate, notesModifiedDate, createdBy, lastModifiedBy, lastNotesEditor', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,6 +72,7 @@ class Query extends BaseEntity
 			'createdBy0' => array(self::BELONGS_TO, 'User', 'createdBy'),
 			'lastModifiedBy0' => array(self::BELONGS_TO, 'User', 'lastModifiedBy'),
 			'lastNotesEditor0' => array(self::BELONGS_TO, 'User', 'lastNotesEditor'),
+			'statements' => array(self::HAS_MANY, 'Statement', 'queryID'),
 			'tblUsers' => array(self::MANY_MANY, 'User', 'tbl_user_query(queryID, userID)'),
 		);
 	}
@@ -82,9 +83,8 @@ class Query extends BaseEntity
 	public function attributeLabels()
 	{
 		return array(
-			'queryID' => 'ID',
+			'queryID' => 'Query',
 			'judulQuery' => 'Judul Query',
-			'isiQuery' => 'Isi Query',
 			'databaseName' => 'Database Name',
 			'notes' => 'Notes',
 			'creationDate' => 'Creation Date',
@@ -109,7 +109,7 @@ class Query extends BaseEntity
 			$id = Yii::app()->user->id;
 		
 		$criteria=new CDbCriteria;
-		$criteria->with = array('createdBy0', 'lastModifiedBy0', 'lastNotesEditor0');
+		$criteria->with = array('statements', 'createdBy0', 'lastModifiedBy0', 'lastNotesEditor0');
 		
 		if ($id != null) {
 			$criteria->with['tblUsers'] = array(
@@ -124,7 +124,6 @@ class Query extends BaseEntity
 		
 		$criteria->compare('queryID',$this->queryID);
 		$criteria->compare('judulQuery',$this->judulQuery,true);
-		$criteria->compare('isiQuery',$this->isiQuery,true);
 		$criteria->compare('databaseName',$this->databaseName,true);
 		$criteria->compare('notes',$this->notes,true);
 		$criteria->compare('creationDate',$this->creationDate,true);

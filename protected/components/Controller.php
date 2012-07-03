@@ -21,6 +21,8 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
 	
+	public $defaultAction = 'manage';
+	
 	public function filterAdmin($filterChain) {
 		if (!Yii::app()->user->getState('admin')) {
 			throw new CHttpException(403, "You are not authorized to view this page.");
