@@ -118,6 +118,8 @@ class SiteController extends Controller
 		}
 		$model = new ExecForm;
 //		$model->loadModel();
+	//	$queryID = $this->loadModel($id);
+	//	$model->queryID=Query::model()->findByPk($id);
 		
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
@@ -137,6 +139,19 @@ class SiteController extends Controller
 		// display the exec form
 		$this->render('exec',array('model' => $model));
 	}	
+	
+	public function actionDinamik()
+	{
+		echo 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz';
+		$satu='';
+		$data = Query::model()->getDatabaseBy($_POST['queryID']);
+		
+		foreach($data as $value => $name) {
+			$satu.=CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
+			echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
+		}
+	}
+	
 	
 
 	/**
