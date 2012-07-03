@@ -15,7 +15,8 @@ class QueryController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin + delete'
+			'admin + delete',
+			'accessID + view edit'
 		);
 	}
 
@@ -129,9 +130,11 @@ class QueryController extends Controller
 	{
 		if (($id != null) && !Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->id))
 			throw new CHttpException(403, 'You are not authorized to view this page.');
-		
+			
+		if ($id == null && !Yii::app()->user->getState('admin'))
+			$id = Yii::app()->user->id;
+			
 		$model = new Query('search');
-		
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Query']))
 			$model->attributes = $_GET['Query'];
@@ -143,7 +146,8 @@ class QueryController extends Controller
 		$this->render('manage',array(
 			'model'=>$model,
 			'id' => $id,
-			'username' => $username
+			'username' => $username,
+			'template' => $this->getVisibleButtons($id)
 		));
 	}
 
@@ -173,6 +177,29 @@ class QueryController extends Controller
 		}
 	}
 	
+	/* Checks whether the current user can access the query specified by $id */
+	public function filterAccessID($filterChain) {
+		if (Yii::app()->user->getState('admin')) {
+			$filterChain->run();
+			return;
+		}
+		
+		if (!isset($_GET['id'])) {
+			$filterChain->run();
+			return;
+		}
+		
+		if (!Yii::app()->db->createCommand()
+			->select('*')
+			->from('tbl_user_query')
+			->where('queryID = :queryID AND userID = :userID', array(':queryID' => $_GET['id'], ':userID' => Yii::app()->user->id))
+			->queryRow())
+			throw new CHttpException(403, 'You are not authorized to view this page.');
+		
+		$filterChain->run();
+	}
+	
+	/* Returns the template of visible buttons for the user specified by $id */
 	public function getVisibleButtons($id) {
 		if (Yii::app()->user->getState('admin')) {
 			if (($id != null) && (($user = User::model()->findByPk($id)) != null) && !$user->admin)

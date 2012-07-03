@@ -30,7 +30,7 @@
 			'items'=>array(
 				array('label'=>'Home', 'url'=>array(Yii::app()->user->isGuest ? '/site/index' : '/site')),
 				array('label'=>'Query', 'url'=>array('/query/manage'), 'visible' => !Yii::app()->user->isGuest),
-				array('label'=>'Connection', 'url'=>array('/connection/manage'), 'visible' => (!Yii::app()->user->isGuest && Yii::app()->user->getState('admin'))),
+				array('label'=>'Connection', 'url'=>array('/connection/manage'), 'visible' => !Yii::app()->user->isGuest),
 				array('label'=>'User', 'url'=>array('/user/manage'), 'visible' => (!Yii::app()->user->isGuest && Yii::app()->user->getState('admin'))),
 				array('label' => 'Profile', 'url' => array('user/view', 'id' => Yii::app()->user->getId()), 'visible' => !Yii::app()->user->isGuest),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),

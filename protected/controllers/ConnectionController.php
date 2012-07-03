@@ -15,7 +15,8 @@ class ConnectionController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin'
+			'admin - manage, view',
+			'accessID + view'
 		);
 	}
 
@@ -127,8 +128,15 @@ class ConnectionController extends Controller
 	 */
 	public function actionManage($id = null)
 	{
+		if (($id != null) && !Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->id))
+			throw new CHttpException(403, 'You are not authorized to view this page.');
+		
+		if ($id == null && !Yii::app()->user->getState('admin'))
+			$id = Yii::app()->user->id;
+		
 		$model = new Connection('search');
 		$model->unsetAttributes();  // clear any default values
+		
 		if(isset($_GET['Connection']))
 			$model->attributes=$_GET['Connection'];
 
@@ -139,7 +147,8 @@ class ConnectionController extends Controller
 		$this->render('manage',array(
 			'model'=> $model,
 			'id' => $id,
-			'username' => $username
+			'username' => $username,
+			'template' => $this->getVisibleButtons($id)
 		));
 	}
 
@@ -167,5 +176,39 @@ class ConnectionController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	/* Checks whether the current user can access the Connection specified by $id */
+	public function filterAccessID($filterChain) {
+		if (Yii::app()->user->getState('admin')) {
+			$filterChain->run();
+			return;
+		}
+		
+		if (!isset($_GET['id'])) {
+			$filterChain->run();
+			return;
+		}
+		
+		if (!Yii::app()->db->createCommand()
+			->select('*')
+			->from('tbl_user_connection')
+			->where('connectionID = :connectionID AND userID = :userID', array(':connectionID' => $_GET['id'], ':userID' => Yii::app()->user->id))
+			->queryRow())
+			throw new CHttpException(403, 'You are not authorized to view this page.');
+		
+		$filterChain->run();
+	}
+	
+	/* Returns the template of visible buttons for the user specified by $id */
+	public function getVisibleButtons($id) {
+		if (Yii::app()->user->getState('admin')) {
+			if (($id != null) && (($user = User::model()->findByPk($id)) != null) && !$user->admin)
+				return '{view} {update} {remove} {delete}';
+			
+			return '{view} {update} {delete}';
+		}
+		
+		return '{view} {remove}';
 	}
 }

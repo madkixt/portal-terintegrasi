@@ -138,11 +138,11 @@ class User extends BaseEntity
 		$criteria->together = true;
 
 		$criteria->compare('t.userID',$this->userID);
-		$criteria->compare('admin', $this->array_search_ci($this->admin, $this->userRoles));
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('creationDate',$this->creationDate,true);
-		$criteria->compare('modifiedDate',$this->modifiedDate,true);
+		$criteria->compare('t.admin', $this->array_search_ci($this->admin, $this->userRoles));
+		$criteria->compare('t.username',$this->username,true);
+		$criteria->compare('t.description',$this->description,true);
+		$criteria->compare('t.creationDate',$this->creationDate,true);
+		$criteria->compare('t.modifiedDate',$this->modifiedDate,true);
 		$criteria->compare('createdBy0.username', $this->createdBy, true);
 		$criteria->compare('lastModifiedBy0.username', $this->lastModifiedBy, true);
 		
@@ -161,20 +161,10 @@ class User extends BaseEntity
 		if($this->hasEventHandler('onAfterSave'))
 			$this->onAfterSave(new CEvent($this));
 		
-		if ($this->admin) {
+		if ($this->admin && $this->isNewRecord) {
 			$this->adminAssignQueries();
 			$this->adminAssignConnections();
 		}
-	}
-	
-	/* Assigns the Query specified by $queryID to this user */
-	public function assignQuery($queryID) {
-		Yii::app()->db->createCommand()->insert('tbl_user_query', array('userID' => $this->userID, 'queryID' => $queryID));
-	}
-	
-	/* Assigns the Connection specified by $connectionID to this user */
-	public function assignConnection($connectionID) {
-		Yii::app()->db->createCommand()->insert('tbl_user_connection', array('userID' => $this->userID, 'connectionID' => $connectionID));
 	}
 	
 	/* Assigns all existing Queries to the newly inserted admin */
@@ -201,6 +191,16 @@ class User extends BaseEntity
 			$cmd->bindValue(':connectionID', $connection->connectionID, PDO::PARAM_INT);
 			$cmd->execute();
 		}
+	}
+	
+	/* Assigns the Query specified by $queryID to this user */
+	public function assignQuery($queryID) {
+		Yii::app()->db->createCommand()->insert('tbl_user_query', array('userID' => $this->userID, 'queryID' => $queryID));
+	}
+	
+	/* Assigns the Connection specified by $connectionID to this user */
+	public function assignConnection($connectionID) {
+		Yii::app()->db->createCommand()->insert('tbl_user_connection', array('userID' => $this->userID, 'connectionID' => $connectionID));
 	}
 	
 	/* Encrypts password with md5 */
@@ -261,5 +261,17 @@ class User extends BaseEntity
 			->where('connectionID NOT IN (SELECT connectionID FROM tbl_user_connection WHERE userID = :userID)', array(':userID' => $this->userID))
 			->order(array('IPAddress', 'username'))
 			->queryAll();
+	}
+	
+	/* Unassigns the Query specified by $id from this user */
+	public function removeQuery($id) {
+		Yii::app()->db->createCommand()
+			->delete('tbl_user_query', 'userID = :userID AND queryID = :queryID', array(':userID' => $this->userID, ':queryID' => $id));
+	}
+	
+	/* Unassigns the Connection specified by $id from this user */
+	public function removeConnection($id) {
+		Yii::app()->db->createCommand()
+			->delete('tbl_user_connection', 'userID = :userID AND connectionID = :connectionID', array(':userID' => $this->userID, ':connectionID' => $id));
 	}
 }

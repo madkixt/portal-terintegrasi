@@ -37,8 +37,7 @@ class Query extends BaseEntity
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName() {
 		return 'tbl_query';
 	}
 
@@ -83,7 +82,7 @@ class Query extends BaseEntity
 	public function attributeLabels()
 	{
 		return array(
-			'queryID' => 'Query',
+			'queryID' => 'ID',
 			'judulQuery' => 'Judul Query',
 			'databaseName' => 'Database Name',
 			'notes' => 'Notes',
@@ -105,9 +104,6 @@ class Query extends BaseEntity
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		if (!Yii::app()->user->getState('admin'))
-			$id = Yii::app()->user->id;
-		
 		$criteria=new CDbCriteria;
 		$criteria->with = array('statements', 'createdBy0', 'lastModifiedBy0', 'lastNotesEditor0');
 		

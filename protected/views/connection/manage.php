@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Add Connection', 'url'=>array('add'))
+	array('label'=>'Add Connection', 'url'=>array('add'), 'visible' => Yii::app()->user->getState('admin'))
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -45,6 +45,33 @@ $('.search-form form').submit(function(){
 		'description',
 		array(
 			'class'=>'CButtonColumn',
-		),
+			'template' => $template,
+			'buttons' => array(
+				'remove' => array(
+					'label' => 'Remove',
+					'imageUrl' => Yii::app()->request->baseUrl . '/images/buttons/remove.png',
+					'url' => 'Yii::app()->createUrl(\'user/removeConnection\', array(\'id\' => ' . $id . ', \'cid\' => $data["connectionID"]))',
+					'click' => 
+'function() {
+	if(!confirm("Are you sure you want to remove this item?")) return false;
+	var th = this;
+	var afterUpdate = function(){};
+	$.fn.yiiGridView.update("connection-grid", {
+		type:"POST",
+		url:$(this).attr("href"),
+		success:function(data) {
+			$.fn.yiiGridView.update("connection-grid");
+			afterUpdate(th,true);
+		},
+		error:function(XHR) {
+			return afterUpdate(th,false,XHR);
+		}
+	});
+	return false;
+}'
+				),
+			),
+			'htmlOptions' => array('width' => '75px')
+		)
 	),
 )); ?>
