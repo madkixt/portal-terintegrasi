@@ -43,8 +43,12 @@ $('.search-form form').submit(function(){
 			'class' => 'CDataColumn',
 			'name' => 'admin',
 			'value' => 'User::model()->userRoles[$data["admin"]]',
+			'htmlOptions' => array('width' => '80px')
 		),
-		'username',
+		array(
+			'name' => 'username',
+			'htmlOptions' => array('width' => '150px')
+		),
 		'description',
 		array(
 			'class'=>'CButtonColumn',

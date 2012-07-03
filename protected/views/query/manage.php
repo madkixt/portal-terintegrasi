@@ -44,16 +44,38 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			'class' => 'CQueryDataColumn',
 			'name' => 'judulQuery'
 		),
-		'databaseName',
+		array(
+			'name' => 'databaseName',
+			'htmlOptions' => array('width' => '100px')
+		),
 		'notes',
 		array(
 			'class'=>'CButtonColumn',
-			'template' => $this->getVisibleButtons($id),
+			'template' => $template,
 			'buttons' => array(
 				'remove' => array(
 					'label' => 'Remove',
-					'imageUrl' => Yii::app()->request->baseUrl . '/images/buttons/remove.png'
-				)
+					'imageUrl' => Yii::app()->request->baseUrl . '/images/buttons/remove.png',
+					'url' => 'Yii::app()->createUrl(\'user/removeQuery\', array(\'id\' => ' . $id . ', \'qid\' => $data["queryID"]))',
+					'click' => 
+'function() {
+	if(!confirm("Are you sure you want to remove this item?")) return false;
+	var th = this;
+	var afterUpdate = function(){};
+	$.fn.yiiGridView.update("query-grid", {
+		type:"POST",
+		url:$(this).attr("href"),
+		success:function(data) {
+			$.fn.yiiGridView.update("query-grid");
+			afterUpdate(th,true);
+		},
+		error:function(XHR) {
+			return afterUpdate(th,false,XHR);
+		}
+	});
+	return false;
+}'
+				),
 			),
 			'htmlOptions' => array('width' => '75px')
 		)

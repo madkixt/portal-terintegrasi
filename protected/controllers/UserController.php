@@ -16,7 +16,8 @@ class UserController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			'admin - view, edit',
-			'admin2 + edit, delete'
+			'accessID + view, edit',
+			'admin2 + edit, delete',
 		);
 	}
 
@@ -223,6 +224,28 @@ class UserController extends Controller
 		$this->render('assignConnection', array('user' => $user, 'model' => $model));
 	}
 	
+	public function actionRemoveQuery($id, $qid) {
+		if (!isset($_GET['ajax']) || !Yii::app()->request->isPostRequest)
+			throw new CHttpException(400, 'Bad request.');
+		
+		$user = $this->loadModel($id);
+		if ($user->admin)
+			throw new CHttpException(400, 'Bad request.');
+		
+		$user->removeQuery($qid);
+	}
+	
+	public function actionRemoveConnection($id, $cid) {
+		if (!isset($_GET['ajax']) || !Yii::app()->request->isPostRequest)
+			throw new CHttpException(400, 'Bad request.');
+		
+		$user = $this->loadModel($id);
+		if ($user->admin)
+			throw new CHttpException(400, 'Bad request.');
+			
+		$user->removeConnection($cid);
+	}
+	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -258,6 +281,24 @@ class UserController extends Controller
 			else if (Yii::app()->controller->action->id == 'delete')
 				throw new CHttpException(403, "You are not authorized to do this action.");
 		}
+		
+		$filterChain->run();
+	}
+	
+	/* Checks whether the current user can access the User specified by $id */
+	public function filterAccessID($filterChain) {
+		if (Yii::app()->user->getState('admin')) {
+			$filterChain->run();
+			return;
+		}
+		
+		if (!isset($_GET['id'])) {
+			$filterChain->run();
+			return;
+		}
+		
+		if (Yii::app()->user->id !== $_GET['id'])
+			throw new CHttpException(403, 'You are not authorized to view this page.');
 		
 		$filterChain->run();
 	}

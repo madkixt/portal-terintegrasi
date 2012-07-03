@@ -105,9 +105,6 @@ class Connection extends BaseEntity
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		if (!Yii::app()->user->getState('admin'))
-			$id = Yii::app()->user->id;
-		
 		$criteria=new CDbCriteria;
 		$criteria->with = array('createdBy0', 'lastModifiedBy0');
 		
