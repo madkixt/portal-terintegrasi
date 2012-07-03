@@ -132,9 +132,14 @@ class ConnectionController extends Controller
 		if(isset($_GET['Connection']))
 			$model->attributes=$_GET['Connection'];
 
+		$username = null;
+		if ($id != null)
+			$username = User::model()->findByPk($id)->username;	
+			
 		$this->render('manage',array(
-			'model'=>$model,
-			'id' => $id
+			'model'=> $model,
+			'id' => $id,
+			'username' => $username
 		));
 	}
 

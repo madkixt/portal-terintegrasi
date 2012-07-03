@@ -167,6 +167,16 @@ class User extends BaseEntity
 		}
 	}
 	
+	/* Assigns the Query specified by $queryID to this user */
+	public function assignQuery($queryID) {
+		Yii::app()->db->createCommand()->insert('tbl_user_query', array('userID' => $this->userID, 'queryID' => $queryID));
+	}
+	
+	/* Assigns the Connection specified by $connectionID to this user */
+	public function assignConnection($connectionID) {
+		Yii::app()->db->createCommand()->insert('tbl_user_connection', array('userID' => $this->userID, 'connectionID' => $connectionID));
+	}
+	
 	/* Assigns all existing Queries to the newly inserted admin */
 	public function adminAssignQueries() {
 		$queries = Query::model()->findAll();
@@ -239,6 +249,7 @@ class User extends BaseEntity
 			->select('queryID, judulQuery')
 			->from('tbl_query')
 			->where('queryID NOT IN (SELECT queryID FROM tbl_user_query WHERE userID = :userID)', array(':userID' => $this->userID))
+			->order('judulQuery')
 			->queryAll();
 	}
 	
@@ -248,6 +259,7 @@ class User extends BaseEntity
 			->select('connectionID, IPAddress, username')
 			->from('tbl_connection')
 			->where('connectionID NOT IN (SELECT connectionID FROM tbl_user_connection WHERE userID = :userID)', array(':userID' => $this->userID))
+			->order(array('IPAddress', 'username'))
 			->queryAll();
 	}
 }
