@@ -23,4 +23,4 @@ if (Yii::app()->user->getState('admin')) {
 
 <h1>Edit Query <?php echo $model->judulQuery; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model, 'statements' => $statements)); ?>

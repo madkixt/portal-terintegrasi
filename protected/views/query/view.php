@@ -49,4 +49,25 @@ if (Yii::app()->user->getState('admin')) {
 		)
 	),
 	'nullDisplay' => ''
-)); ?>
+)); 
+
+$this->widget('zii.widgets.grid.CGridView', array(
+	'id' => 'statement-grid',
+	'dataProvider' => new CActiveDataProvider('Statement', array(
+		'criteria' => array(
+			'condition' => 'queryID = :queryID',
+			'params' => (array(':queryID' => $model->queryID))
+		),
+		'pagination' => false
+	)),
+	'columns' => array(
+		array(
+			'name' => 'queryNum',
+			'htmlOptions' => array(
+				'width' => '50px'
+			)
+		),
+		'queryStatement'
+	)
+)); 
+?>

@@ -66,8 +66,8 @@ class Statement extends CActiveRecord
 	{
 		return array(
 			'queryID' => 'Query',
-			'queryNum' => 'Query Num',
-			'queryStatement' => 'Query Statement',
+			'queryNum' => 'Query #',
+			'queryStatement' => 'Statement',
 		);
 	}
 

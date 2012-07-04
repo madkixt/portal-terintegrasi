@@ -51,20 +51,26 @@ class QueryController extends Controller
 	 */
 	public function actionAdd()
 	{
-		$model=new Query;
-
+		$model = new Query;
+		$statements = null;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Query']))
-		{
-			$model->attributes=$_POST['Query'];
-			if($model->save())
+		if(isset($_POST['Query'])) {
+			$statements = $_POST['statement'];
+			if ($this->isAnyEmpty($statements))
+				$model->addError('', 'All statements must not be blank.');
+				
+			$model->attributes = $_POST['Query'];
+			if ($model->validate(null, false) && $model->save(false)) {
+				$model->insertStatements($statements);
 				$this->redirect(array('view', 'id' => $model->queryID));
+			}
 		}
 
-		$this->render('add',array(
-			'model'=>$model,
+		$this->render('add', array(
+			'model' => $model,
+			'statements' => $statements
 		));
 	}
 
@@ -75,20 +81,28 @@ class QueryController extends Controller
 	 */
 	public function actionEdit($id)
 	{
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Query']))
-		{
+		if(isset($_POST['Query'])) {
+			$statements = $_POST['statement'];
+			if ($this->isAnyEmpty($statements))
+				$model->addError('', 'All statements must not be blank.');
+		
 			$model->attributes=$_POST['Query'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->queryID));
+			if ($model->validate(null, false) && $model->save(false)) {
+				$model->editStatements($statements);
+				$this->redirect(array('view', 'id' => $model->queryID));
+			}
+		} else {
+			$statements = $model->loadStatements();
 		}
 
-		$this->render('edit',array(
-			'model'=>$model,
+		$this->render('edit', array(
+			'model' => $model,
+			'statements' => $statements
 		));
 	}
 
@@ -209,5 +223,15 @@ class QueryController extends Controller
 		}
 		
 		return '{view} {update} {remove}';
+	}
+	
+	/* Checks whether the given statements are all empty */
+	public function isAnyEmpty($statements) {
+		foreach ($statements as $statement) {
+			if (preg_replace('/\s+/', '', $statement) === '')
+				return true;
+		}
+		
+		return false;
 	}
 }
