@@ -17,7 +17,7 @@ class UserController extends Controller
 			'accessControl', // perform access control for CRUD operations
 			'admin - view, edit',
 			'accessID + view, edit',
-			'admin2 + edit, delete',
+			'selfAdmin + edit, delete',
 		);
 	}
 
@@ -51,8 +51,11 @@ class UserController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView($id = null)
 	{
+		if ($id == null)
+			$id = Yii::app()->user->id;
+		
 		if (!Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->getId()))
 			throw new CHttpException(403, "You are not authorized to view this page.");
 		
@@ -75,8 +78,8 @@ class UserController extends Controller
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->userID));
+			if ($model->save())
+				$this->redirect(array('view', 'id' => $model->userID));
 		}
 
 		$this->render('add',array(
@@ -89,8 +92,11 @@ class UserController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionEdit($id)
+	public function actionEdit($id = null)
 	{
+		if ($id == null)
+			$id = Yii::app()->user->id;
+		
 		if (!Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->getId()))
 			throw new CHttpException(403, "You are not authorized to view this page.");
 			
@@ -272,7 +278,12 @@ class UserController extends Controller
 		}
 	}
 	
-	public function filterAdmin2($filterChain) {
+	public function filterSelfAdmin($filterChain) {
+		if (!isset($_GET['id'])) {
+			$filterChain->run();
+			return;
+		}
+		
 		$user = User::model()->findByPk($_GET['id']);
 		
 		if ($user->admin && (Yii::app()->user->getId() !== $user->userID)) {
