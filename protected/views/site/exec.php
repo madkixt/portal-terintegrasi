@@ -14,36 +14,31 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 		<?php echo $form->labelEx($model,'queryID'); ?>
 		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
 		array(
-		
+			'empty'=>'Pilih Judul',
 			'ajax' => array(
 				'type'=>'POST',
-				'dataType'=>'json',
-				'url'=> CController::createUrl('/site/dinamik'),
+				'url'=> CController::createUrl('dinamik'),
 				'data'=>'js:"queryID="+jQuery(this).val()',
 			//	'data'=>array('queryID'=>'js:this.value'),
 				//'data'=>"js:{queryID:$(this).val()}",
-			//	'update'=>'#databasee',
-				'success'=>'function(data) {
-					$("#databasee").html(data.satu);
-				}',
+				'update'=>'#database',
 			))); ?>
 		<?php echo $form->error($model,'queryID'); ?>
 	</div>
-		
+
+	<div class="row">
+		<div id = "x">
+		<?php echo $form->labelEx($model,'database'); ?>
+		<?php echo $form->dropDownList($model,'database',array(), array('id' => 'database')); ?>
+		<?php echo $form->error($model,'database'); ?>
+		</div>
+	</div>
+
 	<div class="row">
 		<?php echo $form->labelEx($model,'connection'); ?>
 		<?php echo $form->dropDownList($model,'connection', $model->getConnection()); ?>
 		<?php echo $form->error($model,'connection'); ?>
 	</div>
-	
-	<div class="row">
-		<div id = "databasee">
-		<?php echo $form->labelEx($model,'database'); ?>
-		<?php echo $form->dropDownList($model,'database',$model->getDatabaseBy($model->queryID), array('id'=>'queryID')); ?>
-		<?php echo $form->error($model,'database'); ?>
-		</div>
-	</div>
-
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'isiQuery'); ?>
