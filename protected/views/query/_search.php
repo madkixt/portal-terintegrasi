@@ -26,6 +26,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'queryString'); ?>
+		<?php echo $form->textArea($model,'queryString',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
+	
+	<div class="row">
 		<?php echo $form->label($model,'creationDate'); ?>
 		<?php echo $form->textField($model,'creationDate'); ?>
 	</div>

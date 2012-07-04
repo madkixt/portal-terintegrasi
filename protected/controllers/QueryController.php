@@ -167,6 +167,17 @@ class QueryController extends Controller
 		));
 	}
 
+	public function actionTest() {
+		$th = new TextHelper;
+		$dp = new CSqlDataProvider('SELECT userID, username, password, description FROM tbl_user');
+		$dp->keyField = 'queryID';
+		$dp->pagination = false;
+		$lengths = $th->maxLengths($dp);
+		
+		$th->write($th->toText($dp));
+		
+	}
+	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
