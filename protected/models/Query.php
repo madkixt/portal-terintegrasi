@@ -24,6 +24,8 @@
  */
 class Query extends BaseEntity
 {
+	public $queryString;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -56,7 +58,7 @@ class Query extends BaseEntity
 			array('notes', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('queryID, judulQuery, databaseName, notes, creationDate, modifiedDate, notesModifiedDate, createdBy, lastModifiedBy, lastNotesEditor', 'safe', 'on'=>'search'),
+			array('queryID, judulQuery, databaseName, notes, creationDate, modifiedDate, notesModifiedDate, createdBy, lastModifiedBy, lastNotesEditor, queryString', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -92,6 +94,7 @@ class Query extends BaseEntity
 			'createdBy' => 'Created By',
 			'lastModifiedBy' => 'Last Modified By',
 			'lastNotesEditor' => 'Last Notes Editor',
+			'queryString' => 'Query'
 		);
 	}
 
@@ -105,10 +108,11 @@ class Query extends BaseEntity
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->with = array('statements', 'createdBy0', 'lastModifiedBy0', 'lastNotesEditor0');
+		$criteria->with = array('createdBy0', 'lastModifiedBy0', 'lastNotesEditor0', 'statements');
 		
 		if ($id != null) {
 			$criteria->with['tblUsers'] = array(
+				'select' => 'tblUsers.username',
 				'condition' => 'tblUsers.userID = :userID',
 				'params' => array(
 					':userID' => $id
@@ -128,6 +132,7 @@ class Query extends BaseEntity
 		$criteria->compare('createdBy0.username', $this->createdBy, true);
 		$criteria->compare('lastModifiedBy0.username', $this->lastModifiedBy, true);
 		$criteria->compare('lastNotesEditor0.username', $this->lastNotesEditor, true);
+		$criteria->compare('statements.queryStatement', $this->queryString, true);
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -149,6 +154,15 @@ class Query extends BaseEntity
 		if (null == $user)
 			return null;
 		return $user->username;
+	}
+	
+	public function getFullQuery($withBr = true) {
+		$st = '';
+		foreach ($this->statements as $statement) {
+			$st .= $statement->queryStatement.';';
+			if ($withBr) $st .= '<br />';
+		}
+		return $st;
 	}
 	
 	protected function afterSave()
