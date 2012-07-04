@@ -88,7 +88,9 @@ class QueryController extends Controller
 
 		if(isset($_POST['Query'])) {
 			$statements = $_POST['statement'];
-			if ($this->isAnyEmpty($statements))
+			if (count($statements) === 0)
+				$model->addError('', 'There must be at least one statement.');
+			else if ($this->isAnyEmpty($statements))
 				$model->addError('', 'All statements must not be blank.');
 		
 			$model->attributes=$_POST['Query'];
