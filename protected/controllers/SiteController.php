@@ -126,7 +126,7 @@ class SiteController extends Controller
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
-		}
+		} 
 		// collect user input data
 		if(isset($_POST['ExecForm']))
 		{
@@ -140,16 +140,22 @@ class SiteController extends Controller
 		$this->render('exec',array('model' => $model));
 	}	
 	
+	
 	public function actionDinamik()
 	{
-		echo 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz';
-		$satu='';
-		$data = Query::model()->getDatabaseBy($_POST['queryID']);
+		//echo 'zzz';
+	//	echo $_POST['queryID'];
+		//$model=Query::model()->findByPkfindByPk($_POST['queryID']);
+	//	echo CHtml::dropDownList($model,'database', CHtml::listData(Query::model()->findByPk(4), 'queryID','databaseName'));
+		$data = Query::model()->findByPk($_POST['queryID']);
+//		$data = Query::model()->findByPk($_POST['queryID'])->database;
+	//		$data = Location::model()->findAll('parentID=:parentID',array(':parentID'=>(int)$_POST['Current-Controller']['queryID']));
+	
 		
-		foreach($data as $value => $name) {
-			$satu.=CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
-			echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
-		}
+			echo CHtml::tag('option', array('value'=>$data->queryID), CHtml::encode($data->databaseName), true);
+		
+		//return;
+		
 	}
 	
 	

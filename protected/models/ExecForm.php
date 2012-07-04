@@ -61,7 +61,7 @@ class ExecForm extends CFormModel
 	/*	$db = Query::model()->findByPk('queryID=:queryID order by databaseName', array('queryID'=>$queryID)); */
 		$db[] = Query::model()->findByPk($queryID);
 		$dbArray = CHtml::listData($db, 'queryID','databaseName');
-		print_r($db);
+		//print_r($db);
 		
 		return $dbArray;
 		
