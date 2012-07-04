@@ -10,29 +10,42 @@
 	<?php echo $form->errorSummary($model); ?>
 
 <?php
-$curStatement = 0;
-
 Yii::app()->clientScript->registerScript('adder', "
 $('#addStatement').bind('click', function() {
 	var extraDiv = $('#statement');
-	var inputs = $('#statement textarea');
+	var inputs = $('div[id^=\"single\"] textarea');
 	
 	extraDiv.html('');
-	var i = 1;
 	
+	// Add the first statement
+	extraDiv.html(extraDiv.html() + '<div id=\'single1\'><strong>Statement 1</strong><br /><textarea rows=\'8\' cols=\'40\' name=\'statement[1]\'>' + inputs[0].value + '</textarea></div>');
+	
+	var i = 2;
+	// Add the remaining statements
 	for (; i <= inputs.length; i++) {
-		extraDiv.html(extraDiv.html() + 
-			'<strong>Statement ' + i + '</strong><br /><textarea name=\'statement[' + i + ']\' rows=\'8\' cols=\'40\'>' + inputs[i-1].value + '</textarea><br />'
-		);
+		extraDiv.html(extraDiv.html() + '<div id=\'single' + i + '\'><strong>Statement ' + i + '</strong><br /><textarea name=\'statement[' + i + ']\' rows=\'8\' cols=\'40\'>' + inputs[i-1].value + '</textarea><br /><a href=\'#\' id=\'remove' + i + '\'>Remove</a></div>');
 	}
 	
-	extraDiv.html(extraDiv.html() + 
-		'<strong>Statement ' + i + '</strong><br /><textarea name=\'statement[' + i + ']\' rows=\'8\' cols=\'40\'></textarea><br /><br />'
-	);
+	// Add the new statement
+	extraDiv.html(extraDiv.html() + '<div id=\'single' + i + '\'><strong>Statement ' + i + '</strong><br /><textarea name=\'statement[' + i + ']\' rows=\'8\' cols=\'40\'></textarea><br /><a href=\'#\' id=\'remove' + i + '\'>Remove</a></div>');
+	
+	var inputs = $('div[id^=\"single\"] textarea');
+	var i = 2;
+	for (; i <= inputs.length; i++) {
+		$('#remove' + i).bind('click', function() {
+			var j = Number($(this).attr('id').substr($(this).attr('id').length - 1, 1));
+			var num = $('div[id^=\"single\"]').length;
+			for (; j < num; j++) {
+				$('#single' + j + ' textarea').val($('#single' + (j + 1) + ' textarea').val());
+			}
+			$('#single' + num).remove();
+		});
+	}
 })
-"); ?>
+");	
+?>
 
-	<?php echo CHtml::link('Add statement','#',array('id'=>'addStatement')); ?>
+	<?php echo CHtml::link('Add statement', '#', array('id' => 'addStatement')); ?>
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'judulQuery'); ?>
@@ -52,14 +65,37 @@ $('#addStatement').bind('click', function() {
 if ($statements != null) {
 	foreach ($statements as $idx => $statement) {
 		?>
-		<strong>Statement <?php echo $idx ?></strong><br />
-		<textarea name='statement[<?php echo $idx ?>]' rows='8' cols='40'><?php echo $statement ?></textarea><br />
+		<div id='single<?php echo $idx ?>'>
+			<strong>Statement <?php echo $idx ?></strong><br />
+			<textarea name='statement[<?php echo $idx ?>]' rows='8' cols='40'><?php echo $statement ?></textarea><br />
+			<?php
+			if ($idx > 1) {
+				echo CHtml::link('Remove', '#', array('id' => 'remove'.$idx));
+			}
+			?>
+			<br />
+		</div>
 		<?php
 	}
+	
+Yii::app()->clientScript->registerScript('remover', "
+	$('a[id^=\"remove\"]').bind('click', function() {
+		var j = Number($(this).attr('id').substr($(this).attr('id').length - 1, 1));
+		var num = $('div[id^=\"single\"]').length;
+		for (; j < num; j++) {
+			$('#single' + j + ' textarea').val($('#single' + (j + 1) + ' textarea').val());
+		}
+		$('#single' + num).remove();
+	});
+");
+	
 } else { ?>
-		<strong>Statement 1</strong><br />
-		<textarea name='statement[1]' rows='8' cols='40'></textarea>
-<?php } ?>
+		<div id='single1'>
+			<strong>Statement 1</strong><br />
+			<textarea name='statement[1]' rows='8' cols='40'></textarea><br />
+		</div>
+		<?php
+} ?>
 
 	</div>
 	
