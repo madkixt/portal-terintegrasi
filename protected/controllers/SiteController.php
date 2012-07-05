@@ -158,7 +158,43 @@ class SiteController extends Controller
 		
 	}
 	
+	public function actionTest() {
+		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
+		$dsn = 'sqlsrv:server=WIBI-PC;database=AdventureWorks';
+		
+		$username = '';
+		$password = ''; //m4nd1r1db
+		// $sql = "select cardno, productid,  INTauthamount AS denom, renewalStatus, cardbalance, cardbalanceoncard , ModifiedOn, ModifiedBy from dbo.MPS_CardMaster with (nolock) where cardno in ('6032981019317189')";
+		$sql = "SELECT * FROM HumanResources.Employee";
+		
+		$con = new CDbConnection($dsn, $username, $password);
+		$con->active = true;
+		$cmd = $con->createCommand($sql);
+		$data = $cmd->queryAll();
+		
+		$dp = new CArrayDataProvider($data, array(
+			'pagination' => array(
+				'pageSize' => 1000
+			),
+			'keyField' => false
+		));
+		
+		Yii::app()->user->setState('result', $data);
+		$this->render('result', array('res' => $dp));
+	}
 	
+	public function actionDownload($type = 'xls') {
+		if (Yii::app()->user->getState('result') == null)
+			throw new CHttpException(403, 'No query result found.');
+			
+		if ($type === 'xls') {
+			$this->generateExcel();
+			return;
+		}
+		if ($type === 'txt') {
+			$this->generateText();
+		}
+	}
 
 	/**
 	 * Logs out the current user and redirect to homepage.
@@ -167,5 +203,49 @@ class SiteController extends Controller
 	{
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
+	}
+	
+	private function generateExcel() {
+		//GET DATA FROM PREVIOUS STATE
+		$dataprov = Yii::app()->user->getState('result');
+		
+		$tb = array();
+		$header = array();
+		foreach ($dataprov[0] as $property=>$value) {
+			$headr[] = $property;
+		}
+		
+		$tb[] = $headr;
+		foreach ($dataprov as $i)
+		{
+			$tb[] = $i;
+		}
+		
+		Yii::import('application.extensions.phpexcel.JPhpExcel');
+	    $xls = new JPhpExcel('UTF-8', false, 'test');
+    	$xls->addArray($tb);
+	    $xls->generateXML('export'); // bisa diganti dengan nama file sesuka hati
+	}
+	
+	private function generateText() {
+		$dataprov = Yii::app()->user->getState('result');
+		$th = new TextHelper;
+		
+		header("Content-Type: application/text");
+		header("Content-Disposition: inline; filename=\"export.txt\"");
+		
+		if (count($dataprov) <= $th->rowsPerWrite) {
+			echo $th->toText($dataprov);
+			return;
+		}
+		
+		$lengths = $th->maxLengths($dataprov);
+		
+		echo $th->headerText($dataprov, $lengths);
+		$iter = ceil(count($dataprov) / $th->rowsPerWrite);
+		for ($i = 0; $i < $iter; $i++) {
+			echo $th->partText($dataprov, $i, $lengths);
+		}
+		echo $th->line($lengths);
 	}
 }
