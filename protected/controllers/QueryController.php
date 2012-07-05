@@ -169,13 +169,28 @@ class QueryController extends Controller
 
 	public function actionTest() {
 		$th = new TextHelper;
-		$dp = new CSqlDataProvider('SELECT userID, username, password, description FROM tbl_user');
-		$dp->keyField = 'queryID';
-		$dp->pagination = false;
-		$lengths = $th->maxLengths($dp);
+		// $con = new CDbConnection('sqlsrv:server=WIBI-PC;database=AdventureWorks', '', '');
+		// $con->active = true;
+		// $cmd = $con->createCommand('SELECT * FROM Person.Person');
 		
-		$th->write($th->toText($dp));
+		// $dp = new CArrayDataProvider($cmd->queryAll());
+		// $dp->pagination = false;
 		
+		// $th->write($dp, 'D:/TextHelperTest.txt');
+		
+		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
+		$dsn = 'sqlsrv:server=WIBI-PC;database=AdventureWorks';
+		// $dsn = 'mysql:host=127.0.0.1;dbname=wdshop';t
+		$username = '';
+		$password = ''; //m4nd1r1db
+		// $sql = "select cardno, productid,  INTauthamount AS denom, renewalStatus, cardbalance, cardbalanceoncard , ModifiedOn, ModifiedBy from dbo.MPS_CardMaster with (nolock) where cardno in ('6032981019317189')";
+		$sql = "SELECT * FROM Person.Person";
+		$con = new CDbConnection($dsn, $username, $password);
+		$con->active = true;
+		$cmd = $con->createCommand($sql);
+		
+		$file = fopen('D:/test.txt', 'a');
+		fwrite($file, $th->partText($cmd->queryAll(), 1));
 	}
 	
 	/**
