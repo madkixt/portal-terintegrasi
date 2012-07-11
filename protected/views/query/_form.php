@@ -109,6 +109,31 @@ Yii::app()->clientScript->registerScript('remover', "
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Add Query' : 'Save'); ?>
 	</div>
+	
+ <script type="text/javascript">
+	$(document).ready(function(){
+		$('.form').submit(function(){
+			$('*').removeClass('error');
+			var error = 0;
+			for (var i=1; i<=  $('div[id^=\"single\"]').length; i++) 		  	{
+				var x = $('textarea[name="statement[' + i + ']"]');
+				x = x[0].value;
+				if (x == "") {
+					$('textarea[name="statement[' + i + ']"]').addClass('error');
+					error = 1;
+				}
+			}
+			if (error == 1) 
+			{ 
+				return false;
+			}
+			else  {return true;}
+		}); 
+	});
+</script>
+<style type="text/css"><!--
+.error { border:2px solid red; }
+--></style>
 
 <?php $this->endWidget(); ?>
 

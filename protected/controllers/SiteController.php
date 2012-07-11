@@ -112,10 +112,9 @@ class SiteController extends Controller
 	/**
 	 * Displays the execution page
 	 */
-	public function actionExec()
+	public function actionExec($id=null)
 	{
-		if (!isset($_GET['id'])) {
-		}
+		
 		$model = new ExecForm;		
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
@@ -136,7 +135,14 @@ class SiteController extends Controller
 		$this->render('exec',array('model' => $model,
 		'statements' => $statements
 		));
+		
+		if ($id != null) {
+		$_POST['queryID']= $id;
+			$this->actionDinamik();
+		}
 	}	
+	
+	
 	
 	public function actionDinamik()
 	{
@@ -151,8 +157,10 @@ class SiteController extends Controller
 		
 		
 		$tarea = CHtml::textArea('isiquery1','',array('id'=>'isiquery', 'cols'=>60,'rows'=>5, 'readonly'=>"readonly" ));
-		echo "database";
-		$stt = CHtml::textField('database', $data->databaseName);
+		echo "  database";
+		$stt = "<td width='30px'>";
+		$stt .= CHtml::textField('database', $data->databaseName);
+		$stt .= "</td>";
 		$stt .= CHtml::tag('br');
 		$stt .= CHtml::tag('br');
 		echo CHtml::tag('div', array('id' => 'database'), $stt);
@@ -186,6 +194,11 @@ class SiteController extends Controller
 		echo CHtml::tag('br');
 		echo $tarea;
 	}
+	
+	public function actionBuatkoneksibaru ()
+	{
+		echo "hahahhahahhahahhaahh";
+	}		
 		
 	public function actionTest() {
 		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
@@ -274,12 +287,14 @@ class SiteController extends Controller
 			echo $th->partText($data, $i, $lengths);
 		}
 	}
+	
 }
  
 ?>
 
 <script type="text/javascript">
-    function coba(chk){
+   
+	function coba(chk){
 		var id = chk.id.substr(chk.id.length-1);
 		if (chk.checked) {
 			splitQuery(id);

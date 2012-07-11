@@ -11,40 +11,89 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 )); ?>
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 	
+	
 	<div class="row">
-		<?php echo $form->labelEx($model,'connection'); ?>
-		<?php echo $form->dropDownList($model,'connection', $model->getConnection()); ?>
-		<?php echo $form->error($model,'connection'); ?>
+	<table>
+		<tr>
+			<td>
+				<div id = "koneksi">
+					<?php echo $form->labelEx($model,'connection'); ?>
+					<?php echo $form->dropDownList($model,'connection', $model->getConnection(), array ('id'=>'connection', 
+					'onchange'=>'javascript: TambahTextField();'
+					)); ?>
+					<?php echo $form->error($model,'connection'); ?>
+				</div> 
+			</td>
+			<td>
+				<br />
+				<div id = "koneksibaru">	
+				</div> 
+			</td> 
+		</tr>
+	</table>
 	</div>
 	
-	
 	<div class="row">
+		<table>
+			<tr>
+			<td>
 		<?php echo $form->labelEx($model,'queryID'); ?>
 		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
 		array(
-			'empty'=>'Pilih Judul',
+			//'empty'=>'Pilih Judul',
 			'ajax' => array(
 				'type'=>'POST',
 				'url'=> CController::createUrl('dinamik'),
 				'data'=>'js:"queryID="+jQuery(this).val()',
 				'update'=>'#campur',
-				'onchange'=>'javascript: clearTextArea();'
+			//	'onchange'=>'javascript: clearTextArea();'
 			))
 						
 			); ?>
 		<?php echo $form->error($model,'queryID'); ?>
+		</td>
+			</tr>
+		</table>
 	</div>
 	
 <div id = "campur">	
 </div>
+
+
 	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Exec'); ?>
 	</div>
-
+<script type="text/javascript">
+	 function TambahTextField() {
+		$('#koneksibaru').empty();
+		var selected =  $("#connection option:selected").text();
+		if (selected == 'Buat Koneksi Baru') {
+			$('#koneksibaru').html($('#koneksibaru').html() + "IP : <input name='IP' type='text' size ='10' />      ");
+			$('#koneksibaru').html($('#koneksibaru').html() + "     Username : <input name='username' size = '10' type='text'/>");
+			$('#koneksibaru').html($('#koneksibaru').html() + "     Password : <input name='password' size = '10' type='password'/>");
+			}
+	}
+	
+	
+</script>
 
   <script type="text/javascript">
-	 $(document).ready(function(){
+	$(document).ready(function(){
+	var x=document.getElementById("connection");
+	var option=document.createElement("option");
+	option.text="Buat Koneksi Baru";
+	option.value = "koneksibaru";
+		try
+		{
+			x.add(option,x.options[null]);
+		}
+		catch (e)
+		{
+		x.add(option,null);
+		}
+
+	 
 	   $('.form').submit(function(){
 	   	if  ($('#enableediting').is(':checked')) {
 			return true;
