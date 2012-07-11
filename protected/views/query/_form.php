@@ -43,6 +43,7 @@ $('#addStatement').bind('click', function() {
 	}
 })
 ");	
+
 ?>
 
 	<?php echo CHtml::link('Add statement', '#', array('id' => 'addStatement')); ?>

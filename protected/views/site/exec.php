@@ -10,6 +10,14 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	'enableAjaxValidation' => true,
 )); ?>
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'connection'); ?>
+		<?php echo $form->dropDownList($model,'connection', $model->getConnection()); ?>
+		<?php echo $form->error($model,'connection'); ?>
+	</div>
+	
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'queryID'); ?>
 		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
@@ -19,37 +27,59 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 				'type'=>'POST',
 				'url'=> CController::createUrl('dinamik'),
 				'data'=>'js:"queryID="+jQuery(this).val()',
-			//	'data'=>array('queryID'=>'js:this.value'),
-				//'data'=>"js:{queryID:$(this).val()}",
-				'update'=>'#database',
-			))); ?>
+				'update'=>'#campur',
+				'onchange'=>'javascript: clearTextArea();'
+			))
+						
+			); ?>
 		<?php echo $form->error($model,'queryID'); ?>
 	</div>
-
-	<div class="row">
-		<div id = "x">
-		<?php echo $form->labelEx($model,'database'); ?>
-		<?php echo $form->dropDownList($model,'database',array(), array('id' => 'database')); ?>
-		<?php echo $form->error($model,'database'); ?>
-		</div>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'connection'); ?>
-		<?php echo $form->dropDownList($model,'connection', $model->getConnection()); ?>
-		<?php echo $form->error($model,'connection'); ?>
-	</div>
 	
-	<div class="row">
-		<?php echo $form->labelEx($model,'isiQuery'); ?>
-		<?php echo $form->textArea($model, 'isiQuery', array('cols'=>60,'rows'=>5)); ?>
-		<?php echo $form->error($model,'isiQuery'); ?>
-	</div>
+<div id = "campur">	
+</div>
 	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Exec'); ?>
 	</div>
 
+
+  <script type="text/javascript">
+	 $(document).ready(function(){
+	   $('.form').submit(function(){
+	   	if  ($('#enableediting').is(':checked')) {
+			return true;
+		}
+		else {
+			$('*').removeClass('error');
+		   var error = 0;
+			for(var i =1; i <= $('#campur textarea').length; i++) {
+				if  ($('#checkbox' + i).is(':checked')) {
+					var arr = parseVariable($('#statement' + i).text());
+					for (varname in arr) {
+						var x = $('input[name="vari'+i+ varname+'"]');
+						arr[varname] = x[0].value;
+						if (arr[varname] == "") {	
+							 $('input[name="vari'+i+ varname+'"]').addClass('error');
+							error = 1;	
+						}
+					}
+				} 
+			}
+		}
+		if (error == 1) 
+		{ alert('Please fill all fields with red border');
+		return false;
+		}
+		}); 
+	});
+</script>
+
+<style type="text/css"><!--
+.error { border:2px solid red; }
+--></style>
+
+	
 	
 <?php $this->endWidget(); ?>	
+
 </div><!-- form -->
