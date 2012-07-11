@@ -3,6 +3,7 @@
 class SiteController extends Controller
 {
 	public $defaultAction = 'exec';
+	public $filename = 'export';
 	
 	public function filters()
 	{
@@ -188,44 +189,44 @@ class SiteController extends Controller
 		
 	public function actionTest() {
 		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
+		// $username = 'sa';
+		// $password = 'm4nd1r1db';
 		$dsn = 'sqlsrv:server=WIBI-PC;database=AdventureWorks';
-		
 		$username = '';
-		$password = ''; //m4nd1r1db
+		$password = '';
+		// $dsn = 'mysql:host=localhost;dbname=wdshop';
+		// $username = 'root';
+		
 		// $sql = "select cardno, productid,  INTauthamount AS denom, renewalStatus, cardbalance, cardbalanceoncard , ModifiedOn, ModifiedBy from dbo.MPS_CardMaster with (nolock) where cardno in ('6032981019317189')";
-		$sql = "SELECT * FROM HumanResources.Employee";
+		// $sql = "SELECT * FROM barang";
+		$sql = "SELECT TOP 100 * FROM Production.Product; SELECT TOP 100 * FROM Person.Person";
 		
 		$con = new CDbConnection($dsn, $username, $password);
 		$con->active = true;
+		
 		$cmd = $con->createCommand($sql);
 		$data = $cmd->queryAll();
 		
-		$dp = new CArrayDataProvider($data, array(
-			'pagination' => array(
-				'pageSize' => 1000
-			),
-			'keyField' => false
-		));
+		$con->active = false;
 		
 		Yii::app()->user->setState('result', $data);
-		$this->render('result', array('res' => $dp));
+		
+		$this->render('result', array('data' => $data));
 	}
 	
 
 	public function actionDownload($type = 'xls') {
 		if (Yii::app()->user->getState('result') == null)
 			throw new CHttpException(403, 'No query result found.');
-			
+		
 		if ($type === 'xls') {
-			$this->generateExcel();
+			$this->generateExcel(Yii::app()->user->getState('result'));
 			return;
 		}
 		if ($type === 'txt') {
-			$this->generateText();
+			$this->generateText(Yii::app()->user->getState('result'));
 		}
 	}
-
-	
 	
 		/**
 	 * Logs out the current user and redirect to homepage.
@@ -236,12 +237,48 @@ class SiteController extends Controller
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
+	private function generateExcel($data) {
+		$tb = array();
+		$header = array();
+		foreach ($data[0] as $property=>$value) {
+			$headr[] = $property;
+		}
+		
+		$tb[] = $headr;
+		foreach ($data as $i) {
+			$tb[] = $i;
+		}
+		
+		Yii::import('application.extensions.phpexcel.JPhpExcel');
+	    $xls = new JPhpExcel('UTF-8', false, 'test');
+    	$xls->addArray($tb);
+	    $xls->generateXML($this->filename); // Filename
+	}
+	
+	private function generateText($data) {
+		$th = new TextHelper;
+		
+		header("Content-Type: application/text");
+		header("Content-Disposition: filename=\"" . $this->filename . ".txt\"");
+		
+		if (count($data) <= $th->rowsPerWrite) {
+			echo $th->toText($data);
+			return;
+		}
+
+		$lengths = $th->maxLengths($data);
+		
+		echo $th->headerText($data, $lengths);
+		$iter = ceil(count($data) / $th->rowsPerWrite);
+		for ($i = 0; $i < $iter; $i++) {
+			echo $th->partText($data, $i, $lengths);
+		}
+	}
 }
  
 ?>
 
-
-  <script type="text/javascript">
+<script type="text/javascript">
     function coba(chk){
 		var id = chk.id.substr(chk.id.length-1);
 		if (chk.checked) {
@@ -251,7 +288,7 @@ class SiteController extends Controller
 		}
 		setText();
 	}
-	
+
 	function setText() {
 		var txt = '';
 		for(var i =1; i <= $('#campur textarea').length; i++) {
@@ -262,7 +299,7 @@ class SiteController extends Controller
 					arr[varname] = x[0].value;
 				}
 				txt += assignVariable($('textarea[name="statement' + i + '"]').text(), arr) + ";\n";
-			} 
+			}
 		}
 		$('#isiquery').text(txt);
 	}
@@ -276,7 +313,7 @@ class SiteController extends Controller
 			}
 		}
 	}
-	
+		
 	function parseVariable(text) {
 		var ret = new Array();
 		var txt = text;
@@ -291,7 +328,6 @@ class SiteController extends Controller
 				varname = txt.substr(idxQ + 1);
 			ret[varname] = idxQ + 1;
 		}
-		
 		return ret;
 	}
 
@@ -321,5 +357,4 @@ class SiteController extends Controller
 			$('input[name^="vari"]').attr('readonly', false);
 		}
 	}
-	
 </script>
