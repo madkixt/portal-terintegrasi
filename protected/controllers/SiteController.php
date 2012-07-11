@@ -114,50 +114,78 @@ class SiteController extends Controller
 	public function actionExec()
 	{
 		if (!isset($_GET['id'])) {
-			
 		}
-		$model = new ExecForm;
-//		$model->loadModel();
-	//	$queryID = $this->loadModel($id);
-	//	$model->queryID=Query::model()->findByPk($id);
-		
+		$model = new ExecForm;		
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		} 
+		
 		// collect user input data
 		if(isset($_POST['ExecForm']))
 		{
 			$model->attributes=$_POST['ExecForm'];
-			//$query = Query::model()->findByPk($_POST['ExecForm']['queryID']);
-			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->exec())
 				$this->redirect(Yii::app()->user->returnUrl);
-		}
+		} 
+		$statements = null;
 		// display the exec form
-		$this->render('exec',array('model' => $model));
+		$this->render('exec',array('model' => $model,
+		'statements' => $statements
+		));
 	}	
-	
 	
 	public function actionDinamik()
 	{
-		//echo 'zzz';
-	//	echo $_POST['queryID'];
-		//$model=Query::model()->findByPkfindByPk($_POST['queryID']);
-	//	echo CHtml::dropDownList($model,'database', CHtml::listData(Query::model()->findByPk(4), 'queryID','databaseName'));
-		$data = Query::model()->findByPk($_POST['queryID']);
-//		$data = Query::model()->findByPk($_POST['queryID'])->database;
-	//		$data = Location::model()->findAll('parentID=:parentID',array(':parentID'=>(int)$_POST['Current-Controller']['queryID']));
-	
+		$data = Query::model()->findByPk($_POST['queryID']);	
+		$statements = $data->loadStatements();
 		
-			echo CHtml::tag('option', array('value'=>$data->queryID), CHtml::encode($data->databaseName), true);
+		$enableEditing = CHtml::checkBox('enable editing',false,array(
+				'id' => 'enableediting',
+				'name'=> 'aa',
+				'onclick'=>'javascript: changeedit();'		
+			));
 		
-		//return;
 		
+		$tarea = CHtml::textArea('isiquery1','',array('id'=>'isiquery', 'cols'=>60,'rows'=>5, 'readonly'=>"readonly" ));
+		echo "database";
+		$stt = CHtml::textField('database', $data->databaseName);
+		$stt .= CHtml::tag('br');
+		$stt .= CHtml::tag('br');
+		echo CHtml::tag('div', array('id' => 'database'), $stt);
+		
+		$i = 1;
+		$str = '';
+		foreach ($statements as $stmt => $statement) {
+			$str .= "<tr border = '10'><td width='200px'><div id='my" . $i . "'>";
+			$str .= CHtml::checkBox('checkbox',false,array(
+				'id' => 'checkbox'.$i ,
+				'onclick'=>'javascript: coba(checkbox'.$i.');'		
+			));
+			
+			$str .= '<b>  Statement</b>';
+			$str .= $stmt;
+			$str .= CHtml::tag('br');
+			$str .= CHtml::textArea('statement' .$i, $statement, array('id' => 'statement' . $i, 'cols'=>30,'rows'=>5, 'readonly'=>"readonly"));
+			$str .= CHtml::tag('br');
+			$str .= CHtml::tag('br');
+			$str .= CHtml::tag('br');
+			$str .= "</div></td><td >";
+			$str .= CHtml::tag('table', array('id' => 'vars' . $i));
+
+			$str .= "</td>";
+			$i++;
+		}
+		
+		echo CHtml::tag('table', array(),  $str);
+		echo $enableEditing;
+		echo "  Enable Editing";
+		echo CHtml::tag('br');
+		echo $tarea;
 	}
-	
+		
 	public function actionTest() {
 		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
 		$dsn = 'sqlsrv:server=WIBI-PC;database=AdventureWorks';
@@ -183,6 +211,7 @@ class SiteController extends Controller
 		$this->render('result', array('res' => $dp));
 	}
 	
+
 	public function actionDownload($type = 'xls') {
 		if (Yii::app()->user->getState('result') == null)
 			throw new CHttpException(403, 'No query result found.');
@@ -196,7 +225,9 @@ class SiteController extends Controller
 		}
 	}
 
-	/**
+	
+	
+		/**
 	 * Logs out the current user and redirect to homepage.
 	 */
 	public function actionLogout()
@@ -204,48 +235,91 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
-	
-	private function generateExcel() {
-		//GET DATA FROM PREVIOUS STATE
-		$dataprov = Yii::app()->user->getState('result');
-		
-		$tb = array();
-		$header = array();
-		foreach ($dataprov[0] as $property=>$value) {
-			$headr[] = $property;
-		}
-		
-		$tb[] = $headr;
-		foreach ($dataprov as $i)
-		{
-			$tb[] = $i;
-		}
-		
-		Yii::import('application.extensions.phpexcel.JPhpExcel');
-	    $xls = new JPhpExcel('UTF-8', false, 'test');
-    	$xls->addArray($tb);
-	    $xls->generateXML('export'); // bisa diganti dengan nama file sesuka hati
-	}
-	
-	private function generateText() {
-		$dataprov = Yii::app()->user->getState('result');
-		$th = new TextHelper;
-		
-		header("Content-Type: application/text");
-		header("Content-Disposition: inline; filename=\"export.txt\"");
-		
-		if (count($dataprov) <= $th->rowsPerWrite) {
-			echo $th->toText($dataprov);
-			return;
-		}
-		
-		$lengths = $th->maxLengths($dataprov);
-		
-		echo $th->headerText($dataprov, $lengths);
-		$iter = ceil(count($dataprov) / $th->rowsPerWrite);
-		for ($i = 0; $i < $iter; $i++) {
-			echo $th->partText($dataprov, $i, $lengths);
-		}
-		echo $th->line($lengths);
-	}
+
 }
+ 
+?>
+
+
+  <script type="text/javascript">
+    function coba(chk){
+		var id = chk.id.substr(chk.id.length-1);
+		if (chk.checked) {
+			splitQuery(id);
+		} else {
+			$('#vars' + id).html('');
+		}
+		setText();
+	}
+	
+	function setText() {
+		var txt = '';
+		for(var i =1; i <= $('#campur textarea').length; i++) {
+			if  ($('#checkbox' + i).is(':checked')) {
+				var arr = parseVariable($('#statement' + i).text());
+				for (varname in arr) {
+					var x = $('input[name="vari'+i+ varname+'"]');
+					arr[varname] = x[0].value;
+				}
+				txt += assignVariable($('textarea[name="statement' + i + '"]').text(), arr) + ";\n";
+			} 
+		}
+		$('#isiquery').text(txt);
+	}
+	
+	function splitQuery(i) {
+		if  ($('#checkbox' + i).is(':checked')) {
+			str = $('textarea[name="statement' + i + '"]').text();
+			var variables = parseVariable(str);
+			for (varname in variables) {
+				$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='30px'>"+varname + "</td><td><input name='vari"+i+ varname + "' class= 'required' type='text' onchange='setText()' /></td></tr>");
+			}
+		}
+	}
+	
+	function parseVariable(text) {
+		var ret = new Array();
+		var txt = text;
+	
+		var idxQ = -1;
+		while ((idxQ = txt.indexOf('?', idxQ + 1)) != -1) {
+			var terminIdx = txt.substr(idxQ + 1).search(/\W/);
+			var varname = '';
+			if (terminIdx != -1)
+				varname = txt.substr(idxQ + 1, terminIdx);
+			else
+				varname = txt.substr(idxQ + 1);
+			ret[varname] = idxQ + 1;
+		}
+		
+		return ret;
+	}
+
+	function printVariable(arr) {
+		var str = '';
+		for (i in arr)
+			str += i + ': ' + arr[i] + "\n";
+		return str;
+	}
+
+	function assignVariable(text, arr) {
+		for (varname in arr) {
+			if (arr[varname] != '')
+				text = text.replace('?' + varname, "'" + arr[varname] + "'");
+		}
+		return text;
+	}
+	
+	function changeedit() {
+		if  ($('#enableediting').is(':checked')) {
+			$('#isiquery').attr('readonly',false);
+			$('input[name^="vari"]').attr('readonly', true);
+		}
+		else
+		{
+			$('#isiquery').attr('readonly',true);
+			$('input[name^="vari"]').attr('readonly', false);
+		}
+	}
+	
+</script>

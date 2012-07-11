@@ -5,16 +5,16 @@
 class ExecForm extends CFormModel
 {
 	public $queryID;
-	public $isiQuery;
+//	public $isiQuery;
 	public $database;
 	public $connection;
 	public $queries;
-	
+
 	/*rules */
 	public function rules()
 	{
 		return array(
-			array('isiQuery, database, koneksi','required'),
+			array('database, connection','required'),
 		//	array('database,mesin','authenticate'),
 		);
 	}
@@ -35,7 +35,7 @@ class ExecForm extends CFormModel
 	{
 		return array(
 			'queryID' => 'Judul Query',
-			'isiQuery' => 'Query',
+		
 			'database' => 'Database',
 			'mesin' => 'Koneksi'
 		);
