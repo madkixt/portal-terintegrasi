@@ -58,8 +58,7 @@ class QueryController extends Controller
 
 		if(isset($_POST['Query'])) {
 			$statements = $_POST['statement'];
-			if ($this->isAnyEmpty($statements))
-				$model->addError('', 'All statements must not be blank.');
+			$this->checkStatements($statements, $model);
 				
 			$model->attributes = $_POST['Query'];
 			if ($model->validate(null, false) && $model->save(false)) {
@@ -88,10 +87,7 @@ class QueryController extends Controller
 
 		if(isset($_POST['Query'])) {
 			$statements = $_POST['statement'];
-			if (count($statements) === 0)
-				$model->addError('', 'There must be at least one statement.');
-			else if ($this->isAnyEmpty($statements))
-				$model->addError('', 'All statements must not be blank.');
+			$this->checkStatements($statements, $model);
 		
 			$model->attributes=$_POST['Query'];
 			if ($model->validate(null, false) && $model->save(false)) {
@@ -168,6 +164,7 @@ class QueryController extends Controller
 	}
 
 	public function actionTest() {
+		echo $this->
 		$th = new TextHelper;
 		// $con = new CDbConnection('sqlsrv:server=WIBI-PC;database=AdventureWorks', '', '');
 		// $con->active = true;
@@ -253,6 +250,14 @@ class QueryController extends Controller
 		return '{view} {update} {remove}';
 	}
 	
+	/* Validates the query statements */
+	public function checkStatements($statements, $model) {
+		if ($this->isAnyEmpty($statements))
+			$model->addError('', 'All statements must not be empty.');
+		if ($this->isAnyDuplicate($statements))
+			$model->addError('', 'Variable names in each statement must be unique.');
+	}
+	
 	/* Checks whether the given statements are all empty */
 	public function isAnyEmpty($statements) {
 		foreach ($statements as $statement) {
@@ -261,5 +266,38 @@ class QueryController extends Controller
 		}
 		
 		return false;
+	}
+	
+	/* Checks whether there are duplicate variable names in any statement */
+	public function isAnyDuplicate($statements) {
+		$arr = array();
+		foreach ($statements as $statement) {
+			$idxQ = -1;
+			while (($idxQ = stripos($statement, '?', $idxQ + 1)) !== false) {
+				$terminIdx = $this->preg_pos(substr($statement, $idxQ + 1), '\W');
+				$varname = '';
+				if ($terminIdx !== false)
+					$varname = substr($statement, $idxQ + 1, $terminIdx);
+				else
+					$varname = substr($statement, $idxQ + 1);
+				$arr[] = $varname;
+			}
+		}
+		
+		for ($i = 0; $i < count($arr); $i++) {
+			for ($j = $i + 1; $j < count($arr); $j++) {
+				if (strcasecmp($arr[$j], $arr[$i]) === 0)
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	private function preg_pos( $subject, $regex ) {
+		if (preg_match('/\W/', $subject, $matches)) {
+			return strpos($subject, $matches[0]);
+		}
+		
+		return false; 
 	}
 }

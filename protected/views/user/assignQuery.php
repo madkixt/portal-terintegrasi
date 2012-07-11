@@ -32,7 +32,7 @@ $('.search-form form').submit(function(){
 
 <?php if (Yii::app()->user->hasFlash('assignQuerySuccess')) { ?>
 
-<div class="successMessage">
+<div class="flash-success">
 	<p><em><?php echo Yii::app()->user->getFlash('assignQuerySuccess'); ?></em></p>
 </div>
 
