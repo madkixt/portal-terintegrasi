@@ -204,8 +204,10 @@ class Query extends BaseEntity
 	
 	/* Assigns the newly created Query to the current user or all admins */
 	private function insertUser() {
-		$cmd = Yii::app()->db->createCommand();
-		$cmd->insert('tbl_user_query', array('userID' => Yii::app()->user->getID(), 'queryID' => $this->queryID));
+		if (!Yii::app()->user->getState('admin')) {
+			$cmd = Yii::app()->db->createCommand();
+			$cmd->insert('tbl_user_query', array('userID' => Yii::app()->user->getID(), 'queryID' => $this->queryID));
+		}
 		
 		$admins = User::model()->findAllByAttributes(array('admin' => 1));
 		$cmd = Yii::app()->db->createCommand();
