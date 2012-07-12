@@ -15,7 +15,7 @@ class UserController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin - view, edit',
+			'admin - view, edit, removeQuery, removeConnection',
 			'accessID + view, edit',
 			'selfAdmin + edit, delete',
 		);
@@ -237,7 +237,7 @@ class UserController extends Controller
 		$user = $this->loadModel($id);
 		if ($user->admin)
 			throw new CHttpException(400, 'Bad request.');
-		
+			
 		$user->removeQuery($qid);
 	}
 	

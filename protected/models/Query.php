@@ -106,20 +106,17 @@ class Query extends BaseEntity
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 		$criteria->with = array('createdBy0', 'lastModifiedBy0', 'lastNotesEditor0', 'statements');
 		
 		if ($id != null) {
 			$criteria->with['tblUsers'] = array(
-				'select' => 'tblUsers.username',
 				'condition' => 'tblUsers.userID = :userID',
 				'params' => array(
 					':userID' => $id
 				)
 			);
 		}
-		
-		$criteria->together = true;
 		
 		$criteria->compare('t.queryID',$this->queryID);
 		$criteria->compare('judulQuery',$this->judulQuery,true);
@@ -133,8 +130,11 @@ class Query extends BaseEntity
 		$criteria->compare('lastNotesEditor0.username', $this->lastNotesEditor, true);
 		$criteria->compare('statements.queryStatement', $this->queryString, true);
 		
+		$criteria->together = true;
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination' => false
 		));
 	}
 	
@@ -204,19 +204,17 @@ class Query extends BaseEntity
 	
 	/* Assigns the newly created Query to the current user or all admins */
 	private function insertUser() {
-		if (Yii::app()->user->getState('admin')) {
-			$admins = User::model()->findAllByAttributes(array('admin' => 1));
-			$cmd = Yii::app()->db->createCommand();
-			$cmd->text = 'INSERT INTO tbl_user_query(userID, queryID) VALUES (:userID, :queryID)';
-			$cmd->bindValue(':queryID', $this->queryID, PDO::PARAM_INT);
-			
-			foreach ($admins as $admin) {
-				$cmd->bindValue(':userID', $admin->userID, PDO::PARAM_INT);
-				$cmd->execute();
-			}
-		} else {
-			$cmd = Yii::app()->db->createCommand();
-			$cmd->insert('tbl_user_query', array('userID' => Yii::app()->user->getID(), 'queryID' => $this->queryID));
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->insert('tbl_user_query', array('userID' => Yii::app()->user->getID(), 'queryID' => $this->queryID));
+		
+		$admins = User::model()->findAllByAttributes(array('admin' => 1));
+		$cmd = Yii::app()->db->createCommand();
+		$cmd->text = 'INSERT INTO tbl_user_query(userID, queryID) VALUES (:userID, :queryID)';
+		$cmd->bindValue(':queryID', $this->queryID, PDO::PARAM_INT);
+		
+		foreach ($admins as $admin) {
+			$cmd->bindValue(':userID', $admin->userID, PDO::PARAM_INT);
+			$cmd->execute();
 		}
 	}
 }

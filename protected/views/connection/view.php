@@ -12,16 +12,23 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Connection <?php echo $model->IPAddress.':'.$model->username; ?></h1>
+<h1>View Connection <?php echo $model->name; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'connectionID',
-		'serverName',
 		'IPAddress',
+		array(
+			'name' => 'dbms',
+			'value' => Connection::model()->dbmsOptions[$model->dbms]
+		),
 		'username',
-		'password',
+		array(
+			'name' => 'password',
+			'visible' => Yii::app()->user->getState('admin')
+		),
+		'serverName',
 		'description',
 		'creationDate',
 		'modifiedDate',

@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Edit Connection <?php echo $model->IPAddress.':'.$model->username; ?></h1>
+<h1>Edit Connection <?php echo $model->name; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

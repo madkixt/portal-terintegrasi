@@ -10,17 +10,17 @@
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'serverName'); ?>
-		<?php echo $form->textField($model,'serverName',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'serverName'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'IPAddress'); ?>
 		<?php echo $form->textField($model,'IPAddress',array('size'=>15,'maxlength'=>15)); ?>
 		<?php echo $form->error($model,'IPAddress'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'dbms'); ?>
+		<?php echo $form->dropDownList($model, 'dbms', Connection::getDbmsOptions()); ?>
+		<?php echo $form->error($model,'dbms'); ?>
+	</div>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
 		<?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20)); ?>
@@ -29,14 +29,14 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
+		<?php echo $form->textField($model,'password',array('size'=>20,'maxlength'=>32)); ?>
 		<?php echo $form->error($model,'password'); ?>
 	</div>
-
+	
 	<div class="row">
-		<?php echo $form->labelEx($model,'password_repeat'); ?>
-		<?php echo $form->passwordField($model,'password_repeat',array('size'=>32,'maxlength'=>32)); ?>
-		<?php echo $form->error($model,'password_repeat'); ?>
+		<?php echo $form->labelEx($model,'serverName'); ?>
+		<?php echo $form->textField($model,'serverName',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->error($model,'serverName'); ?>
 	</div>
 	
 	<div class="row">

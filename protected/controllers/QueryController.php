@@ -156,7 +156,7 @@ class QueryController extends Controller
 			$username = User::model()->findByPk($id)->username;
 		
 		$this->render('manage',array(
-			'model'=>$model,
+			'model' => $model,
 			'id' => $id,
 			'username' => $username,
 			'template' => $this->getVisibleButtons($id)
