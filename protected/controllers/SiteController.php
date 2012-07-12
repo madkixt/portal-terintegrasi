@@ -133,13 +133,14 @@ class SiteController extends Controller
 		$statements = null;
 		// display the exec form
 		$this->render('exec',array('model' => $model,
-		'statements' => $statements
+		'statements' => $statements,
+		'id' => $id,
 		));
 		
-		if ($id != null) {
-		$_POST['queryID']= $id;
-			$this->actionDinamik();
-		}
+		// if ($id != null) {
+		// $_POST['queryID']= $id;
+			// $this->actionDinamik();
+		// }
 	}	
 	
 	
