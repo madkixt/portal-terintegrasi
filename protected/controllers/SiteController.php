@@ -112,9 +112,9 @@ class SiteController extends Controller
 	/**
 	 * Displays the execution page
 	 */
-	public function actionExec($id=null)
-	{
-		
+	public function actionExec($id = null) {
+		if (!isset($_GET['id'])) {
+		}
 		$model = new ExecForm;		
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
@@ -133,21 +133,12 @@ class SiteController extends Controller
 		$statements = null;
 		// display the exec form
 		$this->render('exec',array('model' => $model,
-		'statements' => $statements,
-		'id' => $id,
+		'statements' => $statements
 		));
-		
-		// if ($id != null) {
-		// $_POST['queryID']= $id;
-			// $this->actionDinamik();
-		// }
-	}	
+	}
 	
-	
-	
-	public function actionDinamik()
-	{
-		$data = Query::model()->findByPk($_POST['queryID']);	
+	public function actionDinamik() {
+		$data = Query::model()->findByPk($_POST['queryID']);
 		$statements = $data->loadStatements();
 		
 		$enableEditing = CHtml::checkBox('enable editing',false,array(
@@ -158,10 +149,8 @@ class SiteController extends Controller
 		
 		
 		$tarea = CHtml::textArea('isiquery1','',array('id'=>'isiquery', 'cols'=>60,'rows'=>5, 'readonly'=>"readonly" ));
-		echo "  database";
-		$stt = "<td width='30px'>";
-		$stt .= CHtml::textField('database', $data->databaseName);
-		$stt .= "</td>";
+		echo "database";
+		$stt = CHtml::textField('database', $data->databaseName);
 		$stt .= CHtml::tag('br');
 		$stt .= CHtml::tag('br');
 		echo CHtml::tag('div', array('id' => 'database'), $stt);
@@ -195,11 +184,6 @@ class SiteController extends Controller
 		echo CHtml::tag('br');
 		echo $tarea;
 	}
-	
-	public function actionBuatkoneksibaru ()
-	{
-		echo "hahahhahahhahahhaahh";
-	}		
 		
 	public function actionTest() {
 		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
@@ -224,22 +208,49 @@ class SiteController extends Controller
 		$con->active = false;
 		
 		Yii::app()->user->setState('result', $data);
-		
 		$this->render('result', array('data' => $data));
 	}
 	
 
 	public function actionDownload($type = 'xls') {
-		if (Yii::app()->user->getState('result') == null)
+		if (($cmd = Yii::app()->user->getState('conn')) == null)
 			throw new CHttpException(403, 'No query result found.');
 		
+		$data = $this->queryAll($cmd->connection, $cmd->text);
 		if ($type === 'xls') {
-			$this->generateExcel(Yii::app()->user->getState('result'));
-			return;
+			$this->generateExcel($data);
 		}
-		if ($type === 'txt') {
-			$this->generateText(Yii::app()->user->getState('result'));
+		elseif ($type === 'txt') {
+			$this->generateText($data);
 		}
+	}
+	
+	public function actionResult() {
+		if ((($cmd = Yii::app()->user->getState('conn')) == null) && !isset($_POST['isiquery1']))
+			throw new CHttpException(403, 'No query found.');
+		
+		if (isset($_POST['isiquery1'])) {
+			$con = Connection::model()->findByPk($_POST['ExecForm']['connection']);
+			// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
+			// $username = 'sa';
+			// $password = 'm4nd1r1db';
+			
+			$dsn = 'mysql:host=' . $con->IPAddress . ";dbname=" . $_POST['database'];
+			$username = $con->username;
+			$password = $con->password;
+			$dbCon = new CDbConnection($dsn, $username, $password);
+			$cmd = $dbCon->createCommand($_POST['isiquery1']);
+		}
+		
+		$error = '';
+		$data = array();
+		try {
+			$data = $this->queryAll($cmd->connection, $cmd->text);
+		} catch (Exception $e) {
+			$error = 'Query failed. Please check the connection and/or the queries.';
+		}
+		Yii::app()->user->setState('conn', $cmd);
+		$this->render('result', array('data' => $data, 'query' => $cmd->text, 'error' => $error));
 	}
 	
 		/**
@@ -252,125 +263,78 @@ class SiteController extends Controller
 	}
 
 	private function generateExcel($data) {
-		$tb = array();
-		$header = array();
-		foreach ($data[0] as $property=>$value) {
-			$headr[] = $property;
-		}
-		
-		$tb[] = $headr;
-		foreach ($data as $i) {
-			$tb[] = $i;
-		}
-		
 		Yii::import('application.extensions.phpexcel.JPhpExcel');
-	    $xls = new JPhpExcel('UTF-8', false, 'test');
-    	$xls->addArray($tb);
-	    $xls->generateXML($this->filename); // Filename
+	    $xls = new JPhpExcel('UTF-8', false, 'mandiri');
+		
+		$j = 1;
+		foreach ($data as $datum) {
+			$tb = array();
+			if (count($data) > 1)
+				$tb[] = array('Statement ' . $j++);
+				
+			$header = array();
+			
+			foreach ($datum[0] as $property => $value) {
+				$headr[] = $property;
+			}
+			
+			$tb[] = $headr;
+			foreach ($datum as $i) {
+				$tb[] = $i;
+			}
+			
+			if (count($data) > 1)
+				$tb[] = array('');
+			
+			$xls->addArray($tb);
+		}
+		
+	    $xls->generateXML($this->filename);
 	}
 	
 	private function generateText($data) {
 		$th = new TextHelper;
 		
-		header("Content-Type: application/text");
-		header("Content-Disposition: filename=\"" . $this->filename . ".txt\"");
+		header("Content-Disposition: attachment; filename=\"" . $this->filename . ".txt\"");
+		header("Content-Type: application/force-download");
+		header("Connection: close");
 		
-		if (count($data) <= $th->rowsPerWrite) {
-			echo $th->toText($data);
-			return;
-		}
-
-		$lengths = $th->maxLengths($data);
-		
-		echo $th->headerText($data, $lengths);
-		$iter = ceil(count($data) / $th->rowsPerWrite);
-		for ($i = 0; $i < $iter; $i++) {
-			echo $th->partText($data, $i, $lengths);
-		}
-	}
-	
-}
- 
-?>
-
-<script type="text/javascript">
-   
-	function coba(chk){
-		var id = chk.id.substr(chk.id.length-1);
-		if (chk.checked) {
-			splitQuery(id);
-		} else {
-			$('#vars' + id).html('');
-		}
-		setText();
-	}
-
-	function setText() {
-		var txt = '';
-		for(var i =1; i <= $('#campur textarea').length; i++) {
-			if  ($('#checkbox' + i).is(':checked')) {
-				var arr = parseVariable($('#statement' + i).text());
-				for (varname in arr) {
-					var x = $('input[name="vari'+i+ varname+'"]');
-					arr[varname] = x[0].value;
+		$i = 1;
+		foreach ($data as $datum) {
+			if (count($data) > 1)
+				echo "Statement " . $i++ . "\n";
+				
+			if (count($datum) <= $th->rowsPerWrite) {
+				echo $th->toText($datum);
+			} else {
+				$lengths = $th->maxLengths($datum);
+				
+				echo $th->headerText($datum, $lengths);
+				$iter = ceil(count($datum) / $th->rowsPerWrite);
+				for ($i = 0; $i < $iter; $i++) {
+					echo $th->partText($datum, $i, $lengths);
 				}
-				txt += assignVariable($('textarea[name="statement' + i + '"]').text(), arr) + ";\n";
 			}
+			
+			if (count($data) > 1)
+				echo "\n\n";
 		}
-		$('#isiquery').text(txt);
 	}
 	
-	function splitQuery(i) {
-		if  ($('#checkbox' + i).is(':checked')) {
-			str = $('textarea[name="statement' + i + '"]').text();
-			var variables = parseVariable(str);
-			for (varname in variables) {
-				$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='30px'>"+varname + "</td><td><input name='vari"+i+ varname + "' class= 'required' type='text' onchange='setText()' /></td></tr>");
-			}
-		}
-	}
+	private function queryAll($conn, $text) {
+		$data = array();
 		
-	function parseVariable(text) {
-		var ret = new Array();
-		var txt = text;
-	
-		var idxQ = -1;
-		while ((idxQ = txt.indexOf('?', idxQ + 1)) != -1) {
-			var terminIdx = txt.substr(idxQ + 1).search(/\W/);
-			var varname = '';
-			if (terminIdx != -1)
-				varname = txt.substr(idxQ + 1, terminIdx);
-			else
-				varname = txt.substr(idxQ + 1);
-			ret[varname] = idxQ + 1;
+		$conn->active = true;
+		
+		$queries = explode(";", $text);
+		for ($i = 0; $i < count($queries) - 1; $i++) {
+			$cmd = $conn->createCommand($queries[$i]);
+			$data[] = $cmd->queryAll();
 		}
-		return ret;
+		
+		$conn->active = false;
+		return $data;
 	}
+}
 
-	function printVariable(arr) {
-		var str = '';
-		for (i in arr)
-			str += i + ': ' + arr[i] + "\n";
-		return str;
-	}
-
-	function assignVariable(text, arr) {
-		for (varname in arr) {
-			if (arr[varname] != '')
-				text = text.replace('?' + varname, "'" + arr[varname] + "'");
-		}
-		return text;
-	}
-	
-	function changeedit() {
-		if  ($('#enableediting').is(':checked')) {
-			$('#isiquery').attr('readonly',false);
-			$('input[name^="vari"]').attr('readonly', true);
-		}
-		else
-		{
-			$('#isiquery').attr('readonly',true);
-			$('input[name^="vari"]').attr('readonly', false);
-		}
-	}
-</script>
+?>
