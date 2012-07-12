@@ -141,8 +141,12 @@ class ConnectionController extends Controller
 			$model->attributes=$_GET['Connection'];
 
 		$username = null;
-		if ($id != null)
-			$username = User::model()->findByPk($id)->username;	
+		if ($id !== null) {
+			$user = User::model()->findByPk($id);
+			if ($user === null)
+				throw new CHttpException(404, "The requested page does not exist.");
+			$username = $user->username;
+		}
 			
 		$this->render('manage',array(
 			'model'=> $model,

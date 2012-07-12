@@ -145,15 +145,19 @@ class QueryController extends Controller
 			
 		if ($id == null && !Yii::app()->user->getState('admin'))
 			$id = Yii::app()->user->id;
-			
+		
 		$model = new Query('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Query']))
 			$model->attributes = $_GET['Query'];
 		
 		$username = null;
-		if ($id != null)
-			$username = User::model()->findByPk($id)->username;
+		if ($id !== null) {
+			$user = User::model()->findByPk($id);
+			if ($user === null)
+				throw new CHttpException(404, "The requested page does not exist.");
+			$username = $user->username;
+		}
 		
 		$this->render('manage',array(
 			'model' => $model,
@@ -197,8 +201,8 @@ class QueryController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Query::model()->findByPk($id);
-		if($model===null)
+		$model = Query::model()->findByPk($id);
+		if ($model === null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}

@@ -31,12 +31,20 @@ $('.search-form form').submit(function(){
 ?>
 
 <?php if (Yii::app()->user->hasFlash('assignConnectionSuccess')) { ?>
-
 <div class="flash-success">
 	<p><em><?php echo Yii::app()->user->getFlash('assignConnectionSuccess'); ?></em></p>
 </div>
-
 <?php } ?>
+
+<?php
+$assign = $user->assignableConnections;
+if (count($assign) === 0) {
+?>
+<h2>No connection is assignable to <?php echo $user->username; ?>.</h2>
+<?php
+	return;
+}
+?>
 
 <h1>Assign Connection to <?php echo $user->username ?></h1>
 
@@ -54,7 +62,7 @@ $('.search-form form').submit(function(){
 	
 	<div class="row">
 		<?php echo $form->labelEx($model, 'connectionID'); ?>
-		<?php echo $form->dropDownList($model, 'connectionID', PortalHtml::customListData($user->assignableConnections, 'connectionID', array('{IPAddress}', ':', '{username}'))); ?>
+		<?php echo $form->dropDownList($model, 'connectionID', PortalHtml::customListData($assign, 'connectionID', array('{IPAddress}', ':', '{username}'))); ?>
 		<?php echo $form->error($model,'connectionID'); ?>
 	</div>
 	

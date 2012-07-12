@@ -31,21 +31,29 @@ $('.search-form form').submit(function(){
 ?>
 
 <?php if (Yii::app()->user->hasFlash('assignQuerySuccess')) { ?>
-
 <div class="flash-success">
 	<p><em><?php echo Yii::app()->user->getFlash('assignQuerySuccess'); ?></em></p>
 </div>
-
 <?php } ?>
 
-<h1>Assign Query to <?php echo $user->username ?></h1>
+<?php
+$assign = $user->assignableQueries;
+if (count($assign) === 0) {
+?>
+<h2>No query is assignable to <?php echo $user->username; ?>.</h2>
+<?php
+	return;
+}
+?>
+
+<h1>Assign Query to <?php echo $user->username; ?></h1>
 
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'query-form',
 	'enableAjaxValidation'=>false,
-)); 
+));
 ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
@@ -54,7 +62,7 @@ $('.search-form form').submit(function(){
 	
 	<div class="row">
 		<?php echo $form->labelEx($model, 'queryID'); ?>
-		<?php echo $form->dropDownList($model, 'queryID', CHtml::listData($user->assignableQueries, 'queryID', 'judulQuery')); ?>
+		<?php echo $form->dropDownList($model, 'queryID', CHtml::listData($assign, 'queryID', 'judulQuery')); ?>
 		<?php echo $form->error($model,'queryID'); ?>
 	</div>
 	
