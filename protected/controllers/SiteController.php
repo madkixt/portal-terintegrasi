@@ -113,8 +113,6 @@ class SiteController extends Controller
 	 * Displays the execution page
 	 */
 	public function actionExec($id = null) {
-		if (!isset($_GET['id'])) {
-		}
 		$model = new ExecForm;		
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
@@ -132,12 +130,17 @@ class SiteController extends Controller
 		} 
 		$statements = null;
 		// display the exec form
-		$this->render('exec',array('model' => $model,
-		'statements' => $statements
+		$this->render('exec',array(
+			'model' => $model,
+			'statements' => $statements,
+			'id' => $id
 		));
 	}
 	
 	public function actionDinamik() {
+		if ($_POST['queryID'] == "")
+			return;
+		
 		$data = Query::model()->findByPk($_POST['queryID']);
 		$statements = $data->loadStatements();
 		
@@ -149,8 +152,8 @@ class SiteController extends Controller
 		
 		
 		$tarea = CHtml::textArea('isiquery1','',array('id'=>'isiquery', 'cols'=>60,'rows'=>5, 'readonly'=>"readonly" ));
-		echo "database";
-		$stt = CHtml::textField('database', $data->databaseName);
+		echo "<b>&nbsp; Database</b>";
+		$stt = "&nbsp;" . CHtml::textField('database', $data->databaseName);
 		$stt .= CHtml::tag('br');
 		$stt .= CHtml::tag('br');
 		echo CHtml::tag('div', array('id' => 'database'), $stt);
@@ -164,8 +167,7 @@ class SiteController extends Controller
 				'onclick'=>'javascript: coba(checkbox'.$i.');'		
 			));
 			
-			$str .= '<b>  Statement</b>';
-			$str .= $stmt;
+			$str .= "<b>  Statement $stmt</b>";
 			$str .= CHtml::tag('br');
 			$str .= CHtml::textArea('statement' .$i, $statement, array('id' => 'statement' . $i, 'cols'=>30,'rows'=>5, 'readonly'=>"readonly"));
 			$str .= CHtml::tag('br');
@@ -184,6 +186,55 @@ class SiteController extends Controller
 		echo CHtml::tag('br');
 		echo $tarea;
 	}
+		
+	public function autoGen($id) {
+		$data = Query::model()->findByPk($id);	
+		$statements = $data->loadStatements();
+		
+		$enableEditing = CHtml::checkBox('enable editing',false,array(
+				'id' => 'enableediting',
+				'name'=> 'aa',
+				'onclick'=>'javascript: changeedit();'		
+			));
+		
+		
+		$tarea = CHtml::textArea('isiquery1','',array('id'=>'isiquery', 'cols'=>60,'rows'=>5, 'readonly'=>"readonly" ));
+		$retval = '';
+		$retval .= '<b>&nbsp; Database</b>';
+		$stt = "&nbsp;" . CHtml::textField('database', $data->databaseName);
+		$stt .= CHtml::tag('br');
+		$stt .= CHtml::tag('br');
+		$retval .= CHtml::tag('div', array('id' => 'database'), $stt);
+		
+		$i = 1;
+		$str = '';
+		foreach ($statements as $stmt => $statement) {
+			$str .= "<tr border= '10'><td width ='200px'><div id='my " . $i . "'>";
+			$str .= CHtml::checkBox('checkbox',false,array(
+				'id' => 'checkbox'.$i ,
+				'onclick'=>'javascript: coba(checkbox'.$i.');'		
+			));
+			
+			$str .= "<b> Statement $stmt</b>";
+			$str .= CHtml::tag('br');
+			$str .= CHtml::textArea('statement' .$i, $statement, array('id' => 'statement' . $i, 'cols'=>30,'rows'=>5, 'readonly'=>"readonly"));
+			$str .= CHtml::tag('br');
+			$str .= CHtml::tag('br');
+			$str .= CHtml::tag('br');
+			$str .= "</div></td><td>";
+			$str .= CHtml::tag('div', array('id' => 'vars' . $i));
+			$str .= "</td></tr>";
+			$i++;
+		}
+		$retval .= CHtml::tag('table', array('id'=>'vi2'), $str) . "</br>";
+		$std = $enableEditing;
+		$std .= '  Enable Editing';
+		$std .= CHtml::tag('br');
+		$std .= $tarea;
+		$stx = CHtml::tag('table', array(), $std);
+		$retval .= $stx;
+		return $retval;
+	}	
 		
 	public function actionTest() {
 		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
@@ -230,14 +281,26 @@ class SiteController extends Controller
 			throw new CHttpException(403, 'No query found.');
 		
 		if (isset($_POST['isiquery1'])) {
-			$con = Connection::model()->findByPk($_POST['ExecForm']['connection']);
+			if ($_POST['ExecForm']['connection'] === 'other') {
+				$IPAddress = $_POST['IP'];
+				$username = $_POST['username'];
+				$password = $_POST['password'];
+				$dbms = $_POST['dbms'];
+			} else {
+				$con = Connection::model()->findByPk($_POST['ExecForm']['connection']);
+				$IPAddress = $con->IPAddress;
+				$username = $con->username;
+				$password = $con->password;
+				$dbms = $con->dbms;
+			}
+			
 			// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
 			// $username = 'sa';
 			// $password = 'm4nd1r1db';
 			
-			$dsn = 'mysql:host=' . $con->IPAddress . ";dbname=" . $_POST['database'];
-			$username = $con->username;
-			$password = $con->password;
+			$dsn = Connection::getDsn($dbms, $IPAddress, $_POST['database']);
+			$username = $username;
+			$password = $password;
 			$dbCon = new CDbConnection($dsn, $username, $password);
 			$cmd = $dbCon->createCommand($_POST['isiquery1']);
 		}
@@ -247,7 +310,7 @@ class SiteController extends Controller
 		try {
 			$data = $this->queryAll($cmd->connection, $cmd->text);
 		} catch (Exception $e) {
-			$error = 'Query failed. Please check the connection and/or the queries.';
+			$error = 'Query failed. Please check the connection and/or the statements.';
 		}
 		Yii::app()->user->setState('conn', $cmd);
 		$this->render('result', array('data' => $data, 'query' => $cmd->text, 'error' => $error));
@@ -334,6 +397,10 @@ class SiteController extends Controller
 		
 		$conn->active = false;
 		return $data;
+	}
+	
+	private function getDsn($dbms) {
+		
 	}
 }
 

@@ -82,7 +82,7 @@ class ConnectionController extends Controller
 
 		if(isset($_POST['Connection']))
 		{
-			$model->attributes=$_POST['Connection'];
+			$model->attributes = $_POST['Connection'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->connectionID));
 		}

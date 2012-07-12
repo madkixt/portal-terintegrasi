@@ -5,10 +5,11 @@
  *
  * The followings are the available columns in table 'tbl_connection':
  * @property integer $connectionID
- * @property string $serverName
  * @property string $IPAddress
+ * @property integer $dbms
  * @property string $username
  * @property string $password
+ * @property string $serverName
  * @property string $description
  * @property string $creationDate
  * @property string $modifiedDate
@@ -22,7 +23,8 @@
  */
 class Connection extends BaseEntity
 {
-	public $password_repeat;
+	const DBMS_MSSQL = 0;
+	const DBMS_MYSQL = 1;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -50,15 +52,15 @@ class Connection extends BaseEntity
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('IPAddress', 'required'),
+			array('IPAddress, dbms', 'required'),
 			array('serverName, username', 'length', 'max'=>20),
 			array('IPAddress', 'length', 'max'=>15),
 			array('password', 'length', 'max'=>32),
-			array('password', 'compare'),
+			array('dbms', 'numerical', 'integerOnly' => true),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('connectionID, serverName, IPAddress, username, description, creationDate, modifiedDate, createdBy, lastModifiedBy', 'safe', 'on'=>'search'),
+			array('connectionID, serverName, IPAddress, username, dbms, description, creationDate, modifiedDate, createdBy, lastModifiedBy', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,10 +85,11 @@ class Connection extends BaseEntity
 	{
 		return array(
 			'connectionID' => 'ID',
-			'serverName' => 'Server Name',
 			'IPAddress' => 'IP Address',
+			'dbms' => 'DBMS',
 			'username' => 'Username',
 			'password' => 'Password',
+			'serverName' => 'Server Name',
 			'description' => 'Description',
 			'creationDate' => 'Creation Date',
 			'modifiedDate' => 'Modified Date',
@@ -123,6 +126,7 @@ class Connection extends BaseEntity
 		$criteria->compare('serverName',$this->serverName,true);
 		$criteria->compare('IPAddress',$this->IPAddress,true);
 		$criteria->compare('username',$this->username,true);
+		$criteria->compare('dbms', $this->array_search_ci($this->dbms, Connection::getDbmsOptions()));
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('creationDate',$this->creationDate,true);
 		$criteria->compare('modifiedDate',$this->modifiedDate,true);
@@ -131,10 +135,14 @@ class Connection extends BaseEntity
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination' => false
 		));
 	}
 	
 	public function getName() {
+		if ($this->username === '')
+			return $this->IPAddress;
+			
 		return $this->IPAddress . ':' . $this->username;
 	}
 	
@@ -166,6 +174,22 @@ class Connection extends BaseEntity
 		foreach ($admins as $admin) {
 			$cmd->bindValue(':userID', $admin->userID, PDO::PARAM_INT);
 			$cmd->execute();
+		}
+	}
+	
+	public static function getDbmsOptions() {
+		return array(
+			self::DBMS_MSSQL => 'Microsoft SQL Server',
+			self::DBMS_MYSQL => 'MySQL'
+		);
+	}
+	
+	public static function getDsn($dbms, $server, $dbname) {
+		switch ($dbms) {
+			case self::DBMS_MSSQL:
+				return "sqlsrv:server=$server;database=$dbname";
+			case self::DBMS_MYSQL:
+				return "mysql:host=$server;dbname=$dbname";
 		}
 	}
 }

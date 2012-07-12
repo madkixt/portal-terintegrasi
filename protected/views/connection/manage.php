@@ -39,9 +39,12 @@ $('.search-form form').submit(function(){
 			'name' => 'connectionID',
 			'htmlOptions' => array('width' => '50px')
 		),
-		'serverName',
 		'IPAddress',
 		'username',
+		array(
+			'name' => 'dbms',
+			'value' => 'Connection::model()->dbmsOptions[$data["dbms"]]'
+		),
 		'description',
 		array(
 			'class'=>'CButtonColumn',

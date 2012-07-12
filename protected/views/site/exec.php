@@ -19,8 +19,9 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 			<td>
 				<div id = "koneksi">
 					<?php echo $form->labelEx($model,'connection'); ?>
-					<?php echo $form->dropDownList($model,'connection', $model->getConnection(), array ('id'=>'connection', 
-					'onchange'=>'javascript: TambahTextField();'
+					<?php echo $form->dropDownList($model,'connection', $model->getConnection(), array (
+						'id'=>'connection', 
+						'onchange'=>'javascript: TambahTextField();'
 					)); ?>
 					<?php echo $form->error($model,'connection'); ?>
 				</div> 
@@ -42,13 +43,12 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
 		array(
 			'empty'=>'Pilih Judul',
-//			'options'=>array($id=>array('selected'=>'selected')),
+			 'options'=>array($id => array('selected'=>'selected')),
 			'ajax' => array(
 				'type'=>'POST',
 				'url'=> CController::createUrl('dinamik'),
 				'data'=>'js:"queryID="+jQuery(this).val()',
 				'update'=>'#campur',
-			//	'onchange'=>'javascript: clearTextArea();'
 			))
 						
 			); ?>
@@ -58,8 +58,9 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 		</table>
 	</div>
 	
-<div id = "campur">	
-</div>
+	<div id = "campur">
+		<?php if ($id != null) { echo $this->autoGen($id); } ?>
+	</div>
 
 
 	
@@ -80,7 +81,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 		var x=document.getElementById("connection");
 		var option=document.createElement("option");
 		option.text="Buat Koneksi Baru";
-		option.value = "koneksibaru";
+		option.value = "other";
 		try {
 			x.add(option,x.options[null]);
 		}
@@ -254,9 +255,14 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 		$('#koneksibaru').empty();
 		var selected =  $("#connection option:selected").text();
 		if (selected == 'Buat Koneksi Baru') {
-			$('#koneksibaru').html($('#koneksibaru').html() + "IP : <input name='IP' type='text' size ='10' />      ");
-			$('#koneksibaru').html($('#koneksibaru').html() + "     Username : <input name='username' size = '10' type='text'/>");
-			$('#koneksibaru').html($('#koneksibaru').html() + "     Password : <input name='password' size = '10' type='password'/>");
-			}
+			$('#koneksibaru').html($('#koneksibaru').html() + "IP <input name='IP' type='text' size ='10' /> &nbsp; &nbsp; &nbsp; ");
+			$('#koneksibaru').html($('#koneksibaru').html() + "Username <input name='username' size = '10' type='text'/> &nbsp; &nbsp; &nbsp; ");
+			$('#koneksibaru').html($('#koneksibaru').html() + "Password <input name='password' size = '10' type='password'/> &nbsp; &nbsp; &nbsp; ");
+			$('#koneksibaru').html($('#koneksibaru').html() + "DBMS " +
+			"<select name='dbms'>" +
+				"<option value='0'>Microsoft SQL Server</option>" +
+				"<option value='1'>MySQL</option>" +
+			"</select>");
+		}
 	}
 </script>
