@@ -40,7 +40,8 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 		<?php echo $form->labelEx($model,'queryID'); ?>
 		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
 		array(
-			//'empty'=>'Pilih Judul',
+			'empty'=>'Pilih Judul',
+//			'options'=>array($id=>array('selected'=>'selected')),
 			'ajax' => array(
 				'type'=>'POST',
 				'url'=> CController::createUrl('dinamik'),
