@@ -50,7 +50,7 @@ class Connection extends BaseEntity
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('serverName, IPAddress, username, password, password_repeat', 'required'),
+			array('IPAddress', 'required'),
 			array('serverName, username', 'length', 'max'=>20),
 			array('IPAddress', 'length', 'max'=>15),
 			array('password', 'length', 'max'=>32),

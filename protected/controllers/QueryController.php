@@ -254,8 +254,8 @@ class QueryController extends Controller
 	public function checkStatements($statements, $model) {
 		if ($this->isAnyEmpty($statements))
 			$model->addError('', 'All statements must not be empty.');
-		if ($this->isAnyDuplicate($statements))
-			$model->addError('', 'Variable names in each statement must be unique.');
+		// if ($this->isAnyDuplicate($statements))
+			// $model->addError('', 'Variable names in each statement must be unique.');
 	}
 	
 	/* Checks whether the given statements are all empty */

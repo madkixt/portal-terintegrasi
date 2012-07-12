@@ -40,10 +40,10 @@ FOREIGN KEY(queryID) REFERENCES tbl_query(queryID) ON UPDATE CASCADE ON DELETE C
 
 CREATE TABLE tbl_connection (
 connectionID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-serverName VARCHAR(20) NOT NULL,
 IPAddress CHAR(15) NOT NULL,
-username VARCHAR(20) NOT NULL,
-password CHAR(32) NOT NULL,
+username VARCHAR(20),
+password CHAR(32),
+serverName VARCHAR(20),
 description TEXT,
 creationDate DATETIME NOT NULL,
 modifiedDate DATETIME,
