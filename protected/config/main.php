@@ -18,6 +18,8 @@ return array(
 		'application.components.*',
 	),
 
+	
+	
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
 		
@@ -79,6 +81,7 @@ return array(
 				*/
 			),
 		),
+		
 	),
 
 	// application-level parameters that can be accessed
@@ -87,4 +90,5 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
 	),
+	
 );
