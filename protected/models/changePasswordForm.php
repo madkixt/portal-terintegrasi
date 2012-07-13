@@ -41,8 +41,8 @@ class ChangePasswordForm extends CFormModel
 	public function checking($attribute,$params)
 	{
 		$old= md5($this->oldpwd);
-		print_r($old);
-		print_r('    ');
+		//print_r($old);
+		//print_r('    ');
 	
 		$useridd = $this->user->userID;
 	//	print_r($useridd);
