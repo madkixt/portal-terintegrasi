@@ -130,7 +130,6 @@ class UserController extends Controller
 		
 		if(isset($_POST['ChangePasswordForm']))
 		{
-			echo 2;
 			$model->attributes = $_POST['ChangePasswordForm'];
 			$user->password = $user->encrypt($model->newpwd);
 			

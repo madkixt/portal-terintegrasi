@@ -20,7 +20,8 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 				<div id = "koneksi">
 					<?php echo $form->labelEx($model,'connection'); ?>
 					<?php echo $form->dropDownList($model,'connection', $model->getConnection(), array (
-						'id'=>'connection', 
+						'id'=>'connection',
+						'empty'=>'Pilih Koneksi',						
 						'onchange'=>'javascript: TambahTextField();'
 					)); ?>
 					<?php echo $form->error($model,'connection'); ?>
@@ -105,6 +106,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 		catch (e) {
 			x.add(option,null);
 		}
+		
 		
 		$('.form').submit(function(){
 			if  ($('#enableediting').is(':checked')) {
