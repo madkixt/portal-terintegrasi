@@ -30,14 +30,15 @@ abstract class BaseEntity extends CActiveRecord {
 	public function array_search_ci($needle, $haystack) {
 		if ($needle == false)
 			return null;
-			
+		
+		$ret = array();
 		for ($i = 0; $i < count($haystack); $i++) {
 			$pos = stripos($haystack[$i], $needle);
 			if ($pos !== false) {
-				return $i;
+				$ret[] = $i;
 			}
 		}
-		return -1;
+		return $ret;
 	}
 	
 	public function searchUsername($criteria, $column, $needle) {
