@@ -85,10 +85,12 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	
 	function shownote() {
 		if ($('#textnotes').css('opacity') == 0) {
+			$('#shownote').text('Hide Notes');
 			$('#textnotes').animate({
 				opacity: 1.0
 			}, 1000);
 		} else {
+			$('#shownote').text('Show Notes');
 			$('#textnotes').animate({
 				opacity: 0
 			}, 1000);
@@ -109,31 +111,48 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 		
 		
 		$('.form').submit(function(){
-			if  ($('#enableediting').is(':checked')) {
-				return true;
-			}
-			else {
-				$('*').removeClass('error');
-			   var error = 0;
-				for(var i =1; i <= $('#campur textarea').length; i++) {
-					if  ($('#checkbox' + i).is(':checked')) {
-						var arr = parseVariable($('#statement' + i).text());
-						for (varname in arr) {
-							var x = $('input[name="vari'+i+ varname+'"]');
-							arr[varname] = x[0].value;
-							if (arr[varname] == "") {	
-								 $('input[name="vari'+i+ varname+'"]').addClass('error');
-								error = 1;	
-							}
+		var error = 0;
+		var z = ($('textarea[name="isiquery1"]').text());
+		if (z == "")
+		{
+			$('textarea[name="isiquery1"]').addClass('error');
+			error = 1;
+		}
+		else {
+			$('textarea[name="isiquery1"]').removeClass('error');
+		}
+		
+		var selected =  $("#connection option:selected");
+		selected = selected[0].value;
+		if (selected == "") {
+			$('#connection').addClass('error');
+			error = 1;
+		} else {
+			$('#connection').removeClass('error');
+		}
+		
+		if  (!$('#enableediting').is(':checked')) {
+			for(var i =1; i <= $('#campur textarea').length; i++) {
+				if  ($('#checkbox' + i).is(':checked')) {
+					var arr = parseVariable($('#statement' + i).text());
+					for (varname in arr) {
+						var x = $('input[name="vari'+i+ varname+'"]');
+						arr[varname] = x[0].value;
+						if (arr[varname] == "") {	
+							 $('input[name="vari'+i+ varname+'"]').addClass('error');
+							error = 1;	
+						} else {
+								$('input[name="vari'+i+ varname+'"]').removeClass('error');
 						}
-					} 
-				}
+					}
+				} 
 			}
+		}
 			
-			if (error == 1) {
-				alert('Please fill all fields with red border');
-				return false;
-			}
+		if (error == 1) {
+			alert('Please fill all fields with red border');
+			return false;
+		}
 		});
 	});
 
@@ -272,6 +291,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	
 	function TambahTextField() {
 		$('#koneksibaru').empty();
+		
 		var selected =  $("#connection option:selected").text();
 		if (selected == 'Buat Koneksi Baru') {
 			$('#koneksibaru').html($('#koneksibaru').html() + "IP <input name='IP' type='text' size ='10' /> &nbsp; &nbsp; &nbsp; ");
@@ -283,5 +303,6 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 				"<option value='1'>MySQL</option>" +
 			"</select>");
 		}
+		
 	}
 </script>
