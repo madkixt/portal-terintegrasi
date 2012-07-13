@@ -119,12 +119,12 @@ class Query extends BaseEntity
 		}
 		
 		$criteria->compare('t.queryID',$this->queryID);
-		$criteria->compare('judulQuery',$this->judulQuery,true);
-		$criteria->compare('databaseName',$this->databaseName,true);
-		$criteria->compare('notes',$this->notes,true);
-		$criteria->compare('creationDate',$this->creationDate,true);
-		$criteria->compare('modifiedDate',$this->modifiedDate,true);
-		$criteria->compare('notesModifiedDate',$this->notesModifiedDate,true);
+		$criteria->compare('t.judulQuery',$this->judulQuery,true);
+		$criteria->compare('t.databaseName',$this->databaseName,true);
+		$criteria->compare('t.notes',$this->notes,true);
+		$criteria->compare('t.creationDate',$this->creationDate,true);
+		$criteria->compare('t.modifiedDate',$this->modifiedDate,true);
+		$criteria->compare('t.notesModifiedDate',$this->notesModifiedDate,true);
 		$criteria->compare('createdBy0.username', $this->createdBy, true);
 		$criteria->compare('lastModifiedBy0.username', $this->lastModifiedBy, true);
 		$criteria->compare('lastNotesEditor0.username', $this->lastNotesEditor, true);

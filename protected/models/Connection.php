@@ -122,14 +122,14 @@ class Connection extends BaseEntity
 		
 		$criteria->together = true;
 
-		$criteria->compare('connectionID',$this->connectionID);
-		$criteria->compare('serverName',$this->serverName,true);
-		$criteria->compare('IPAddress',$this->IPAddress,true);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('dbms', $this->array_search_ci($this->dbms, Connection::getDbmsOptions()));
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('creationDate',$this->creationDate,true);
-		$criteria->compare('modifiedDate',$this->modifiedDate,true);
+		$criteria->compare('t.connectionID', $this->connectionID);
+		$criteria->compare('t.serverName', $this->serverName,true);
+		$criteria->compare('t.IPAddress', $this->IPAddress,true);
+		$criteria->compare('t.username', $this->username,true);
+		$criteria->compare('t.dbms', $this->array_search_ci($this->dbms, Connection::getDbmsOptions()));
+		$criteria->compare('t.description',$this->description,true);
+		$criteria->compare('t.creationDate',$this->creationDate,true);
+		$criteria->compare('t.modifiedDate',$this->modifiedDate,true);
 		$criteria->compare('createdBy0.username', $this->createdBy, true);
 		$criteria->compare('lastModifiedBy0.username', $this->lastModifiedBy, true);
 
