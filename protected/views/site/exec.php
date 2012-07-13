@@ -63,9 +63,13 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	</div>
 
 
-	
+<!--	
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Exec'); ?>
+		<?php //echo CHtml::submitButton('Exec'); ?>
+	</div>
+	-->
+	
+	<div id = "notes">
 	</div>
 	
 <style type="text/css"><!--
@@ -77,6 +81,19 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 </div><!-- form -->
 
 <script type="text/javascript">
+	
+	function shownote() {
+		if ($('#textnotes').css('opacity') == 0) {
+			$('#textnotes').animate({
+				opacity: 1.0
+			}, 1000);
+		} else {
+			$('#textnotes').animate({
+				opacity: 0
+			}, 1000);
+		}
+	}
+	
 	$(document).ready(function(){
 		var x=document.getElementById("connection");
 		var option=document.createElement("option");
@@ -144,7 +161,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 			str = $('textarea[name="statement' + i + '"]').text();
 			var variables = parseVariable(str);
 			for (varname in variables) {
-				$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='30px'>"+varname + "</td><td><input name='vari"+i+ varname + "' class= 'required' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
+				$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>"+varname + "</td><td width='250px' style='max-width: 125px'><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
 			}
 		}
 	}
