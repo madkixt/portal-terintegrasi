@@ -9,6 +9,7 @@ class SiteController extends Controller
 	{
 		return array(
 			'accessControl + exec', // perform access control for CRUD operations
+			'queryID + exec'
 		);
 	}
 	
@@ -137,11 +138,17 @@ class SiteController extends Controller
 		));
 	}
 	
-	public function actionDinamik() {
-		if ($_POST['queryID'] == "")
+	public function actionDinamik($id = null) {
+		if (($id === null) && ($_POST['queryID'] == ''))
 			return;
+	
+		if ($id === null)
+			$id = $_POST['queryID'];
 		
-		$data = Query::model()->findByPk($_POST['queryID']);
+		$data = Query::model()->findByPk($id);
+		if ($data === null) {
+			throw new CHttpException(404, "The requested page");
+		}
 		$statements = $data->loadStatements();
 		
 		$enableEditing = CHtml::checkBox('enable editing',false,array(
@@ -203,7 +210,7 @@ class SiteController extends Controller
 		$std3 = CHtml::tag('table', array('id' => 'gabung'), $str2);
 		echo $std3;
 		
-		$shownote = CHtml::link('Show Note', '', array('id'=>'shownote', 'onclick'=>'javascript: shownote();'));
+		$shownote = CHtml::link('Show Note', '#notes', array('id'=>'shownote', 'onclick'=>'javascript: shownote();'));
 		$shownote .= "<br />";
 		$shownote .= CHtml::textArea('textnotes', $data->notes, array(
 			'id' => 'textnotes',
@@ -396,6 +403,25 @@ class SiteController extends Controller
 		
 		$conn->active = false;
 		return $data;
+	}
+	
+	public function filterQueryID($filterChain) {
+		if (!isset($_POST['queryID']) || (($_POST['queryID'] == '') && (!isset($_GET['id']))))
+			throw new CHttpException(403, "Bad request.");
+		
+		$user = User::model()->findByPk(Yii::app()->user->getId());
+		
+		$broken = false;
+		foreach ($user->tblQueries as $query) {
+			if ($query->queryID) {
+				
+			}
+		}
+		
+		if (!$broken)
+			throw new CHttpException(403, "You are not authorized to view this page.");
+			
+		$filterChain->run();
 	}
 	
 	public function actionTest() {

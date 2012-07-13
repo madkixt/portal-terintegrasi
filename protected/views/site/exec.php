@@ -59,7 +59,7 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 	</div>
 	
 	<div id = "campur">
-		<?php if ($id != null) { echo $this->autoGen($id); } ?>
+		<?php if ($id !== null) { $this->actionDinamik($id); }//echo $this->autoGen($id); } ?>
 	</div>
 
 

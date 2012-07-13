@@ -15,7 +15,7 @@ class UserController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin - view, edit, removeQuery, removeConnection',
+			'admin - view, edit, removeQuery, removeConnection, changePassword',
 			'accessID + view, edit',
 			'selfAdmin + edit, delete',
 		);

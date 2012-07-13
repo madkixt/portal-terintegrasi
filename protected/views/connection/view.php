@@ -24,7 +24,10 @@ $this->menu=array(
 			'value' => Connection::model()->dbmsOptions[$model->dbms]
 		),
 		'username',
-		'password',
+		array(
+			'name' => 'password',
+			'visible' => Yii::app()->user->getState('admin')
+		),
 		'serverName',
 		'description',
 		'creationDate',

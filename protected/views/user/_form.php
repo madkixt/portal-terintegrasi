@@ -9,11 +9,14 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
+<?php
+if (Yii::app()->user->getState('admin')) { ?>
 	<div class="row">
 		<?php echo $form->labelEx($model,'admin'); ?>
 		<?php echo $form->dropDownList($model,'admin', $model->getAdminOptions()); ?>
 		<?php echo $form->error($model,'admin'); ?>
 	</div>
+<?php } ?>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
