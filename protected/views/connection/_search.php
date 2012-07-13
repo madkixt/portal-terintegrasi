@@ -7,14 +7,14 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'connectionID'); ?>
-		<?php echo $form->textField($model,'connectionID'); ?>
+		<?php echo $form->textField($model,'connectionID', array('size' => 3, 'maxlength' => 3)); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'serverName'); ?>
-		<?php echo $form->textField($model,'serverName',array('size'=>20,'maxlength'=>20)); ?>
+		<?php echo $form->label($model,'dbms'); ?>
+		<?php echo $form->textField($model,'dbms',array('size'=>20,'maxlength'=>30)); ?>
 	</div>
-
+	
 	<div class="row">
 		<?php echo $form->label($model,'IPAddress'); ?>
 		<?php echo $form->textField($model,'IPAddress',array('size'=>15,'maxlength'=>15)); ?>
@@ -24,7 +24,13 @@
 		<?php echo $form->label($model,'username'); ?>
 		<?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
+	
+	<div class="row">
+		<?php echo $form->label($model,'serverName'); ?>
+		<?php echo $form->textField($model,'serverName',array('size'=>20,'maxlength'=>20)); ?>
+	</div>
 
+	
 	<div class="row">
 		<?php echo $form->label($model,'description'); ?>
 		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
