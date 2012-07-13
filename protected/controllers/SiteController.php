@@ -261,34 +261,7 @@ class SiteController extends Controller
 		$retval .= $stx;
 		return $retval;
 	}	
-		
-	public function actionTest() {
-		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
-		// $username = 'sa';
-		// $password = 'm4nd1r1db';
-		$dsn = 'sqlsrv:server=WIBI-PC;database=AdventureWorks';
-		$username = '';
-		$password = '';
-		// $dsn = 'mysql:host=localhost;dbname=wdshop';
-		// $username = 'root';
-		
-		// $sql = "select cardno, productid,  INTauthamount AS denom, renewalStatus, cardbalance, cardbalanceoncard , ModifiedOn, ModifiedBy from dbo.MPS_CardMaster with (nolock) where cardno in ('6032981019317189')";
-		// $sql = "SELECT * FROM barang";
-		$sql = "SELECT TOP 100 * FROM Production.Product; SELECT TOP 100 * FROM Person.Person";
-		
-		$con = new CDbConnection($dsn, $username, $password);
-		$con->active = true;
-		
-		$cmd = $con->createCommand($sql);
-		$data = $cmd->queryAll();
-		
-		$con->active = false;
-		
-		Yii::app()->user->setState('result', $data);
-		$this->render('result', array('data' => $data));
-	}
 	
-
 	public function actionDownload($type = 'xls') {
 		if (($cmd = Yii::app()->user->getState('conn')) == null)
 			throw new CHttpException(403, 'No query result found.');
@@ -425,8 +398,30 @@ class SiteController extends Controller
 		return $data;
 	}
 	
-	private function getDsn($dbms) {
+	public function actionTest() {
+		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
+		// $username = 'sa';
+		// $password = 'm4nd1r1db';
+		$dsn = 'sqlsrv:server=WIBI-PC;database=AdventureWorks';
+		$username = '';
+		$password = '';
+		// $dsn = 'mysql:host=localhost;dbname=wdshop';
+		// $username = 'root';
 		
+		// $sql = "select cardno, productid,  INTauthamount AS denom, renewalStatus, cardbalance, cardbalanceoncard , ModifiedOn, ModifiedBy from dbo.MPS_CardMaster with (nolock) where cardno in ('6032981019317189')";
+		// $sql = "SELECT * FROM barang";
+		$sql = "SELECT TOP 100 * FROM Production.Product; SELECT TOP 100 * FROM Person.Person";
+		
+		$con = new CDbConnection($dsn, $username, $password);
+		$con->active = true;
+		
+		$cmd = $con->createCommand($sql);
+		$data = $cmd->queryAll();
+		
+		$con->active = false;
+		
+		Yii::app()->user->setState('result', $data);
+		$this->render('result', array('data' => $data));
 	}
 }
 
