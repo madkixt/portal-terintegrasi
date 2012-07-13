@@ -406,21 +406,30 @@ class SiteController extends Controller
 	}
 	
 	public function filterQueryID($filterChain) {
-		if (!isset($_POST['queryID']) || (($_POST['queryID'] == '') && (!isset($_GET['id']))))
-			throw new CHttpException(403, "Bad request.");
+		$id = null;
+		if (isset($_POST['queryID']))
+			$id = $_POST['queryID'];
+		elseif (isset($_GET['id']))
+			$id = $_GET['id'];
+		
+		if ($id === null) {
+			$filterChain->run();
+			return;
+		}
 		
 		$user = User::model()->findByPk(Yii::app()->user->getId());
 		
 		$broken = false;
 		foreach ($user->tblQueries as $query) {
-			if ($query->queryID) {
-				
+			if ($query->queryID == $id) {
+				$broken = true;
+				break;
 			}
 		}
 		
 		if (!$broken)
 			throw new CHttpException(403, "You are not authorized to view this page.");
-			
+		
 		$filterChain->run();
 	}
 	
