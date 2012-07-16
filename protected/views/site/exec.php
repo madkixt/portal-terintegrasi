@@ -136,7 +136,8 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 				error = 1;
 			}
 			else {
-			$('#connection').removeClass('error');
+				$('#connection').removeClass('error');
+				$('input[name="IP"]').removeClass('error');
 			}
 		}
 		
