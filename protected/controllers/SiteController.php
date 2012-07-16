@@ -9,7 +9,7 @@ class SiteController extends Controller
 	{
 		return array(
 			'accessControl + exec', // perform access control for CRUD operations
-			'invalid + dinamik, error, test',
+			'dinamik + dinamik',
 			'queryID + exec'
 		);
 	}
@@ -450,6 +450,7 @@ class SiteController extends Controller
 	}
 	
 	public function actionTest() {
+		throw new CHttpException(404, 'Page not found.');
 		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
 		// $username = 'sa';
 		// $password = 'm4nd1r1db';
@@ -475,7 +476,7 @@ class SiteController extends Controller
 		$this->render('result', array('data' => $data));
 	}
 	
-	public function filterInvalid($filterChain) {
+	public function filterDinamik($filterChain) {
 		if (!Yii::app()->request->isAjaxRequest) {
 			$this->redirect(array('/site'));
 			return;

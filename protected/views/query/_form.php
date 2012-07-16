@@ -49,9 +49,9 @@ $('#addStatement').bind('click', function() {
 	<?php echo CHtml::link('Add statement', '#', array('id' => 'addStatement')); ?>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'judulQuery'); ?>
-		<?php echo $form->textField($model,'judulQuery',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'judulQuery'); ?>
+		<?php echo $form->labelEx($model,'title'); ?>
+		<?php echo $form->textField($model,'title',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->error($model,'title'); ?>
 	</div>
 
 	<div class="row">

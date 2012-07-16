@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Queries'=>array('manage'),
-	$model->judulQuery => array('view','id'=>$model->queryID),
+	$model->title => array('view','id'=>$model->queryID),
 	'Edit',
 );
 
@@ -22,6 +22,6 @@ if (Yii::app()->user->getState('admin')) {
 }
 ?>
 
-<h1>Edit Query <?php echo $model->judulQuery; ?></h1>
+<h1>Edit Query <?php echo $model->title; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model, 'statements' => $statements)); ?>

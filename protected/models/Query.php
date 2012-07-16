@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'tbl_query':
  * @property integer $queryID
- * @property string $judulQuery
+ * @property string $title
  * @property string $databaseName
  * @property string $notes
  * @property string $creationDate
@@ -51,14 +51,14 @@ class Query extends BaseEntity
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('judulQuery, databaseName', 'required'),
+			array('title, databaseName', 'required'),
 			array('createdBy, lastModifiedBy, lastNotesEditor', 'numerical', 'integerOnly' => true),
-			array('judulQuery', 'length', 'max'=>50),
+			array('title', 'length', 'max'=>50),
 			array('databaseName', 'length', 'max'=>30),
 			array('notes', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('queryID, judulQuery, databaseName, notes, creationDate, modifiedDate, notesModifiedDate, createdBy, lastModifiedBy, lastNotesEditor, queryString', 'safe', 'on' => 'search'),
+			array('queryID, title, databaseName, notes, creationDate, modifiedDate, notesModifiedDate, createdBy, lastModifiedBy, lastNotesEditor, queryString', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -85,7 +85,7 @@ class Query extends BaseEntity
 	{
 		return array(
 			'queryID' => 'ID',
-			'judulQuery' => 'Judul Query',
+			'title' => 'Query Title',
 			'databaseName' => 'Database Name',
 			'notes' => 'Notes',
 			'creationDate' => 'Creation Date',
@@ -119,7 +119,7 @@ class Query extends BaseEntity
 		}
 		
 		$criteria->compare('t.queryID',$this->queryID);
-		$criteria->compare('t.judulQuery',$this->judulQuery,true);
+		$criteria->compare('t.title',$this->title,true);
 		$criteria->compare('t.databaseName',$this->databaseName,true);
 		$criteria->compare('t.notes',$this->notes,true);
 		$criteria->compare('t.creationDate',$this->creationDate,true);

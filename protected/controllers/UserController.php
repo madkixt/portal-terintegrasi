@@ -204,7 +204,7 @@ class UserController extends Controller
 			$model->attributes = $_POST['AssignQueryForm'];
 			if ($model->validate()) {
 				$user->assignQuery($model->queryID);
-				Yii::app()->user->setFlash('assignQuerySuccess', 'Query ' . Query::model()->findByPk($model->queryID)->judulQuery . ' has been assigned to ' . $user->username);
+				Yii::app()->user->setFlash('assignQuerySuccess', 'Query ' . Query::model()->findByPk($model->queryID)->title . ' has been assigned to ' . $user->username);
 			}
 		}
 		

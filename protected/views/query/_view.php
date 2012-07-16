@@ -4,8 +4,8 @@
 	<?php echo CHtml::link(CHtml::encode($data->queryID), array('view', 'id'=>$data->queryID)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('judulQuery')); ?>:</b>
-	<?php echo CHtml::encode($data->judulQuery); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('title')); ?>:</b>
+	<?php echo CHtml::encode($data->title); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('databaseName')); ?>:</b>

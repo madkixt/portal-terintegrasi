@@ -11,8 +11,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'judulQuery'); ?>
-		<?php echo $form->textField($model,'judulQuery',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->label($model,'title'); ?>
+		<?php echo $form->textField($model,'title',array('size'=>50,'maxlength'=>50)); ?>
 	</div>
 
 	<div class="row">

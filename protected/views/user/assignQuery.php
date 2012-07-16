@@ -62,7 +62,7 @@ if (count($assign) === 0) {
 	
 	<div class="row">
 		<?php echo $form->labelEx($model, 'queryID'); ?>
-		<?php echo $form->dropDownList($model, 'queryID', CHtml::listData($assign, 'queryID', 'judulQuery')); ?>
+		<?php echo $form->dropDownList($model, 'queryID', CHtml::listData($assign, 'queryID', 'title')); ?>
 		<?php echo $form->error($model,'queryID'); ?>
 	</div>
 	

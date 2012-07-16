@@ -20,7 +20,7 @@
 					<?php echo $form->labelEx($model,'connection'); ?>
 					<?php echo $form->dropDownList($model,'connection', $model->getConnection(), array (
 						'id'=>'connection',
-						'empty'=>'Pilih Koneksi',						
+						'empty'=>'Choose connection',						
 						'onchange'=>'javascript: TambahTextField();'
 					)); ?>
 					<?php echo $form->error($model,'connection'); ?>
@@ -42,7 +42,7 @@
 		<?php echo $form->labelEx($model,'queryID'); ?>
 		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
 		array(
-			'empty'=>'Pilih Judul',
+			'empty'=>'Choose query',
 			 'options'=>array($id => array('selected'=>'selected')),
 			'ajax' => array(
 				'type'=>'POST',
@@ -96,72 +96,61 @@
 		}
 	}
 	
-	$(document).ready(function(){
-		var x=document.getElementById("connection");
-		var option=document.createElement("option");
-		option.text="Buat Koneksi Baru";
-		option.value = "other";
-		try {
-			x.add(option,x.options[null]);
-		}
-		catch (e) {
-			x.add(option,null);
-		}
+	$(document).ready(function() {
 		
 		
 		$('.form').submit(function(){
-		var error = 0;
-		var z = ($('textarea[name="isiquery1"]').text());
-		if (z == "")
-		{
-			$('textarea[name="isiquery1"]').addClass('error');
-			error = 1;
-		}
-		else {
-			$('textarea[name="isiquery1"]').removeClass('error');
-		}
-		
-		var selected =  $("#connection option:selected");
-		selected = selected[0].value;
-		if (selected == "") {
-			$('#connection').addClass('error');
-			error = 1;
-		} else {
-			var IP1 = $('input[name="IP"]');
-			IP1 = IP1[0].value;
-			if (IP1 == "")
-			{
-				$('input[name="IP"]').addClass('error');
+			var error = 0;
+			var z = ($('textarea[name="isiquery1"]').val());
+			if (z == "") {
+				$('textarea[name="isiquery1"]').addClass('error');
 				error = 1;
 			}
 			else {
-				$('#connection').removeClass('error');
-				$('input[name="IP"]').removeClass('error');
+				$('textarea[name="isiquery1"]').removeClass('error');
 			}
-		}
-		
-		if  (!$('#enableediting').is(':checked')) {
-			for(var i =1; i <= $('#campur textarea').length; i++) {
-				if  ($('#checkbox' + i).is(':checked')) {
-					var arr = parseVariable($('#statement' + i).text());
-					for (varname in arr) {
-						var x = $('input[name="vari'+i+ varname+'"]');
-						arr[varname] = x[0].value;
-						if (arr[varname] == "") {	
-							 $('input[name="vari'+i+ varname+'"]').addClass('error');
-							error = 1;	
-						} else {
-								$('input[name="vari'+i+ varname+'"]').removeClass('error');
-						}
-					}
-				} 
-			}
-		}
 			
-		if (error == 1) {
-			alert('Please fill all fields with red border');
-			return false;
-		}
+			var selected =  $("#connection option:selected");
+			selected = selected[0].value;
+			if (selected == "") {
+				$('#connection').addClass('error');
+				error = 1;
+			} else {
+				var IP1 = $('input[name="IP"]');
+				IP1 = IP1[0].value;
+				if (IP1 == "")
+				{
+					$('input[name="IP"]').addClass('error');
+					error = 1;
+				}
+				else {
+					$('#connection').removeClass('error');
+					$('input[name="IP"]').removeClass('error');
+				}
+			}
+			
+			if  ($('#enableediting').is(':checked')) {
+				for(var i =1; i <= $('#campur textarea').length; i++) {
+					if  ($('#checkbox' + i).is(':checked')) {
+						var arr = parseVariable($('#statement' + i).text());
+						for (varname in arr) {
+							var x = $('input[name="vari'+i+ varname+'"]');
+							arr[varname] = x[0].value;
+							if (arr[varname] == "") {	
+								 $('input[name="vari'+i+ varname+'"]').addClass('error');
+								error = 1;	
+							} else {
+									$('input[name="vari'+i+ varname+'"]').removeClass('error');
+							}
+						}
+					} 
+				}
+			}
+				
+			if (error == 1) {
+				alert('Please fill all fields with red border');
+				return false;
+			}
 		});
 	});
 
@@ -177,13 +166,13 @@
 
 	function setText() {
 		var txt = '';
-		for(var i = 1; i <= $('#campur textarea').length; i++) {
+		for (var i = 1; i <= $('#campur textarea').length; i++) {
 			if  ($('#checkbox' + i).is(':checked')) {
 				txt += assignVariable($('textarea[name="statement' + i + '"]').text(), i) + ";\n";
 			}
 		}
 		
-		$('#isiquery').text(txt);
+		$('#isiquery').val(txt);
 	}
 	
 	function splitQuery(i) {
@@ -301,8 +290,8 @@
 	function TambahTextField() {
 		$('#koneksibaru').empty();
 		
-		var selected =  $("#connection option:selected").text();
-		if (selected == 'Buat Koneksi Baru') {
+		var selected =  $("#connection option:selected").val();
+		if (selected === 'other') {
 			$('#koneksibaru').html($('#koneksibaru').html() + "IP <input name='IP' type='text' size ='10' /> &nbsp; &nbsp; &nbsp; ");
 			$('#koneksibaru').html($('#koneksibaru').html() + "Username <input name='username' size = '10' type='text'/> &nbsp; &nbsp; &nbsp; ");
 			$('#koneksibaru').html($('#koneksibaru').html() + "Password <input name='password' size = '10' type='password'/> &nbsp; &nbsp; &nbsp; ");
