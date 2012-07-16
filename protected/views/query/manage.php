@@ -42,7 +42,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		),
 		array(
 			'class' => 'CQueryDataColumn',
-			'name' => 'judulQuery'
+			'name' => 'title'
 		),
 		array(
 			'name' => 'databaseName',

@@ -31,13 +31,11 @@ class ExecForm extends CFormModel
 	/**
 	 * Declares attribute labels.
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
-			'queryID' => 'Judul Query',
-		
+			'queryID' => 'Query Title',
 			'database' => 'Database',
-			'mesin' => 'Koneksi'
+			'mesin' => 'Connection'
 		);
 	}
 	
@@ -45,14 +43,23 @@ class ExecForm extends CFormModel
 	public static function getConnection()
 	{
 		$user = User::model()->findByPk(Yii::app()->user->getId());
-		$mesinArray= CHtml::listData($user->tblConnections, 'connectionID', 'name');
-		return $mesinArray;
+		$model = $user->tblConnections;
+		
+		if (Yii::app()->user->getState('admin')) {
+			$conn = new Connection;
+			$conn->connectionID = 'other';
+			$conn->IPAddress = 'New connection';
+			$conn->username = '';
+			$model[] = $conn;
+		}
+		
+		return CHtml::listData($model, 'connectionID', 'name');
 	}
 	
 	public static function getJudul()
 	{
 		$user = User::model()->findByPk(Yii::app()->user->getId());
-		$judulArray= CHtml::listData($user->tblQueries, 'queryID', 'judulQuery');
+		$judulArray= CHtml::listData($user->tblQueries, 'queryID', 'title');
 		return $judulArray;
 	}
 	

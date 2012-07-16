@@ -4,7 +4,7 @@ echo Yii::app()->user->getFlash('tes1');
 
 $this->breadcrumbs=array(
 	'Queries'=>array('manage'),
-	$model->judulQuery,
+	$model->title,
 );
 
 if (Yii::app()->user->getState('admin')) {
@@ -24,13 +24,13 @@ if (Yii::app()->user->getState('admin')) {
 }
 ?>
 
-<h1>View Query <?php echo $model->judulQuery; ?></h1>
+<h1>View Query <?php echo $model->title; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'queryID',
-		'judulQuery',
+		'title',
 		'databaseName',
 		'notes',
 		'creationDate',

@@ -245,10 +245,10 @@ class User extends BaseEntity
 	/* Returns queries not yet assigned to this user */
 	public function getAssignableQueries() {
 		return Yii::app()->db->createCommand()
-			->select('queryID, judulQuery')
+			->select('queryID, title')
 			->from('tbl_query')
 			->where('queryID NOT IN (SELECT queryID FROM tbl_user_query WHERE userID = :userID)', array(':userID' => $this->userID))
-			->order('judulQuery')
+			->order('title')
 			->queryAll();
 	}
 	
