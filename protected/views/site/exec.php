@@ -128,7 +128,16 @@ $this->pageTitle=Yii::app()->name . ' - Exec';
 			$('#connection').addClass('error');
 			error = 1;
 		} else {
+			var IP1 = $('input[name="IP"]');
+			IP1 = IP1[0].value;
+			if (IP1 == "")
+			{
+				$('input[name="IP"]').addClass('error');
+				error = 1;
+			}
+			else {
 			$('#connection').removeClass('error');
+			}
 		}
 		
 		if  (!$('#enableediting').is(':checked')) {
