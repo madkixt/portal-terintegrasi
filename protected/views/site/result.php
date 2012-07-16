@@ -1,7 +1,7 @@
 <?php
 if ($error !== '') {
-?><h3><?php
-	echo $error;?></h3>
+?><div class='flash-error'><?php
+	echo $error;?></div>
 <?php
 	return;
 }?>
@@ -20,16 +20,15 @@ $i = 0;
 $queries = explode(";", $query);
 
 for ($i = 0; $i < count($data); $i++) { ?>
-<h3>Statement <?php echo ($i+1) . ": " . $queries[$i]; ?></h3>
+<p><strong>Statement <?php echo ($i+1) . ": " . $queries[$i]; ?></strong></p>
 <div style='overflow: auto; height: 600px'>
 <?php
-	$this->widget('zii.widgets.grid.CGridView', array(
+	$this->widget('PGridView', array(
     	'dataProvider'=> new CArrayDataProvider($data[$i], array(
 			'keyField' => false,
 			'pagination' => false, //array(
 				// 'pageSize' => 100
 			// ),
-			'id' => 'resultgrid',
 		)),
 	));
 ?>

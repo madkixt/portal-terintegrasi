@@ -9,6 +9,7 @@ class SiteController extends Controller
 	{
 		return array(
 			'accessControl + exec', // perform access control for CRUD operations
+			'invalid + dinamik, error, test',
 			'queryID + exec'
 		);
 	}
@@ -286,6 +287,9 @@ class SiteController extends Controller
 		if ((($cmd = Yii::app()->user->getState('conn')) == null) && !isset($_POST['isiquery1']))
 			throw new CHttpException(403, 'No query found.');
 		
+		$error = '';
+		$data = array();
+		
 		if (isset($_POST['isiquery1'])) {
 			if ($_POST['ExecForm']['connection'] === 'other') {
 				$IPAddress = $_POST['IP'];
@@ -307,17 +311,25 @@ class SiteController extends Controller
 			$dsn = Connection::getDsn($dbms, $IPAddress, $_POST['database']);
 			$username = $username;
 			$password = $password;
-			$dbCon = new CDbConnection($dsn, $username, $password);
-			$cmd = $dbCon->createCommand($_POST['isiquery1']);
+			
+			try {
+				$dbCon = new CDbConnection($dsn, $username, $password);
+				$cmd = $dbCon->createCommand($_POST['isiquery1']);
+			} catch (Exception $e) {
+				$error = 'Query failed. Please check the <strong>connection</strong>.';
+				$this->render('result', array('data' => $data, 'query' => '', 'error' => $error));
+				return;
+			}
 		}
 		
-		$error = '';
-		$data = array();
 		try {
 			$data = $this->queryAll($cmd->connection, $cmd->text);
 		} catch (Exception $e) {
-			$error = 'Query failed. Please check the connection and/or the statements.';
+			$error = 'Query failed. Please check the <strong>query syntax</strong>.';
+			$this->render('result', array('data' => $data, 'query' => '', 'error' => $error));
+			return;
 		}
+		
 		Yii::app()->user->setState('conn', $cmd);
 		$this->render('result', array('data' => $data, 'query' => $cmd->text, 'error' => $error));
 	}
@@ -391,6 +403,10 @@ class SiteController extends Controller
 	}
 	
 	private function queryAll($conn, $text) {
+		$rtrim = rtrim($text);
+		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ";")
+			$text .= ";";
+			
 		$data = array();
 		
 		$conn->active = true;
@@ -457,6 +473,15 @@ class SiteController extends Controller
 		
 		Yii::app()->user->setState('result', $data);
 		$this->render('result', array('data' => $data));
+	}
+	
+	public function filterInvalid($filterChain) {
+		if (!Yii::app()->request->isAjaxRequest) {
+			$this->redirect(array('/site'));
+			return;
+		}
+		
+		$filterChain->run();
 	}
 }
 
