@@ -1,6 +1,5 @@
-
 <?php
-$this->pageTitle=Yii::app()->name . ' - Exec';
+	$this->pageTitle=Yii::app()->name . ' - Exec';
 ?>
 <h1>Execution</h1>
 

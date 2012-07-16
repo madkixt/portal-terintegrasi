@@ -49,8 +49,9 @@
 	<div class="clear"></div>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
+		<?php echo CHtml::link('About', array('site/page', 'view' => 'about')); ?> | <?php echo CHtml::link('Contact Us', array('site/contact')); ?><br />
+		Copyright &copy; 2012<br />
+		IF ITB 2009<br/>
 		<?php echo Yii::powered(); ?>
 	</div><!-- footer -->
 
