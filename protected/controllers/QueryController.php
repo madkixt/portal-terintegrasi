@@ -63,6 +63,7 @@ class QueryController extends Controller
 			$model->attributes = $_POST['Query'];
 			if ($model->validate(null, false) && $model->save(false)) {
 				$model->insertStatements($statements);
+				Yii::app()->user->setFlash('success', 'Query <b>' . $model->title . '</b> has been added.');
 				$this->redirect(array('view', 'id' => $model->queryID));
 			}
 		}
@@ -92,6 +93,9 @@ class QueryController extends Controller
 			$model->attributes=$_POST['Query'];
 			if ($model->validate(null, false) && $model->save(false)) {
 				$model->editStatements($statements);
+				
+				Yii::app()->user->setFlash('success', 'Query <b>' . $model->title . '</b> has been edited.');
+				
 				$this->redirect(array('view', 'id' => $model->queryID));
 			}
 		} else {
@@ -114,7 +118,11 @@ class QueryController extends Controller
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+			$model = $this->loadModel($id);
+			$title = $model->title;
+			$model->delete();
+			
+			Yii::app()->user->setFlash('success', 'Query <b>' . $title . '</b> has been deleted.');
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))

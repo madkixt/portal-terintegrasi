@@ -115,10 +115,10 @@ class SiteController extends Controller
 	 * Displays the execution page
 	 */
 	public function actionExec($id = null) {
-		$model = new ExecForm;		
+		$model = new ExecForm;	
+		
 		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form')
-		{
+		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		} 

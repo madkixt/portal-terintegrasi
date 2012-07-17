@@ -26,6 +26,12 @@ if (Yii::app()->user->getState('admin')) {
 
 <h1>View Query <?php echo $model->title; ?></h1>
 
+<?php if (Yii::app()->user->hasFlash('success')) { ?>
+<div class="flash-success">
+	<em><?php echo Yii::app()->user->getFlash('success'); ?></em>
+</div>
+<?php } ?>
+
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
@@ -38,15 +44,18 @@ if (Yii::app()->user->getState('admin')) {
 		'notesModifiedDate',
 		array(
 			'name' => 'createdBy',
-			'value' => CHtml::encode($model->creatorUsername)
+			'type' => 'raw',
+			'value' => Yii::app()->user->getState('admin') ? CHtml::link($model->creatorUsername, array('user/view', 'id' => $model->createdBy)) : CHtml::encode($model->creatorUsername)
 		),
 		array(
 			'name' => 'lastModifiedBy',
-			'value' => CHtml::encode($model->editorUsername)
+			'type' => 'raw',
+			'value' => Yii::app()->user->getState('admin') ? CHtml::link($model->editorUsername, array('user/view', 'id' => $model->lastModifiedBy)) : CHtml::encode($model->editorUsername)
 		),
 		array(
 			'name' => 'lastNotesEditor',
-			'value' => CHtml::encode($model->notesEditorUsername)
+			'type' => 'raw',
+			'value' => Yii::app()->user->getState('admin') ? CHtml::link($model->notesEditorUsername, array('user/view', 'id' => $model->lastNotesEditor)) : CHtml::encode($model->notesEditorUsername)
 		)
 	),
 	'nullDisplay' => ''

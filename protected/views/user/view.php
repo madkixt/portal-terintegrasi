@@ -33,12 +33,14 @@ $this->menu=array(
 		'modifiedDate',
 		array(
 			'name' => 'createdBy',
-			'value' => CHtml::encode($model->creatorUsername)
+			'type' => 'raw',
+			'value' => Yii::app()->user->getState('admin') ? CHtml::link($model->creatorUsername, array('user/view', 'id' => $model->createdBy)) : CHtml::encode($model->creatorUsername)
 		),
 		array(
 			'name' => 'lastModifiedBy',
-			'value' => CHtml::encode($model->editorUsername)
-		)
+			'type' => 'raw',
+			'value' => Yii::app()->user->getState('admin') ? CHtml::link($model->editorUsername, array('user/view', 'id' => $model->lastModifiedBy)) : CHtml::encode($model->editorUsername)
+		),
 	),
 	'nullDisplay' => ''
 )); ?>
