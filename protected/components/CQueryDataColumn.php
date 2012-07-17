@@ -1,8 +1,7 @@
 <?php
 
 class CQueryDataColumn extends CDataColumn {
-	protected function renderDataCellContent($row,$data)
-	{
+	protected function renderDataCellContent($row,$data) {
 		if($this->value!==null)
 			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
 		else if($this->name!==null) {

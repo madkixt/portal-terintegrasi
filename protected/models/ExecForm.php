@@ -2,6 +2,10 @@
 
 /** halaman eksekusi query */
 
+function sortee($a, $b) {
+	return -1*strcmp($a->name, $b->name);
+}
+
 class ExecForm extends CFormModel
 {
 	public $queryID;
@@ -45,6 +49,7 @@ class ExecForm extends CFormModel
 		$user = User::model()->findByPk(Yii::app()->user->getId());
 		$model = $user->tblConnections;
 		
+		usort($model, "sortee");
 		if (Yii::app()->user->getState('admin')) {
 			$conn = new Connection;
 			$conn->connectionID = 'other';
@@ -61,22 +66,5 @@ class ExecForm extends CFormModel
 		$user = User::model()->findByPk(Yii::app()->user->getId());
 		$judulArray= CHtml::listData($user->tblQueries, 'queryID', 'title');
 		return $judulArray;
-	}
-	
-	public static function getDatabaseBy($queryID)
-	{	
-	/*	$db = Query::model()->findByPk('queryID=:queryID order by databaseName', array('queryID'=>$queryID)); */
-		$db[] = Query::model()->findByPk($queryID);
-		$dbArray = CHtml::listData($db, 'queryID','databaseName');
-		//print_r($db);
-		
-		return $dbArray;
-		
-	}
-	
-	
-	public function exec()
-	{
-		
 	}
 }

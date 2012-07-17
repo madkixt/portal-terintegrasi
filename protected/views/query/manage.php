@@ -23,6 +23,12 @@ $('.search-form form').submit(function(){
 
 <h1>Manage <?php if ($username != null) {echo CHtml::link($username, array('/user', 'id' => $id)); echo "'s";} ?> Queries</h1>
 
+<?php if (Yii::app()->user->hasFlash('success')) { ?>
+<div class="flash-success">
+	<em><?php echo Yii::app()->user->getFlash('success'); ?></em>
+</div>
+<?php } ?>
+
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
