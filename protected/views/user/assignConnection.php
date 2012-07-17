@@ -30,6 +30,16 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
+<?php if (Yii::app()->user->hasFlash('success')) { ?>
+<div class="flash-success">
+	<em><?php echo Yii::app()->user->getFlash('success'); ?></em>
+</div>
+<?php } elseif (Yii::app()->user->hasFlash('error')) { ?>
+<div class="flash-error">
+	<em><?php echo Yii::app()->user->getFlash('error'); ?></em>
+</div>
+<?php } ?>
+
 <?php
 $assign = $user->assignableConnections;
 if (count($assign) === 0) {
@@ -41,12 +51,6 @@ if (count($assign) === 0) {
 ?>
 
 <h1>Assign Connection to <?php echo $user->username ?></h1>
-
-<?php if (Yii::app()->user->hasFlash('assignConnectionSuccess')) { ?>
-<div class="flash-success">
-	<p><em><?php echo Yii::app()->user->getFlash('assignConnectionSuccess'); ?></em></p>
-</div>
-<?php } ?>
 
 <div class="form">
 

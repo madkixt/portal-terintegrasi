@@ -8,6 +8,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'Add Connection', 'url'=>array('add')),
 	array('label'=>'View Connection', 'url'=>array('view', 'id'=>$model->connectionID)),
+	array('label'=>'Assign Connection', 'url'=>array('assign', 'id'=>$model->connectionID)),
 	array('label'=>'Delete Connection', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->connectionID),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Back to Manage Connection', 'url'=>array('manage')),
 );

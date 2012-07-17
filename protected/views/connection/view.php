@@ -7,6 +7,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'Add Connection', 'url'=>array('add'), 'visible' => Yii::app()->user->getState('admin')),
 	array('label'=>'Edit Connection', 'url'=>array('edit', 'id'=>$model->connectionID), 'visible' => Yii::app()->user->getState('admin')),
+	array('label'=>'Assign Connection', 'url'=>array('assign', 'id'=>$model->connectionID), 'visible' => Yii::app()->user->getState('admin')),
 	array('label'=>'Delete Connection', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->connectionID),'confirm'=>'Are you sure you want to delete this item?'), 'visible' => Yii::app()->user->getState('admin')),
 	array('label'=>'Back to Manage Connection', 'url'=>array('manage')),
 );

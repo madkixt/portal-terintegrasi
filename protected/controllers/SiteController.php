@@ -211,7 +211,7 @@ class SiteController extends Controller
 		$std3 = CHtml::tag('table', array('id' => 'gabung'), $str2);
 		echo $std3;
 		
-		$shownote = CHtml::link('Show Note', '#notes', array('id'=>'shownote', 'onclick'=>'javascript: shownote();'));
+		$shownote = CHtml::link('Show Notes', '#notes', array('id'=>'shownote', 'onclick'=>'javascript: shownote();'));
 		$shownote .= "<br />";
 		$shownote .= CHtml::textArea('textnotes', $data->notes, array(
 			'id' => 'textnotes',

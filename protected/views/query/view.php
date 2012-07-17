@@ -12,11 +12,13 @@ if (Yii::app()->user->getState('admin')) {
 		array('label' => 'Use Query', 'url' => array('site/exec', 'id' => $model->queryID)),
 		array('label'=>'Add Query', 'url'=>array('add')),
 		array('label'=>'Edit Query', 'url'=>array('edit', 'id'=>$model->queryID)),
+		array('label'=>'Assign Query', 'url'=>array('assign', 'id'=>$model->queryID)),
 		array('label'=>'Delete Query', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->queryID),'confirm'=>'Are you sure you want to delete this item?')),
-		array('label'=>'Back to Manage Query', 'url'=>array('manage')),	
+		array('label'=>'Back to Manage Query', 'url'=>array('manage')),
 	);
 } else {
 	$this->menu=array(
+		array('label' => 'Use Query', 'url' => array('site/exec', 'id' => $model->queryID)),
 		array('label'=>'Add Query', 'url'=>array('add')),
 		array('label'=>'Edit Query', 'url'=>array('edit', 'id'=>$model->queryID)),
 		array('label'=>'Back to Manage Query', 'url'=>array('manage')),	

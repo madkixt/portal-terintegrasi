@@ -30,9 +30,13 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<?php if (Yii::app()->user->hasFlash('assignQuerySuccess')) { ?>
+<?php if (Yii::app()->user->hasFlash('success')) { ?>
 <div class="flash-success">
-	<p><em><?php echo Yii::app()->user->getFlash('assignQuerySuccess'); ?></em></p>
+	<em><?php echo Yii::app()->user->getFlash('success'); ?></em>
+</div>
+<?php } elseif (Yii::app()->user->hasFlash('error')) { ?>
+<div class="flash-error">
+	<em><?php echo Yii::app()->user->getFlash('error'); ?></em>
 </div>
 <?php } ?>
 
@@ -40,7 +44,7 @@ $('.search-form form').submit(function(){
 $assign = $user->assignableQueries;
 if (count($assign) === 0) {
 ?>
-<h2>No query is assignable to <?php echo $user->username; ?>.</h2>
+<h2>No query is assignable to <?php echo $user->username; ?></h2>
 <?php
 	return;
 }

@@ -101,25 +101,26 @@
 		
 		$('.form').submit(function(){
 			var error = 0;
+			
+			// Isiquery
 			var z = ($('textarea[name="isiquery1"]').val());
 			if (z == "") {
 				$('textarea[name="isiquery1"]').addClass('error');
 				error = 1;
-			}
-			else {
+			} else {
 				$('textarea[name="isiquery1"]').removeClass('error');
 			}
 			
+			// Connection
 			var selected =  $("#connection option:selected");
 			selected = selected[0].value;
 			if (selected == "") {
 				$('#connection').addClass('error');
 				error = 1;
-			} else {
+			} else if (selected == "other") {
 				var IP1 = $('input[name="IP"]');
 				IP1 = IP1[0].value;
-				if (IP1 == "")
-				{
+				if (IP1 == "") {
 					$('input[name="IP"]').addClass('error');
 					error = 1;
 				}
@@ -127,26 +128,29 @@
 					$('#connection').removeClass('error');
 					$('input[name="IP"]').removeClass('error');
 				}
+			} else {
+				$('#connection').removeClass('error');
 			}
 			
-			if  ($('#enableediting').is(':checked')) {
-				for(var i =1; i <= $('#campur textarea').length; i++) {
+			// Variable
+			if  (!$('#enableediting').is(':checked')) {
+				for (var i =1; i <= $('#campur textarea').length; i++) {
 					if  ($('#checkbox' + i).is(':checked')) {
 						var arr = parseVariable($('#statement' + i).text());
 						for (varname in arr) {
 							var x = $('input[name="vari'+i+ varname+'"]');
-							arr[varname] = x[0].value;
-							if (arr[varname] == "") {	
-								 $('input[name="vari'+i+ varname+'"]').addClass('error');
-								error = 1;	
+							x = x[0].value;
+							if (x == "") {	
+								$('input[name="vari'+i+ varname+'"]').addClass('error');
+								error = 1;
 							} else {
-									$('input[name="vari'+i+ varname+'"]').removeClass('error');
+								$('input[name="vari'+i+ varname+'"]').removeClass('error');
 							}
 						}
 					} 
 				}
 			}
-				
+			
 			if (error == 1) {
 				alert('Please fill all fields with red border');
 				return false;

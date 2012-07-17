@@ -147,6 +147,17 @@ class Query extends BaseEntity
 			}
 		}
 	}
+		
+	public function getAssignableUsers() {
+		return User::model()->with('tblQueries')->findAll(array(
+			'condition' => 't.admin = :adm AND NOT EXISTS (SELECT * FROM tbl_user_query tuq WHERE tuq.userID = t.userID AND tuq.queryID = :qid)',
+			'params' => array(
+				':adm' => 0,
+				':qid' => $this->queryID
+			),
+			'order' => 't.username'
+		));
+	}
 	
 	public function getNotesEditorUsername() {
 		$user = $this->lastNotesEditor0;
