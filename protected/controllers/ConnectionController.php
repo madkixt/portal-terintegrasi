@@ -155,6 +155,27 @@ class ConnectionController extends Controller
 			'template' => $this->getVisibleButtons($id)
 		));
 	}
+	
+	public function actionAssign($id) {
+		$conn = $this->loadModel($id);
+		
+		$model = new AssignConnUserForm;
+		if(isset($_POST['AssignConnUserForm'])) {
+			$model->attributes = $_POST['AssignConnUserForm'];
+			if ($model->validate()) {
+				$user = User::model()->findByPk($model->userID);
+				
+				try {
+					$user->assignConnection($id);
+					Yii::app()->user->setFlash('success', 'Connection <b>' . $conn->name . '</b> has been assigned to <b>' . $user->username . '</b>');
+				} catch (Exception $e) {
+					Yii::app()->user->setFlash('error', 'Connection <b>' . $conn->name . '</b> has already been assigned to <b>' . $user->username . '</b>');
+				}
+			}
+		}
+		
+		$this->render('assign', array('conn' => $conn, 'model' => $model));
+	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

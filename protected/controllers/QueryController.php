@@ -175,31 +175,25 @@ class QueryController extends Controller
 		));
 	}
 
-	public function actionTest() {
-		echo $this->
-		$th = new TextHelper;
-		// $con = new CDbConnection('sqlsrv:server=WIBI-PC;database=AdventureWorks', '', '');
-		// $con->active = true;
-		// $cmd = $con->createCommand('SELECT * FROM Person.Person');
+	public function actionAssign($id) {
+		$query = $this->loadModel($id);
 		
-		// $dp = new CArrayDataProvider($cmd->queryAll());
-		// $dp->pagination = false;
+		$model = new AssignQueryUserForm;
+		if(isset($_POST['AssignQueryUserForm'])) {
+			$model->attributes = $_POST['AssignQueryUserForm'];
+			if ($model->validate()) {
+				$user = User::model()->findByPk($model->userID);
+				
+				try {
+					$user->assignQuery($id);
+					Yii::app()->user->setFlash('success', 'Query <b>' . $query->title . '</b> has been assigned to <b>' . $user->username . '</b>');
+				} catch (Exception $e) {
+					Yii::app()->user->setFlash('error', 'Query <b>' . $query->title . '</b> has already been assigned to <b>' . $user->username . '</b>');
+				}
+			}
+		}
 		
-		// $th->write($dp, 'D:/TextHelperTest.txt');
-		
-		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
-		$dsn = 'sqlsrv:server=WIBI-PC;database=AdventureWorks';
-		// $dsn = 'mysql:host=127.0.0.1;dbname=wdshop';t
-		$username = '';
-		$password = ''; //m4nd1r1db
-		// $sql = "select cardno, productid,  INTauthamount AS denom, renewalStatus, cardbalance, cardbalanceoncard , ModifiedOn, ModifiedBy from dbo.MPS_CardMaster with (nolock) where cardno in ('6032981019317189')";
-		$sql = "SELECT * FROM Person.Person";
-		$con = new CDbConnection($dsn, $username, $password);
-		$con->active = true;
-		$cmd = $con->createCommand($sql);
-		
-		$file = fopen('D:/test.txt', 'a');
-		fwrite($file, $th->partText($cmd->queryAll(), 1));
+		$this->render('assign', array('query' => $query, 'model' => $model));
 	}
 	
 	/**

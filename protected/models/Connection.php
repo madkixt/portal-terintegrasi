@@ -177,6 +177,17 @@ class Connection extends BaseEntity
 		}
 	}
 	
+	public function getAssignableUsers() {
+		return User::model()->with('tblConnections')->findAll(array(
+			'condition' => 't.admin = :adm AND NOT EXISTS (SELECT * FROM tbl_user_connection tuc WHERE tuc.userID = t.userID AND tuc.connectionID = :tid)',
+			'params' => array(
+				':adm' => 0,
+				':tid' => $this->connectionID
+			),
+			'order' => 't.username'
+		));
+	}
+	
 	public static function getDbmsOptions() {
 		return array(
 			self::DBMS_MSSQL => 'Microsoft SQL Server',

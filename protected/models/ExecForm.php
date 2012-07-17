@@ -3,13 +3,11 @@
 /** halaman eksekusi query */
 
 function sortee($a, $b) {
-	return -1*strcmp($a->name, $b->name);
+	return strcasecmp($a->name, $b->name);
 }
 
-class ExecForm extends CFormModel
-{
+class ExecForm extends CFormModel {
 	public $queryID;
-//	public $isiQuery;
 	public $database;
 	public $connection;
 	public $queries;
@@ -49,7 +47,7 @@ class ExecForm extends CFormModel
 		$user = User::model()->findByPk(Yii::app()->user->getId());
 		$model = $user->tblConnections;
 		
-		usort($model, "sortee");
+		uasort($model, "sortee");
 		if (Yii::app()->user->getState('admin')) {
 			$conn = new Connection;
 			$conn->connectionID = 'other';

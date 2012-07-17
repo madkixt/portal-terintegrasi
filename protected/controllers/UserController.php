@@ -203,8 +203,12 @@ class UserController extends Controller
 		if(isset($_POST['AssignQueryForm'])) {
 			$model->attributes = $_POST['AssignQueryForm'];
 			if ($model->validate()) {
-				$user->assignQuery($model->queryID);
-				Yii::app()->user->setFlash('assignQuerySuccess', 'Query ' . Query::model()->findByPk($model->queryID)->title . ' has been assigned to ' . $user->username);
+				try {
+					$user->assignQuery($model->queryID);
+					Yii::app()->user->setFlash('success', 'Query <b>' . Query::model()->findByPk($model->queryID)->title . '</b> has been assigned to <b>' . $user->username . '</b>');
+				} catch (Exception $e) {
+					Yii::app()->user->setFlash('error', 'Query <b>' . Query::model()->findByPk($model->queryID)->title . '</b> has already been assigned to <b>' . $user->username . '</b>');
+				}
 			}
 		}
 		
@@ -221,8 +225,12 @@ class UserController extends Controller
 		if(isset($_POST['AssignConnectionForm'])) {
 			$model->attributes = $_POST['AssignConnectionForm'];
 			if ($model->validate()) {
-				$user->assignConnection($model->connectionID);
-				Yii::app()->user->setFlash('assignConnectionSuccess', 'Connection ' . Connection::model()->findByPk($model->connectionID)->name . ' has been assigned to ' . $user->username);
+				try {
+					$user->assignConnection($model->connectionID);
+					Yii::app()->user->setFlash('success', 'Connection <b>' . Connection::model()->findByPk($model->connectionID)->name . '</b> has been assigned to <b>' . $user->username . '</b>');
+				} catch (Exception $e) {
+					Yii::app()->user->setFlash('error', 'Connection <b>' . Connection::model()->findByPk($model->connectionID)->name . '</b> has already been assigned to <b>' . $user->username . '</b>');
+				}
 			}
 		}
 		
