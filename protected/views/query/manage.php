@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Add Query', 'url'=>array('add'))
+	array('label'=>'Add Query', 'url'=>array('add'), 'visible' => $this->isAdmin())
 );
 
 Yii::app()->clientScript->registerScript('search', "

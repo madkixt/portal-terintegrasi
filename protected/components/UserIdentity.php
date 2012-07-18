@@ -5,8 +5,7 @@
  * It contains the authentication method that checks if the provided
  * data can identity the user.
  */
-class UserIdentity extends CUserIdentity
-{
+class UserIdentity extends CUserIdentity {
 	private $_id;
 	
 	/**
@@ -26,8 +25,7 @@ class UserIdentity extends CUserIdentity
 				$this->errorCode = self::ERROR_PASSWORD_INVALID;
 			} else {
 				$this->_id = $user->userID;
-				$this->setState('admin', (1 == $user->admin) ? true : false);
-				
+				$this->setState('role', $user->role);
 				$this->errorCode = self::ERROR_NONE;
 			}
 		}

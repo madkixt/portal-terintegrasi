@@ -5,23 +5,14 @@ $this->breadcrumbs=array(
 	'Assign Query',
 );
 
-if (Yii::app()->user->getState('admin')) {
-	$this->menu=array(
-		array('label' => 'Use Query', 'url' => array('site/exec', 'id' => $query->queryID)),
-		array('label'=>'Add Query', 'url'=>array('add')),
-		array('label'=>'View Query', 'url'=>array('view', 'id'=>$query->queryID)),
-		array('label'=>'Edit Query', 'url'=>array('edit', 'id'=>$query->queryID)),
-		array('label'=>'Delete Query', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$query->queryID),'confirm'=>'Are you sure you want to delete this item?')),
-		array('label'=>'Back to Manage Query', 'url'=>array('manage')),	
-	);
-} else {
-	$this->menu=array(
-		array('label'=>'Add Query', 'url'=>array('add')),
-		array('label'=>'View Query', 'url'=>array('view', 'id'=>$query->queryID)),
-		array('label'=>'Edit Query', 'url'=>array('edit', 'id'=>$query->queryID)),
-		array('label'=>'Back to Manage Query', 'url'=>array('manage')),	
-	);
-}
+$this->menu=array(
+	array('label' => 'Use Query', 'url' => array('site/exec', 'id' => $query->queryID)),
+	array('label' => 'Add Query', 'url'=>array('add')),
+	array('label' => 'View Query', 'url'=>array('view', 'id'=>$query->queryID)),
+	array('label' => 'Edit Query', 'url'=>array('edit', 'id'=>$query->queryID)),
+	array('label' => 'Delete Query', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$query->queryID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label' => 'Back to Manage Query', 'url'=>array('manage')),	
+);
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -41,6 +32,10 @@ $('.search-form form').submit(function(){
 <div class="flash-success">
 	<em><?php echo Yii::app()->user->getFlash('success'); ?></em>
 </div>
+<?php } elseif (Yii::app()->user->hasFlash('error')) { ?>
+<div class="flash-error">
+	<em><?php echo Yii::app()->user->getFlash('error'); ?></em>
+</div>
 <?php } ?>
 
 <?php
@@ -53,7 +48,7 @@ if (count($assign) === 0) {
 }
 ?>
 
-<h1>Assign User to <?php echo $query->title; ?></h1>
+<h1>Assign user to <?php echo $query->title; ?></h1>
 
 <div class="form">
 

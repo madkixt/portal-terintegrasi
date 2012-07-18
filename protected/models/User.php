@@ -5,10 +5,11 @@
  *
  * The followings are the available columns in table 'tbl_user':
  * @property integer $userID
- * @property integer $admin
+ * @property integer $role
  * @property string $username
  * @property string $password
  * @property string $description
+ * @property integer $supervisor
  * @property string $creationDate
  * @property string $modifiedDate
  * @property integer $createdBy
@@ -29,8 +30,10 @@
  */
 class User extends BaseEntity
 {
-	const ROLE_USER = 0;
-	const ROLE_ADMIN = 1;
+	const ROLE_ADMINISTRATOR = 0;
+	const ROLE_OPERATOR = 1;
+	const ROLE_USER = 2;
+	
 	public $password_repeat;
 	
 	/**
@@ -52,11 +55,12 @@ class User extends BaseEntity
 	}
 	
 	/*return array user atau admin*/
-	public static function getAdminOptions()
+	public static function getUserRoles()
 	{
 		return array(
-			self::ROLE_USER=>'User',
-			self::ROLE_ADMIN=>'Admin',
+			self::ROLE_ADMINISTRATOR => 'Administrator',
+			self::ROLE_OPERATOR => 'Operator',
+			self::ROLE_USER => 'User',
 		);
 	}
 
@@ -70,14 +74,14 @@ class User extends BaseEntity
 		return array(
 			array('username, password', 'required'),
 			array('username','unique'),
-			array('admin', 'numerical', 'integerOnly'=>true),
+			array('role', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>20),
 			array('password', 'length', 'max'=>32),
 			array('password','compare'),
 			array('description, password_repeat', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('userID, admin, username, description, creationDate, modifiedDate, createdBy, lastModifiedBy', 'safe', 'on'=>'search'),
+			array('userID, role, username, description, creationDate, modifiedDate, createdBy, lastModifiedBy', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -110,7 +114,7 @@ class User extends BaseEntity
 	{
 		return array(
 			'userID' => 'ID',
-			'admin' => 'Role',
+			'role' => 'Role',
 			'username' => 'Username',
 			'password' => 'Password',
 			'description' => 'Description',
@@ -126,8 +130,7 @@ class User extends BaseEntity
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -136,7 +139,7 @@ class User extends BaseEntity
 		$criteria->together = true;
 
 		$criteria->compare('t.userID',$this->userID);
-		$criteria->compare('t.admin', $this->array_search_ci($this->admin, $this->userRoles));
+		$criteria->compare('t.role', $this->array_search_ci($this->role, User::getUserRoles()));
 		$criteria->compare('t.username',$this->username,true);
 		$criteria->compare('t.description',$this->description,true);
 		$criteria->compare('t.creationDate',$this->creationDate,true);
@@ -160,7 +163,7 @@ class User extends BaseEntity
 		if($this->hasEventHandler('onAfterSave'))
 			$this->onAfterSave(new CEvent($this));
 		
-		if ($this->admin && $this->isNewRecord) {
+		if (($this->role == self::ROLE_ADMINISTRATOR) && $this->isNewRecord) {
 			$this->adminAssignQueries();
 			$this->adminAssignConnections();
 		}
@@ -207,23 +210,15 @@ class User extends BaseEntity
 		return md5($pwd);
 	}
 	
-	/* Returns the available user roles */
-	public function getUserRoles() {
-		return array(
-			self::ROLE_USER => 'User',
-			self::ROLE_ADMIN => 'Admin'
-		);
-	}
-	
 	/* Returns whether another user can click this user's edit link */
 	public function getEditClickable() {
-		if ($this->userID === Yii::app()->user->getId())
+		if (!Controller::isAdmin())
+			return false;
+			
+		if ($this->userID == Yii::app()->user->getId())
 			return true;
 		
-		if (!Yii::app()->user->getState('admin'))
-			return false;
-		
-		if ($this->admin)
+		if ($this->role == self::ROLE_ADMINISTRATOR)
 			return false;
 			
 		return true;
@@ -231,15 +226,12 @@ class User extends BaseEntity
 	
 	/* Returns whether another user can click this user's delete link */
 	public function getDeleteClickable() {
-		if ($this->admin || !Yii::app()->user->getState('admin'))
-			return false;
-		
-		return true;
+		return (($this->role != self::ROLE_ADMINISTRATOR) && Controller::isAdmin());
 	}
 	
 	/* Returns whether another user can click this user's assign links */
 	public function getAssignable() {
-		return !$this->admin && Yii::app()->user->getState('admin');
+		return (($this->role != self::ROLE_ADMINISTRATOR) && Controller::isAdmin());
 	}
 	
 	/* Returns queries not yet assigned to this user */
