@@ -40,9 +40,8 @@ $('.search-form form').submit(function(){
 			'htmlOptions' => array('width' => '50px')
 		),
 		array(
-			'class' => 'CDataColumn',
-			'name' => 'admin',
-			'value' => 'User::model()->userRoles[$data["admin"]]',
+			'name' => 'role',
+			'value' => 'User::model()->userRoles[$data["role"]]',
 			'htmlOptions' => array('width' => '80px')
 		),
 		array(

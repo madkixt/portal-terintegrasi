@@ -147,78 +147,116 @@ class SiteController extends Controller
 			$id = $_POST['queryID'];
 		
 		$data = Query::model()->findByPk($id);
-		if ($data === null) {
-			throw new CHttpException(404, "The requested page");
-		}
+		if ($data === null)
+			throw new CHttpException(404, "The requested page does not exist.");
+		
 		$statements = $data->loadStatements();
+		$notes = $data->loadNotes();
 		
-		$enableEditing = CHtml::checkBox('enable editing',false,array(
-				'id' => 'enableediting',
-				'name'=> 'aa',
-				'onclick'=>'javascript: changeedit();'		
-			));
-		
-		$tarea = CHtml::textArea('isiquery1','', array(
-			'id'=>'isiquery', 
-			'cols'=>30,
-			'rows'=>10,
-			'readonly'=>"readonly"
-		));
-		echo "<b>&nbsp; Database</b>";
-		$stt = "&nbsp;" . CHtml::textField('database', $data->databaseName);
-		$stt .= CHtml::tag('br');
-		$stt .= CHtml::tag('br');
-		echo CHtml::tag('div', array('id' => 'database'), $stt);
-		
-		$i = 1;
-		$str = '';
-		//$str .= "<table><tr>";
-		foreach ($statements as $stmt => $statement) {
-			$str .= "<tr border = '1' width = '590px' style ='max-width: 590px'><td width='380px'><div id='my" . $i . "'>";
-			$str .= CHtml::checkBox('checkbox',false,array(
-				'id' => 'checkbox'.$i ,
-				'onclick'=>'javascript: coba(checkbox'.$i.');'		
-			));
+		if (!$this->isUser()) {
+			$enableEditing = CHtml::checkBox('enable editing',false,array(
+					'id' => 'enableediting',
+					'name'=> 'aa',
+					'onclick'=>'javascript: changeedit();'		
+				));
 			
-			$str .= "<b>  Statement $stmt</b>";
-			$str .= CHtml::tag('br');
-			$str .= CHtml::textArea('statement' .$i, $statement, array('id' => 'statement' . $i, 'cols'=>40,'rows'=>5, 'readonly'=>"readonly"));
-			$str .= CHtml::tag('br');
-			$str .= CHtml::tag('br');
-			$str .= CHtml::tag('br');
-			$str .= "</div></td><td width= '180px' style ='max-width: 180px'>";
-			$str .= CHtml::tag('div', array('id' => 'vars' . $i));
+			$tarea = CHtml::textArea('isiquery1','', array(
+				'id'=>'isiquery', 
+				'cols'=>30,
+				'rows'=>10,
+				'readonly'=>"readonly"
+			));
+			echo "<b>&nbsp; Database</b>";
+			$stt = "&nbsp;" . CHtml::textField('database', $data->databaseName);
+			$stt .= CHtml::tag('br');
+			$stt .= CHtml::tag('br');
+			echo CHtml::tag('div', array('id' => 'database'), $stt);
+			
+			$i = 1;
+			$str = '';
+			foreach ($statements as $stmt => $statement) {
+				$str .= "<tr border = '1' width = '590px' style ='max-width: 590px'><td width='380px'><div id='my" . $i . "'>";
+				$str .= CHtml::checkBox('checkbox',false,array(
+					'id' => 'checkbox'.$i ,
+					'onclick'=>'javascript: coba(checkbox'.$i.');'		
+				));
+				
+				$str .= "<b>  Statement $stmt</b>";
+				$str .= CHtml::tag('br');
+				$str .= CHtml::textArea('statement' .$i, $statement, array('id' => 'statement' . $i, 'cols'=>40,'rows'=>5, 'readonly'=>"readonly"));
+				$str .= CHtml::tag('br');
+				$str .= CHtml::tag('br');
+				$str .= CHtml::tag('br');
+				$str .= "</div></td><td width= '180px' style ='max-width: 180px'>";
+				$str .= CHtml::tag('div', array('id' => 'vars' . $i));
 
-			$str .= "</td>";
-			$i++;
+				$str .= "</td>";
+				$i++;
+			}
+			
+			$str1 = CHtml::tag('table', array('id'=>'stts'),  $str);
+			$str2 = CHtml::tag('td', array('id'=>'stts'),  $str1);
+			
+			$std =  $enableEditing;
+			$std .= "  Enable Editing";
+			$std .=  CHtml::tag('br');
+			$std .=  $tarea;
+			$std .= CHtml::tag('br');
+			$std .= CHtml::submitButton('Execute',array('id'=> 'Exec'));
+			$std1 = CHtml::tag('div', array('id' => 'enableedit'), $std);
+			$std2 = CHtml::tag('td', array(
+			
+				'style' => 'vertical-align: top; right: 0px',
+			), $std1);
+			$str2 .=  $std2;
+			$std3 = CHtml::tag('table', array('id' => 'gabung'), $str2);
+			echo $std3;
+			
+			$shownote = CHtml::link('Show Notes', '#notes', array('id'=>'shownote', 'onclick'=>'javascript: shownote();'));
+			$shownote .= "<br />";
+			$shownote .= CHtml::textArea('textnotes', $data->notes, array(
+				'id' => 'textnotes',
+				'style' => 'opacity: 0;', 
+				'cols'=>30,'rows'=>5, 'readonly'=>"readonly" 
+			));
+			echo CHtml::tag('div', array('id' => 'notes', 'width' => '300px'), $shownote);
+		} else {
+			$ret = '';
+			
+			$str = '';
+			foreach ($notes as $i => $note) {
+				$str .= "<tr border='1' width='530px' style='max-width: 530px'><td width='350px' style='max-width: 350px'><div id='my" . $i . "' width='340px' style='max-width: 340px'>";
+				$str .= CHtml::checkBox('checkbox', false, array(
+					'id' => 'checkbox' . $i ,
+					'onclick'=>'javascript: coba(checkbox' . $i . ');'
+				));
+				
+				$str .= "<b>  Statement " . $i . "</b>";
+				$str .= CHtml::tag('br');
+				$str .= CHtml::textArea('statement' . $i, $statements[$i], array('id' => 'statement' . $i, 'cols' => 0, 'rows' => 0, 'style' => 'visibility: hidden; width: 0px; height: 0px'));
+				$str .= CHtml::textArea('notes' . $i, $notes[$i], array('id' => 'notes' . $i, 'cols' => 40, 'rows' => 5, 'readonly' => "readonly"));
+				$str .= "</div></td><td width='180px' style='max-width: 180px'>";
+				$str .= CHtml::tag('div', array('id' => 'vars' . $i));
+
+				$str .= "</td>";
+				$i++;
+			}
+			
+			$btn = CHtml::submitButton('Execute',array('id'=> 'Exec'));
+			
+			$notebtn = CHtml::link('Show Notes', '#notes', array('id'=>'shownote', 'onclick'=>'javascript: shownote();'));
+			$notearea = CHtml::textArea('textnotes', $data->notes, array(
+				'id' => 'textnotes',
+				'style' => 'opacity: 0;', 
+				'cols'=>30,'rows'=>5, 'readonly'=>"readonly")
+			);
+			$notediv = CHtml::tag('div', array('id' => 'notes'), $notebtn . "<br />" . $notearea);
+			
+			$table = CHtml::tag('table', array(), $str);
+			
+			$ret = $table . $btn . "<br /><br />" . $notediv;
+			echo $ret;
 		}
-		
-		$str1 = CHtml::tag('table', array('id'=>'stts'),  $str);
-		$str2 = CHtml::tag('td', array('id'=>'stts'),  $str1);
-		
-		$std =  $enableEditing;
-		$std .= "  Enable Editing";
-		$std .=  CHtml::tag('br');
-		$std .=  $tarea;
-		$std .= CHtml::tag('br');
-		$std .= CHtml::submitButton('Exec',array('id'=> 'Exec'));
-		$std1 = CHtml::tag('div', array('id' => 'enableedit'), $std);
-		$std2 = CHtml::tag('td', array(
-		
-			'style' => 'vertical-align: top; right: 0px',
-		), $std1);
-		$str2 .=  $std2;
-		$std3 = CHtml::tag('table', array('id' => 'gabung'), $str2);
-		echo $std3;
-		
-		$shownote = CHtml::link('Show Notes', '#notes', array('id'=>'shownote', 'onclick'=>'javascript: shownote();'));
-		$shownote .= "<br />";
-		$shownote .= CHtml::textArea('textnotes', $data->notes, array(
-			'id' => 'textnotes',
-			'style' => 'opacity: 0;', 
-			'cols'=>30,'rows'=>5, 'readonly'=>"readonly" 
-		));
-		echo CHtml::tag('div', array('id' => 'notes'), $shownote);
 	}
 		
 	public function autoGen($id) {

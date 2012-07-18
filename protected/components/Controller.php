@@ -24,10 +24,48 @@ class Controller extends CController
 	public $defaultAction = 'view';
 	
 	public function filterAdmin($filterChain) {
-		if (!Yii::app()->user->getState('admin')) {
+		if (!$this->isAdmin()) {
 			throw new CHttpException(403, "You are not authorized to view this page.");
 		}
 	
 		$filterChain->run();
+	}
+	
+	public function filterManage($filterChain) {
+		if ($this->isAdmin() || !isset($_GET['id'])) {
+			$filterChain->run();
+			return;
+		}
+			
+		if ($_GET['id'] != $this->userID)
+			throw new CHttpException(403, 'You are not authorized to view this page.');
+		
+		$filterChain->run();
+	}
+	
+	public function filterUser($filterChain) {
+		if ($this->isUser())
+			throw new CHttpException(403, "You are not authorized to view this page.");
+		$filterChain->run();
+	}
+	
+	public static function getUserID() {
+		return Yii::app()->user->getId();
+	}
+	
+	public static function userRole() {
+		return Yii::app()->user->getState('role');
+	}
+	
+	public static function isAdmin() {
+		return (!Yii::app()->user->isGuest && (Yii::app()->user->getState('role') == User::ROLE_ADMINISTRATOR));
+	}
+	
+	public static function isOperator() {
+		return (!Yii::app()->user->isGuest && (Yii::app()->user->getState('role') == User::ROLE_OPERATOR));
+	}
+	
+	public static function isUser() {
+		return (!Yii::app()->user->isGuest && (Yii::app()->user->getState('role') == User::ROLE_USER));
 	}
 }

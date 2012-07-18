@@ -10,11 +10,11 @@
 	<?php echo $form->errorSummary($model); ?>
 
 <?php
-if (Yii::app()->user->getState('admin')) { ?>
+if ($this->isAdmin() && ($this->userID !== $model->userID)) { ?>
 	<div class="row">
-		<?php echo $form->labelEx($model,'admin'); ?>
-		<?php echo $form->dropDownList($model,'admin', $model->getAdminOptions()); ?>
-		<?php echo $form->error($model,'admin'); ?>
+		<?php echo $form->labelEx($model,'role'); ?>
+		<?php echo $form->dropDownList($model,'role', User::getUserRoles()); ?>
+		<?php echo $form->error($model,'role'); ?>
 	</div>
 <?php } ?>
 
@@ -39,7 +39,6 @@ if (Yii::app()->user->getState('admin')) { ?>
 
 <?php } else if (Yii::app()->controller->action->id == 'edit') { ?>
 	<div class="row">
-		
 		[<?php echo CHtml::link('Change Password', array('user/changePassword','id'=>$model->userID)); ?>]
 	</div>
 <?php } ?>

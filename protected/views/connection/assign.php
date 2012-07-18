@@ -31,6 +31,10 @@ $('.search-form form').submit(function(){
 <div class="flash-success">
 	<em><?php echo Yii::app()->user->getFlash('success'); ?></em>
 </div>
+<?php } elseif (Yii::app()->user->hasFlash('error')) { ?>
+<div class="flash-error">
+	<em><?php echo Yii::app()->user->getFlash('error'); ?></em>
+</div>
 <?php } ?>
 
 <?php
@@ -43,7 +47,7 @@ if (count($assign) === 0) {
 }
 ?>
 
-<h1>Assign User to <?php echo $conn->name; ?></h1>
+<h1>Assign user to <?php echo $conn->name; ?></h1>
 
 <div class="form">
 

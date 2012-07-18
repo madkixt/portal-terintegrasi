@@ -43,7 +43,7 @@
 		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
 		array(
 			'empty'=>'Choose query',
-			 'options'=>array($id => array('selected'=>'selected')),
+			'options'=>array($id => array('selected'=>'selected')),
 			'ajax' => array(
 				'type'=>'POST',
 				'url'=> CController::createUrl('dinamik'),
@@ -61,16 +61,6 @@
 	<div id = "campur">
 		<?php if ($id !== null) { $this->actionDinamik($id); }//echo $this->autoGen($id); } ?>
 	</div>
-
-
-<!--	
-	<div class="row buttons">
-		<?php //echo CHtml::submitButton('Exec'); ?>
-	</div>
-	-->
-	
-	<div id = "notes">
-	</div>
 	
 <style type="text/css"><!--
 .error { border:2px solid red; }
@@ -81,7 +71,6 @@
 </div><!-- form -->
 
 <script type="text/javascript">
-	
 	function shownote() {
 		if ($('#textnotes').css('opacity') == 0) {
 			$('#shownote').text('Hide Notes');
@@ -97,8 +86,6 @@
 	}
 	
 	$(document).ready(function() {
-		
-		
 		$('.form').submit(function(){
 			var error = 0;
 			

@@ -2,7 +2,7 @@ USE Portal;
 
 CREATE TABLE tbl_user (
 userID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-admin BIT NOT NULL DEFAULT 0,
+role INTEGER NOT NULL DEFAULT 2,
 username VARCHAR(20) NOT NULL UNIQUE,
 password CHAR(32) NOT NULL,
 description TEXT,
@@ -18,7 +18,7 @@ CREATE TABLE tbl_query (
 queryID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 title VARCHAR(50) NOT NULL UNIQUE,
 databaseName VARCHAR(30) NOT NULL,
-notes TEXT NOT NULL,
+notes TEXT,
 creationDate DATETIME NOT NULL,
 modifiedDate DATETIME,
 notesModifiedDate DATETIME,
@@ -34,6 +34,7 @@ CREATE TABLE tbl_statement (
 queryID INTEGER NOT NULL,
 queryNum INTEGER NOT NULL,
 queryStatement TEXT NOT NULL,
+notes TEXT,
 PRIMARY KEY(queryID, queryNum),
 FOREIGN KEY(queryID) REFERENCES tbl_query(queryID) ON UPDATE CASCADE ON DELETE CASCADE
 ) Engine=InnoDB;

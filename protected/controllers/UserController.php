@@ -15,9 +15,10 @@ class UserController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin - view, edit, removeQuery, removeConnection, changePassword',
+			'admin - view, removeQuery, removeConnection, changePassword',
 			'accessID + view, edit',
 			'selfAdmin + edit, delete',
+			'assign + assignQuery, assignConnection'
 		);
 	}
 
@@ -29,18 +30,6 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
-			/*array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),*/
 			array('deny',  // deny all users
 				'users'=>array('?'),
 			)
@@ -51,16 +40,12 @@ class UserController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id = null)
-	{
+	public function actionView($id = null) {
 		if ($id == null)
 			$id = Yii::app()->user->id;
 		
-		if (!Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->getId()))
-			throw new CHttpException(403, "You are not authorized to view this page.");
-		
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+		$this->render('view', array(
+			'model' => $this->loadModel($id),
 		));
 	}
 
@@ -96,20 +81,16 @@ class UserController extends Controller
 	{
 		if ($id == null)
 			$id = Yii::app()->user->id;
-		
-		if (!Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->getId()))
-			throw new CHttpException(403, "You are not authorized to view this page.");
 			
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
 		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 		
-		if(isset($_POST['User']))
-		{
-			$model->attributes=$_POST['User'];
+		if(isset($_POST['User'])) {
+			$model->attributes = $_POST['User'];
 			$model->password_repeat = $model->password;
-			if($model->save())
+			if ($model->save())
 				$this->redirect(array('view','id'=>$model->userID));
 		}
 
@@ -125,8 +106,6 @@ class UserController extends Controller
 		//$user = $this->loadModel(Yii::app()->user->getId());
 		$user= $this->loadModel($id);
 		$model->user = User::model()->findByPk($id);
-		
-	
 		
 		if(isset($_POST['ChangePasswordForm']))
 		{
@@ -148,8 +127,7 @@ class UserController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
+		if(Yii::app()->request->isPostRequest) {
 			if ($id == Yii::app()->user->getId()) {
 				throw new CHttpException(403, "You are not authorized to do this action.");
 			}
@@ -195,8 +173,6 @@ class UserController extends Controller
 
 	public function actionAssignQuery($id) {
 		$user = $this->loadModel($id);
-		if ($user->admin)
-			throw new CHttpException(404, 'The requested page does not exist.');
 		
 		$model = new AssignQueryForm;
 		
@@ -217,8 +193,6 @@ class UserController extends Controller
 	
 	public function actionAssignConnection($id) {
 		$user = $this->loadModel($id);
-		if ($user->admin)
-			throw new CHttpException(404, 'The requested page does not exist.');
 		
 		$model = new AssignConnectionForm;
 		
@@ -291,9 +265,9 @@ class UserController extends Controller
 			return;
 		}
 		
-		$user = User::model()->findByPk($_GET['id']);
+		$user = $this->loadModel($_GET['id']);
 		
-		if ($user->admin && (Yii::app()->user->getId() !== $user->userID)) {
+		if (($user->role == User::ROLE_ADMINISTRATOR) && (Yii::app()->user->getId() != $user->userID)) {
 			if (Yii::app()->controller->action->id == 'edit')
 				throw new CHttpException(403, "You are not authorized to view this page.");
 			else if (Yii::app()->controller->action->id == 'delete')
@@ -305,7 +279,7 @@ class UserController extends Controller
 	
 	/* Checks whether the current user can access the User specified by $id */
 	public function filterAccessID($filterChain) {
-		if (Yii::app()->user->getState('admin')) {
+		if ($this->isAdmin()) {
 			$filterChain->run();
 			return;
 		}
@@ -315,8 +289,22 @@ class UserController extends Controller
 			return;
 		}
 		
-		if (Yii::app()->user->id !== $_GET['id'])
+		if ($this->userID != $_GET['id'])
 			throw new CHttpException(403, 'You are not authorized to view this page.');
+		
+		$filterChain->run();
+	}
+	
+	public function filterAssign($filterChain) {
+		if (!isset($_GET['id']))
+			throw new CHttpException(404, 'The requested page does not exist.');
+		
+		if (!$this->isAdmin())
+			throw new CHttpException(403, 'You are not authorized to view this page.');
+		
+		$user = $this->loadModel($_GET['id']);
+		if ($user->role == User::ROLE_ADMINISTRATOR)
+			throw new CHttpException(404, 'The requested page does not exist.');
 		
 		$filterChain->run();
 	}

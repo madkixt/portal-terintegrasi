@@ -179,9 +179,9 @@ class Connection extends BaseEntity
 	
 	public function getAssignableUsers() {
 		return User::model()->with('tblConnections')->findAll(array(
-			'condition' => 't.admin = :adm AND NOT EXISTS (SELECT * FROM tbl_user_connection tuc WHERE tuc.userID = t.userID AND tuc.connectionID = :tid)',
+			'condition' => 't.role != :role AND NOT EXISTS (SELECT * FROM tbl_user_connection tuc WHERE tuc.userID = t.userID AND tuc.connectionID = :tid)',
 			'params' => array(
-				':adm' => 0,
+				':role' => User::ROLE_ADMINISTRATOR,
 				':tid' => $this->connectionID
 			),
 			'order' => 't.username'

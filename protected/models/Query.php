@@ -150,9 +150,9 @@ class Query extends BaseEntity
 		
 	public function getAssignableUsers() {
 		return User::model()->with('tblQueries')->findAll(array(
-			'condition' => 't.admin = :adm AND NOT EXISTS (SELECT * FROM tbl_user_query tuq WHERE tuq.userID = t.userID AND tuq.queryID = :qid)',
+			'condition' => 't.role != :role AND NOT EXISTS (SELECT * FROM tbl_user_query tuq WHERE tuq.userID = t.userID AND tuq.queryID = :qid)',
 			'params' => array(
-				':adm' => 0,
+				':role' => User::ROLE_ADMINISTRATOR,
 				':qid' => $this->queryID
 			),
 			'order' => 't.username'
@@ -184,24 +184,26 @@ class Query extends BaseEntity
 			$this->insertUser();
 	}
 	
-	public function editStatements($statements) {
+	public function editStatements($statements, $notes) {
 		Yii::app()->db->createCommand()->delete(
 			'tbl_statement',
 			'queryID = :qid',
 			array(':qid' => $this->queryID)
 		);
-		$this->insertStatements($statements);
+		$this->insertStatements($statements, $notes);
 	}
 	
 	/* Saves all the query's statements */
-	public function insertStatements($statements) {
+	public function insertStatements($statements, $notes) {
 		$i = 1;
 		foreach ($statements as $statement) {
 			$model = new Statement;
 			$model->queryID = $this->queryID;
-			$model->queryNum = $i++;
+			$model->queryNum = $i;
 			$model->queryStatement = $statement;
+			$model->notes = $notes[$i];
 			$model->save();
+			$i++;
 		}
 	}
 	
@@ -213,14 +215,22 @@ class Query extends BaseEntity
 		return $st;
 	}
 	
+	public function loadNotes() {
+		$i = 1;
+		foreach ($this->statements as $statement) {
+			$st[$i++] = $statement->notes;
+		}
+		return $st;
+	}
+	
 	/* Assigns the newly created Query to the current user or all admins */
 	private function insertUser() {
-		if (!Yii::app()->user->getState('admin')) {
+		if (!Controller::isAdmin()) {
 			$cmd = Yii::app()->db->createCommand();
 			$cmd->insert('tbl_user_query', array('userID' => Yii::app()->user->getID(), 'queryID' => $this->queryID));
 		}
 		
-		$admins = User::model()->findAllByAttributes(array('admin' => 1));
+		$admins = User::model()->findAllByAttributes(array('role' => User::ROLE_ADMINISTRATOR));
 		$cmd = Yii::app()->db->createCommand();
 		$cmd->text = 'INSERT INTO tbl_user_query(userID, queryID) VALUES (:userID, :queryID)';
 		$cmd->bindValue(':queryID', $this->queryID, PDO::PARAM_INT);

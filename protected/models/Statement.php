@@ -7,6 +7,7 @@
  * @property integer $queryID
  * @property integer $queryNum
  * @property string $queryStatement
+ * @property string $notes
  *
  * The followings are the available model relations:
  * @property Query $query
@@ -18,8 +19,7 @@ class Statement extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Statement the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
 
@@ -41,6 +41,7 @@ class Statement extends CActiveRecord
 		return array(
 			array('queryID, queryNum, queryStatement', 'required'),
 			array('queryID, queryNum', 'numerical', 'integerOnly'=>true),
+			array('notes', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('queryID, queryNum, queryStatement', 'safe', 'on'=>'search'),
@@ -50,8 +51,7 @@ class Statement extends CActiveRecord
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations() {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(

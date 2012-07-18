@@ -15,8 +15,9 @@ class QueryController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin + delete',
-			'accessID + view edit'
+			'admin - manage, view',
+			'manage + manage',
+			'accessID + view'
 		);
 	}
 
@@ -49,20 +50,21 @@ class QueryController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionAdd()
-	{
+	public function actionAdd() {
 		$model = new Query;
 		$statements = null;
+		$notes = null;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Query'])) {
 			$statements = $_POST['statement'];
+			$notes = $_POST['notes'];
 			$this->checkStatements($statements, $model);
 				
 			$model->attributes = $_POST['Query'];
 			if ($model->validate(null, false) && $model->save(false)) {
-				$model->insertStatements($statements);
+				$model->insertStatements($statements, $notes);
 				Yii::app()->user->setFlash('success', 'Query <b>' . $model->title . '</b> has been added.');
 				$this->redirect(array('view', 'id' => $model->queryID));
 			}
@@ -70,7 +72,8 @@ class QueryController extends Controller
 
 		$this->render('add', array(
 			'model' => $model,
-			'statements' => $statements
+			'statements' => $statements,
+			'notes' => $notes
 		));
 	}
 
@@ -82,29 +85,31 @@ class QueryController extends Controller
 	public function actionEdit($id)
 	{
 		$model = $this->loadModel($id);
-
+		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Query'])) {
 			$statements = $_POST['statement'];
+			$notes = $_POST['notes'];
 			$this->checkStatements($statements, $model);
 		
 			$model->attributes=$_POST['Query'];
 			if ($model->validate(null, false) && $model->save(false)) {
-				$model->editStatements($statements);
+				$model->editStatements($statements, $notes);
 				
 				Yii::app()->user->setFlash('success', 'Query <b>' . $model->title . '</b> has been edited.');
-				
 				$this->redirect(array('view', 'id' => $model->queryID));
 			}
 		} else {
 			$statements = $model->loadStatements();
+			$notes = $model->loadNotes();
 		}
 
 		$this->render('edit', array(
 			'model' => $model,
-			'statements' => $statements
+			'statements' => $statements,
+			'notes' => $notes
 		));
 	}
 
@@ -146,17 +151,14 @@ class QueryController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage($id = null)
-	{
-		if (($id != null) && !Yii::app()->user->getState('admin') && ($id !== Yii::app()->user->id))
-			throw new CHttpException(403, 'You are not authorized to view this page.');
-			
-		if ($id == null && !Yii::app()->user->getState('admin'))
+	public function actionManage($id = null) {
+		if ($id == null && !$this->isAdmin())
 			$id = Yii::app()->user->id;
-		
+			
 		$model = new Query('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Query']))
+		
+		if (isset($_GET['Query']))
 			$model->attributes = $_GET['Query'];
 		
 		$username = null;
@@ -164,6 +166,9 @@ class QueryController extends Controller
 			$user = User::model()->findByPk($id);
 			if ($user === null)
 				throw new CHttpException(404, "The requested page does not exist.");
+			if ($user->role == User::ROLE_ADMINISTRATOR)
+				throw new CHttpException(404, "The requested page does not exist.");
+				
 			$username = $user->username;
 		}
 		
@@ -175,7 +180,13 @@ class QueryController extends Controller
 		));
 	}
 
-	public function actionAssign($id) {
+	public function actionAssign($id = null) {
+		// if ($id === null) {
+			// Yii::import('UserController');
+			// $control = new UserController;
+			// $control->actionAssignQuery($id);
+		// }
+			
 		$query = $this->loadModel($id);
 		
 		$model = new AssignQueryUserForm;
@@ -224,12 +235,7 @@ class QueryController extends Controller
 	
 	/* Checks whether the current user can access the query specified by $id */
 	public function filterAccessID($filterChain) {
-		if (Yii::app()->user->getState('admin')) {
-			$filterChain->run();
-			return;
-		}
-		
-		if (!isset($_GET['id'])) {
+		if ($this->isAdmin() || !isset($_GET['id'])) {
 			$filterChain->run();
 			return;
 		}
@@ -246,14 +252,14 @@ class QueryController extends Controller
 	
 	/* Returns the template of visible buttons for the user specified by $id */
 	public function getVisibleButtons($id) {
-		if (Yii::app()->user->getState('admin')) {
-			if (($id != null) && (($user = User::model()->findByPk($id)) != null) && !$user->admin)
+		if ($this->isAdmin()) {
+			if (($id != null) && (($user = User::model()->findByPk($id)) != null) && ($user->role != User::ROLE_ADMINISTRATOR))
 				return '{view} {update} {remove} {delete}';
 				
 			return '{view} {update} {delete}';
 		}
 		
-		return '{view} {update} {remove}';
+		return '{view}';
 	}
 	
 	/* Validates the query statements */

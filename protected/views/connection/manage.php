@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Add Connection', 'url'=>array('add'), 'visible' => Yii::app()->user->getState('admin'))
+	array('label'=>'Add Connection', 'url'=>array('add'), 'visible' => $this->isAdmin())
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -53,7 +53,7 @@ $('.search-form form').submit(function(){
 				'remove' => array(
 					'label' => 'Remove',
 					'imageUrl' => Yii::app()->request->baseUrl . '/images/buttons/remove.png',
-					'url' => 'Yii::app()->createUrl(\'user/removeConnection\', array(\'id\' => ' . $id . ', \'cid\' => $data["connectionID"]))',
+					//'url' => 'Yii::app()->createUrl(\'user/removeConnection\', array(\'id\' => ' . $id . ', \'cid\' => $data["connectionID"]))',
 					'click' => 
 'function() {
 	if(!confirm("Are you sure you want to remove this item?")) return false;
