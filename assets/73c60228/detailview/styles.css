@@ -1,6 +1,6 @@
 table.detail-view .null
 {
-	color: pink;
+	color: white
 }
 
 table.detail-view
@@ -27,12 +27,12 @@ table.detail-view th
 
 table.detail-view tr.odd
 {
-	background:#E5F1F4;
+	background:#f6f9ab;
 }
 
 table.detail-view tr.even
 {
-	background:#F8F8F8;
+	background:#fdffde;
 }
 
 table.detail-view tr.odd th
