@@ -4,7 +4,8 @@ body
 	padding: 0;
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
-	background: #EFEFEF;
+	background: #d6d6d6;
+	
 }
 
 #page
@@ -19,7 +20,8 @@ body
 {
 	margin: 0;
 	padding: 0;
-	border-top: 3px solid #C9E0ED;
+	border-top: 10px solid #013066;
+	background: #013066;
 }
 
 #content
@@ -43,13 +45,22 @@ body
 
 #logo
 {
-	padding: 10px 20px;
+	background: white url(logobank.gif) repeat-x left top;
+	padding: 32px 20px 35px 20px;
 	font-size: 200%;
+	color : white;
 }
 
 #mainmenu
 {
-	background:white url(bg.gif) repeat-x left top;
+	background:white url(bg_menu.jpg) repeat-x left top;
+	BORDER-BOTTOM: #ffffff 1px solid;
+	BACKGROUND-REPEAT: repeat-y;
+	HEIGHT: 29px;
+	BACKGROUND-COLOR: #fbd816;
+	background-position: 0% 0%;
+	border-bottom: 1px solid white;
+	background-repeat: repeat-y;
 }
 
 #mainmenu ul
@@ -65,7 +76,7 @@ body
 
 #mainmenu ul li a
 {
-	color:#ffffff;
+	color:#013066;
 	background-color:transparent;
 	font-size:12px;
 	font-weight:bold;
@@ -75,8 +86,8 @@ body
 
 #mainmenu ul li a:hover, #mainmenu ul li.active a
 {
-	color: #6399cd;
-	background-color:#EFF4FA;
+	color: #FFD700;
+	background-color:#FFFFE0;
 	text-decoration:none;
 }
 
@@ -132,7 +143,7 @@ div.view
 {
 	padding: 10px;
 	margin: 10px 0;
-	border: 1px solid #C9E0ED;
+	border: 1px solid #FFF8DC;
 }
 
 div.breadcrumbs
@@ -150,7 +161,7 @@ div.search-form
 {
 	padding: 10px;
 	margin: 10px 0;
-	background: #eee;
+	background: #fff79d;
 }
 
 .portlet
@@ -161,8 +172,8 @@ div.search-form
 .portlet-decoration
 {
 	padding: 3px 8px;
-	background: #B7D6E7;
-	border-left: 5px solid #6FACCF;
+	background: #e4da7c;
+	border-left: 5px solid #e9ce17;
 }
 
 .portlet-title
@@ -171,7 +182,7 @@ div.search-form
 	font-weight: bold;
 	padding: 0;
 	margin: 0;
-	color: #298dcd;
+	color: #b8a92a;
 }
 
 .portlet-content
@@ -179,7 +190,7 @@ div.search-form
 	font-size:0.9em;
 	margin: 0 0 15px 0;
 	padding: 5px 8px;
-	background:#EFFDFF;
+	background:#fff7a8;
 }
 
 .portlet-content ul
@@ -211,7 +222,7 @@ div.search-form
 .operations li a
 {
 	font: bold 12px Arial;
-	color: #0066A4;
+	color: #b1a83a;
 	display: block;
 	padding: 2px 0 2px 8px;
 	line-height: 15px;
@@ -220,10 +231,10 @@ div.search-form
 
 .operations li a:visited
 {
-	color: #0066A4;
+	color: #b1a83a;
 }
 
 .operations li a:hover
 {
-	background: #80CFFF;
+	background: #faf168;
 }
