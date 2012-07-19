@@ -225,7 +225,8 @@ class SiteController extends Controller
 			
 			$str = '';
 			foreach ($notes as $i => $note) {
-				$str .= "<tr border='1' width='530px' style='max-width: 530px'><td width='350px' style='max-width: 350px'><div id='my" . $i . "' width='340px' style='max-width: 340px'>";
+				$str .= "<tr border='1' width='530px' style='max-width: 530px'>
+				<td width='370px' style='max-width: 370px'><div id='my" . $i . "' width='355px' style='max-width: 355px'>";
 				$str .= CHtml::checkBox('checkbox', false, array(
 					'id' => 'checkbox' . $i ,
 					'onclick'=>'javascript: coba(checkbox' . $i . ');'
@@ -235,12 +236,21 @@ class SiteController extends Controller
 				$str .= CHtml::tag('br');
 				$str .= CHtml::textArea('statement' . $i, $statements[$i], array('id' => 'statement' . $i, 'cols' => 0, 'rows' => 0, 'style' => 'visibility: hidden; width: 0px; height: 0px'));
 				$str .= CHtml::textArea('notes' . $i, $notes[$i], array('id' => 'notes' . $i, 'cols' => 40, 'rows' => 5, 'readonly' => "readonly"));
-				$str .= "</div></td><td width='180px' style='max-width: 180px'>";
-				$str .= CHtml::tag('div', array('id' => 'vars' . $i));
+				$str .= "</div></td><td width='460px' style='max-width: 460px'>";
+				$str .= CHtml::tag('div', array('id' => 'vars' . $i, 'width' => '440px'));
 
 				$str .= "</td>";
 				$i++;
 			}
+			
+			$database= CHtml::textField('database', $data->databaseName, array('id' => 'db2','style' => 'visibility: hidden;'));
+			echo $database;
+
+			$tarea = CHtml::textArea('isiquery1','', array(
+				'id'=>'isiquery',
+				'cols' => 0, 'rows' => 0, 'style' => 'visibility: hidden; width: 0px; height: 0px'
+			));
+			echo $tarea;
 			
 			$btn = CHtml::submitButton('Execute',array('id'=> 'Exec'));
 			
