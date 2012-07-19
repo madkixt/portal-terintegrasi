@@ -6,5 +6,4 @@ $this->breadcrumbs=array(
 ?>
 <h1>About</h1>
 
-<p>This is a "static" page. You may change the content of this page
-by updating the file <tt><?php echo __FILE__; ?></tt>.</p>
+<p>Portal Reporting Mandiri Prepaid System helps you to execute your query. It aims to be the easiest tool to manage all of your queries. You can download your query result as spreadsheet or text. As admin, you can add, edit, and remove query and connection. Admin also can assign the query and connection to each user.</p>
