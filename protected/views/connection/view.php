@@ -18,8 +18,11 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'connectionID',
-		'IPAddress',
+		array(
+			'name' => 'connectionID',
+			'visible' => !$this->isUser()
+		),
+		'name' => 'IPAddress',
 		array(
 			'name' => 'dbms',
 			'value' => Connection::model()->dbmsOptions[$model->dbms]

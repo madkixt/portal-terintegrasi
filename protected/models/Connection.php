@@ -203,4 +203,8 @@ class Connection extends BaseEntity
 				return "mysql:host=$server;dbname=$dbname";
 		}
 	}
+	
+	public static function getConnections() {
+		return Connection::model()->findAll();
+	}
 }

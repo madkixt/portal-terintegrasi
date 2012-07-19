@@ -4,7 +4,9 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Add Connection', 'url'=>array('add'), 'visible' => $this->isAdmin())
+	array('label'=>'Add Connection', 'url'=>array('add'), 'visible' => $this->isAdmin()),
+	array('label' => 'Assign Connections', 'url' => array('user/assignConnAll'), 'visible' => $this->isAdmin()),
+	array('label' => 'Remove Connections', 'url' => array('user/removeConnAll'), 'visible' => $this->isAdmin())
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -37,7 +39,8 @@ $('.search-form form').submit(function(){
 	'columns'=>array(
 		array(
 			'name' => 'connectionID',
-			'htmlOptions' => array('width' => '50px')
+			'htmlOptions' => array('width' => '50px'),
+			'visible' => !$this->isUser()
 		),
 		'IPAddress',
 		'username',
@@ -53,7 +56,7 @@ $('.search-form form').submit(function(){
 				'remove' => array(
 					'label' => 'Remove',
 					'imageUrl' => Yii::app()->request->baseUrl . '/images/buttons/remove.png',
-					//'url' => 'Yii::app()->createUrl(\'user/removeConnection\', array(\'id\' => ' . $id . ', \'cid\' => $data["connectionID"]))',
+					'url' => 'Yii::app()->createUrl(\'user/removeConnection\', array(\'id\' => ' . $id . ', \'cid\' => $data["connectionID"]))',
 					'click' => 
 'function() {
 	if(!confirm("Are you sure you want to remove this item?")) return false;

@@ -21,7 +21,7 @@ class Controller extends CController {
 	public $breadcrumbs=array();
 	
 	public $defaultAction = 'view';
-	
+
 	public function filterAdmin($filterChain) {
 		if (!$this->isAdmin()) {
 			throw new CHttpException(403, "You are not authorized to view this page.");
@@ -45,6 +45,7 @@ class Controller extends CController {
 	public function filterUser($filterChain) {
 		if ($this->isUser())
 			throw new CHttpException(403, "You are not authorized to view this page.");
+		
 		$filterChain->run();
 	}
 	

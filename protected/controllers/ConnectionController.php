@@ -16,7 +16,6 @@ class ConnectionController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			'admin - manage, view',
-			'user',
 			'manage + manage',
 			'accessID + view'
 		);

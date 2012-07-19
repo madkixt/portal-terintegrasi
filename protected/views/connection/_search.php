@@ -5,10 +5,12 @@
 	'method'=>'get',
 )); ?>
 
+<?php if (!$this->isUser()) { ?>
 	<div class="row">
 		<?php echo $form->label($model,'connectionID'); ?>
 		<?php echo $form->textField($model,'connectionID', array('size' => 3, 'maxlength' => 3)); ?>
 	</div>
+<?php } ?>
 
 	<div class="row">
 		<?php echo $form->label($model,'dbms'); ?>
@@ -30,7 +32,6 @@
 		<?php echo $form->textField($model,'serverName',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
 
-	
 	<div class="row">
 		<?php echo $form->label($model,'description'); ?>
 		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>

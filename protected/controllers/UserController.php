@@ -15,7 +15,7 @@ class UserController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'admin - view, removeQuery, removeConnection, changePassword',
+			'admin - view, changePassword',
 			'accessID + view, edit',
 			'selfAdmin + edit, delete',
 			'assign + assignQuery, assignConnection'
@@ -209,13 +209,135 @@ class UserController extends Controller
 		$this->render('assignConnection', array('user' => $user, 'model' => $model));
 	}
 	
+	public function actionAssignQueryAll() {
+		$model = new AssignQueryAllForm;
+		
+		if (!empty($_POST)) {
+			User::assignQueries($_POST['user'], $_POST['query']);
+			$users = User::model()->findAllByAttributes(array(
+				'userID' => $_POST['user']
+			));
+			$conns = Query::model()->findAllByAttributes(array(
+				'queryID' => $_POST['query']
+			));
+			
+			$msg = 'Users <br />';
+			foreach ($users as $user) {
+				$msg .= '<strong>' . $user->username . '</strong>, ';
+			}
+			$msg = substr($msg, 0, strlen($msg) - 2);
+			
+			$msg .= '<br />have been assigned queries <br />';
+			
+			foreach ($conns as $conn) {
+				$msg .= '<strong>' . $conn->title . '</strong>, ';
+			}
+			$msg = substr($msg, 0, strlen($msg) - 2);
+			
+			Yii::app()->user->setFlash('success', $msg);
+		}
+		
+		$this->render('assignQueryAll', array('model' => $model));
+	}
+	
+	public function actionAssignConnAll() {
+		$model = new AssignConnAllForm;
+		
+		if (!empty($_POST)) {
+			User::assignConnections($_POST['user'], $_POST['conn']);
+			$users = User::model()->findAllByAttributes(array(
+				'userID' => $_POST['user']
+			));
+			$conns = Connection::model()->findAllByAttributes(array(
+				'connectionID' => $_POST['conn']
+			));
+			
+			$msg = 'Users <br />';
+			foreach ($users as $user) {
+				$msg .= '<strong>' . $user->username . '</strong>, ';
+			}
+			$msg = substr($msg, 0, strlen($msg) - 2);
+			
+			$msg .= '<br />have been assigned connections <br />';
+			
+			foreach ($conns as $conn) {
+				$msg .= '<strong>' . $conn->name . '</strong>, ';
+			}
+			$msg = substr($msg, 0, strlen($msg) - 2);
+			
+			Yii::app()->user->setFlash('success', $msg);
+		}
+		
+		$this->render('assignConnAll', array('model' => $model));
+	}
+	
+	public function actionRemoveQueryAll() {
+		$model = new AssignQueryAllForm;
+		
+		if (!empty($_POST)) {
+			User::removeQueries($_POST['user'], $_POST['query']);
+			$users = User::model()->findAllByAttributes(array(
+				'userID' => $_POST['user']
+			));
+			$conns = Query::model()->findAllByAttributes(array(
+				'queryID' => $_POST['query']
+			));
+			
+			$msg = 'Users <br />';
+			foreach ($users as $user) {
+				$msg .= '<strong>' . $user->username . '</strong>, ';
+			}
+			$msg = substr($msg, 0, strlen($msg) - 2);
+			
+			$msg .= '<br />have been unassigned queries <br />';
+			
+			foreach ($conns as $conn) {
+				$msg .= '<strong>' . $conn->title . '</strong>, ';
+			}
+			$msg = substr($msg, 0, strlen($msg) - 2);
+			
+			Yii::app()->user->setFlash('success', $msg);
+		}
+		
+		$this->render('removeQueryAll', array('model' => $model));
+	}
+	
+	public function actionRemoveConnAll() {
+		$model = new AssignConnAllForm;
+		
+		if (!empty($_POST)) {
+			User::removeConnections($_POST['user'], $_POST['conn']);
+			$users = User::model()->findAllByAttributes(array(
+				'userID' => $_POST['user']
+			));
+			$conns = Connection::model()->findAllByAttributes(array(
+				'connectionID' => $_POST['conn']
+			));
+			
+			$msg = 'Users <br />';
+			foreach ($users as $user) {
+				$msg .= '<strong>' . $user->username . '</strong>, ';
+			}
+			$msg = substr($msg, 0, strlen($msg) - 2);
+			
+			$msg .= '<br />have been unassigned connections <br />';
+			
+			foreach ($conns as $conn) {
+				$msg .= '<strong>' . $conn->name . '</strong>, ';
+			}
+			$msg = substr($msg, 0, strlen($msg) - 2);
+			
+			Yii::app()->user->setFlash('success', $msg);
+		}
+		
+		$this->render('removeConnAll', array('model' => $model));
+	}
+	
 	public function actionRemoveQuery($id, $qid) {
 		if (!isset($_GET['ajax']) || !Yii::app()->request->isPostRequest)
 			throw new CHttpException(400, 'Bad request.');
 		
 		$user = $this->loadModel($id);
-		if ($user->admin)
-			throw new CHttpException(400, 'Bad request.');
 			
 		$user->removeQuery($qid);
 	}
@@ -225,8 +347,6 @@ class UserController extends Controller
 			throw new CHttpException(400, 'Bad request.');
 		
 		$user = $this->loadModel($id);
-		if ($user->admin)
-			throw new CHttpException(400, 'Bad request.');
 			
 		$user->removeConnection($cid);
 	}

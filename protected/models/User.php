@@ -266,4 +266,66 @@ class User extends BaseEntity
 		Yii::app()->db->createCommand()
 			->delete('tbl_user_connection', 'userID = :userID AND connectionID = :connectionID', array(':userID' => $this->userID, ':connectionID' => $id));
 	}
+	
+	public static function assignQueries($users, $queries) {
+		$cmd = Yii::app()->db->createCommand('INSERT INTO tbl_user_query(userID, queryID) VALUES (:userID, :queryID)');
+		foreach ($users as $userID) {
+			$cmd->bindValue(':userID', $userID, PDO::PARAM_INT);
+			foreach ($queries as $queryID) {
+				$cmd->bindValue(':queryID', $queryID, PDO::PARAM_INT);
+				try {
+					$cmd->execute();
+				} catch (Exception $e) { }
+			}
+		}
+	}
+	
+	public static function removeQueries($users, $queries) {
+		$cmd = Yii::app()->db->createCommand('DELETE FROM tbl_user_query WHERE userID = :userID AND queryID = :queryID');
+		foreach ($users as $userID) {
+			$cmd->bindValue(':userID', $userID, PDO::PARAM_INT);
+			foreach ($queries as $queryID) {
+				$cmd->bindValue(':queryID', $queryID, PDO::PARAM_INT);
+				try {
+					$cmd->execute();
+				} catch (Exception $e) { }
+			}
+		}
+	}
+	
+	public static function assignConnections($users, $conns) {
+		$cmd = Yii::app()->db->createCommand('INSERT INTO tbl_user_connection(userID, connectionID) VALUES (:userID, :connectionID)');
+		foreach ($users as $userID) {
+			$cmd->bindValue(':userID', $userID, PDO::PARAM_INT);
+			foreach ($conns as $connID) {
+				$cmd->bindValue(':connectionID', $connID, PDO::PARAM_INT);
+				try {
+					$cmd->execute();
+				} catch (Exception $e) { }
+			}
+		}
+	}
+	
+	public static function removeConnections($users, $conns) {
+		$cmd = Yii::app()->db->createCommand('DELETE FROM tbl_user_connection WHERE userID = :userID AND connectionID = :connectionID');
+		foreach ($users as $userID) {
+			$cmd->bindValue(':userID', $userID, PDO::PARAM_INT);
+			foreach ($conns as $connID) {
+				$cmd->bindValue(':connectionID', $connID, PDO::PARAM_INT);
+				try {
+					$cmd->execute();
+				} catch (Exception $e) { }
+			}
+		}
+	}
+	
+	public static function getAssignableUsers() {
+		return User::model()->findAll(
+			'role = :r1 OR role = :r2',
+			array(
+				':r1' => 1,
+				':r2' => 2
+			)
+		);
+	}
 }

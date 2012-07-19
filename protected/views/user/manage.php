@@ -4,7 +4,12 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Add User', 'url'=>array('add'))
+	array('label'=>'Add User', 'url'=>array('add')),
+	array('label' => 'Assign Queries', 'url' => array('assignQueryAll')),
+	array('label' => 'Remove Queries', 'url' => array('removeQueryAll')),
+	array('label' => 'Assign Connections', 'url' => array('assignConnAll')),
+	array('label' => 'Remove Connections', 'url' => array('removeConnAll')),
+	
 );
 
 Yii::app()->clientScript->registerScript('search', "
