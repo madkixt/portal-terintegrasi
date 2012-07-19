@@ -45,7 +45,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'columns' => array(
 		array(
 			'name' => 'queryID',
-			'htmlOptions' => array('width' => '50px')
+			'htmlOptions' => array('width' => '50px'),
+			'visible' => !$this->isUser()
 		),
 		array(
 			'class' => 'CQueryDataColumn',
@@ -53,7 +54,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		),
 		array(
 			'name' => 'databaseName',
-			'htmlOptions' => array('width' => '100px')
+			'htmlOptions' => array('width' => '100px'),
+			'visible' => !$this->isUser()
 		),
 		'notes',
 		array(

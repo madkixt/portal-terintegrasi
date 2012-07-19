@@ -38,12 +38,24 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'creationDate'); ?>
-		<?php echo $form->textField($model,'creationDate'); ?>
+		<?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			'model' => $model,
+			'attribute' => 'creationDate',
+			'options' => array(
+				'dateFormat' => 'yy-mm-dd'
+			)
+		)); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'modifiedDate'); ?>
-		<?php echo $form->textField($model,'modifiedDate'); ?>
+		<?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			'model' => $model,
+			'attribute' => 'modifiedDate',
+			'options' => array(
+				'dateFormat' => 'yy-mm-dd'
+			)
+		)); ?>
 	</div>
 
 	<div class="row">

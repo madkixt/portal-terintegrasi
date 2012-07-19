@@ -171,7 +171,13 @@
 			str = $('textarea[name="statement' + i + '"]').text();
 			var variables = parseVariable(str);
 			for (varname in variables) {
-				$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>"+varname + "</td><td width='250px' style='max-width: 125px'><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
+				if (varname.substr(varname.length - 2, 2) == ':d') {
+					varname = varname.substr(0, varname.length - 2);
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari1b' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":d"] + "' onchange='setText()' /></td></tr>");
+					//Datepicker
+				}
+				else
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>"+varname + "</td><td width='250px' style='max-width: 125px'><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
 			}
 		}
 	}
@@ -196,8 +202,12 @@
 				varname = sub.substr(0, terminIdx);
 				if (sub.charAt(terminIdx) === '{') {
 					var curlIdx = sub.indexOf('}', terminIdx);
-					if (curlIdx != -1)
+					if (curlIdx != -1) {
 						varval = sub.substring(terminIdx + 1, curlIdx);
+						if (sub.charAt(curlIdx + 1) == 'd') {
+							varname += ':d';
+						}
+					}
 				}
 			}
 			else
@@ -232,17 +242,21 @@
 			if (terminIdx != -1) {
 				var sub = txt.substr(idxQ + 1);
 				varname = sub.substr(0, terminIdx);
+				
 				var varval = $('input[name="vari' + i + varname + '"]').val();
 				
 				if (varval !== '')
 					varval = "'" + varval + "'";
 				else
 					varval = "?" + varname;
-					
+				
 				if (sub.charAt(terminIdx) === '{') {
 					var curlIdx = sub.indexOf('}', terminIdx);
 					if (curlIdx != -1) {
-						txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 1);
+						if (sub.charAt(curlIdx + 1) == 'd')
+							txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 2);
+						else
+							txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 1);
 					} else {
 						txt = txt.substring(0, idxQ) + varval + sub.substring(terminIdx);
 					}
