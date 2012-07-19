@@ -471,6 +471,11 @@ class SiteController extends Controller
 	}
 	
 	public function filterQueryID($filterChain) {
+		if ($this->isAdmin()) {
+			$filterChain->run();
+			return;
+		}
+		
 		$id = null;
 		if (isset($_POST['queryID']))
 			$id = $_POST['queryID'];
