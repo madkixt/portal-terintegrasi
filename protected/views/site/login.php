@@ -27,9 +27,7 @@ $this->pageTitle=Yii::app()->name . ' - Login';
 		<?php echo $form->labelEx($model,'password'); ?>
 		<?php echo $form->passwordField($model,'password'); ?>
 		<?php echo $form->error($model,'password'); ?>
-		<p class="hint">
-			Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
-		</p>
+		
 	</div>
 
 	<div class="row rememberMe">
