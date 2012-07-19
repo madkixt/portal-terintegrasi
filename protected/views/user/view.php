@@ -1,8 +1,9 @@
 <?php
-$this->breadcrumbs=array(
-	'Users'=>array('manage'),
-	$model->username,
-);
+if (!$this->isUser())
+	$this->breadcrumbs=array(
+		'Users'=>array('manage'),
+		$model->username,
+	);
 
 $qurl = array('query/manage');
 $curl = array('connection/manage');
@@ -14,7 +15,7 @@ $this->menu=array(
 	array('label' => 'Add User', 'url'=>array('add'), 'visible' => $this->isAdmin()),
 	array('label' => 'Edit User', 'url'=>array('edit', 'id'=>$model->userID), 'visible' => $model->editClickable),
 	array('label' => 'Queries', 'url' => $qurl),
-	array('label' => 'Connections', 'url' => $curl),
+	array('label' => 'Connections', 'url' => $curl, 'visible' => !$this->isUser()),
 	array('label' => 'Assign Query', 'url' => array('assignQuery', 'id' => $model->userID), 'visible' => $model->assignable),
 	array('label' => 'Assign Connection', 'url' => array('assignConnection', 'id' => $model->userID), 'visible' => $model->assignable),
 	array('label' => 'Delete User', 'url'=>'#', 'visible' => $model->deleteClickable, 'linkOptions'=>array('submit'=>array('delete','id'=>$model->userID),'confirm'=>'Are you sure you want to delete this item?')),

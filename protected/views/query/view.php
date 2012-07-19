@@ -1,7 +1,4 @@
 <?php
-echo Yii::app()->user->getFlash('tes');
-echo Yii::app()->user->getFlash('tes1');
-
 $this->breadcrumbs=array(
 	'Queries'=>array('manage'),
 	$model->title,
@@ -64,28 +61,27 @@ $this->menu=array(
 	'nullDisplay' => ''
 )); 
 
-if (!$this->isUser()) {
-	$this->widget('zii.widgets.grid.CGridView', array(
-		'id' => 'statement-grid',
-		'dataProvider' => new CActiveDataProvider('Statement', array(
-			'criteria' => array(
-				'condition' => 'queryID = :queryID',
-				'params' => (array(':queryID' => $model->queryID))
-			),
-			'pagination' => false
-		)),
-		'columns' => array(
-			array(
-				'name' => 'queryNum',
-				'htmlOptions' => array(
-					'width' => '50px'
-				)
-			),
-			'queryStatement',
-			'notes'
-		)
-	));
-} else {
-
-}
+$this->widget('zii.widgets.grid.CGridView', array(
+	'id' => 'statement-grid',
+	'dataProvider' => new CActiveDataProvider('Statement', array(
+		'criteria' => array(
+			'condition' => 'queryID = :queryID',
+			'params' => (array(':queryID' => $model->queryID))
+		),
+		'pagination' => false
+	)),
+	'columns' => array(
+		array(
+			'name' => 'queryNum',
+			'htmlOptions' => array(
+				'width' => '50px'
+			)
+		),
+		array(
+			'name' => 'queryStatement',
+			'visible' => !$this->isUser()
+		),
+		'notes'
+	)
+));
 ?>

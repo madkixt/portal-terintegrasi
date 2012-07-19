@@ -77,18 +77,19 @@ class UserController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionEdit($id = null)
-	{
+	public function actionEdit($id = null) {
 		if ($id == null)
 			$id = Yii::app()->user->id;
 			
 		$model = $this->loadModel($id);
+		$password = $model->password;
 		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 		
 		if(isset($_POST['User'])) {
 			$model->attributes = $_POST['User'];
+			$model->password = $password;
 			$model->password_repeat = $model->password;
 			if ($model->save())
 				$this->redirect(array('view','id'=>$model->userID));
@@ -100,15 +101,12 @@ class UserController extends Controller
 	}
 	
 	/*action change password*/
-	public function actionChangePassword($id)
-	{
+	public function actionChangePassword($id) {
 		$model = new ChangePasswordForm;
-		//$user = $this->loadModel(Yii::app()->user->getId());
-		$user= $this->loadModel($id);
+		$user = $this->loadModel($id);
 		$model->user = User::model()->findByPk($id);
 		
-		if(isset($_POST['ChangePasswordForm']))
-		{
+		if(isset($_POST['ChangePasswordForm'])) {
 			$model->attributes = $_POST['ChangePasswordForm'];
 			$user->password = $user->encrypt($model->newpwd);
 			

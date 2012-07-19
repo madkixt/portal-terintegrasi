@@ -16,11 +16,16 @@ if ($error !== '') {
 <br />
 
 <?php
-$i = 0;
 $queries = explode(";", $query);
 
 for ($i = 0; $i < count($data); $i++) { ?>
-<p><strong>Statement <?php echo ($i+1) . ": " . $queries[$i]; ?></strong></p>
+	<p><strong>Statement
+<?php
+	echo ($i+1);
+	if (!$this->isUser())
+		echo ": " . $queries[$i];
+?></strong></p>
+
 <div style='overflow: auto; height: 600px'>
 <?php
 	$this->widget('PGridView', array(
