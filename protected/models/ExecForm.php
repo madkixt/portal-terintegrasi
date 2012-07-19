@@ -48,7 +48,7 @@ class ExecForm extends CFormModel {
 		$model = $user->tblConnections;
 		
 		uasort($model, "sortee");
-		if ($this->isAdmin()) {
+		if (Controller::isAdmin()) {
 			$conn = new Connection;
 			$conn->connectionID = 'other';
 			$conn->IPAddress = 'New connection';
