@@ -42,19 +42,19 @@ $this->menu=array(
 		array(
 			'name' => 'createdBy',
 			'type' => 'raw',
-			'visible' => !$this->isUser(),
+			//'visible' => !$this->isUser(),
 			'value' => $this->isAdmin() ? CHtml::link($model->creatorUsername, array('user/view', 'id' => $model->createdBy)) : CHtml::encode($model->creatorUsername)
 		),
 		array(
 			'name' => 'lastModifiedBy',
 			'type' => 'raw',
-			'visible' => !$this->isUser(),
+			// 'visible' => !$this->isUser(),
 			'value' => $this->isAdmin() ? CHtml::link($model->editorUsername, array('user/view', 'id' => $model->lastModifiedBy)) : CHtml::encode($model->editorUsername)
 		),
 		array(
 			'name' => 'lastNotesEditor',
 			'type' => 'raw',
-			'visible' => !$this->isUser(),
+			// 'visible' => !$this->isUser(),
 			'value' => $this->isAdmin() ? CHtml::link($model->notesEditorUsername, array('user/view', 'id' => $model->lastNotesEditor)) : CHtml::encode($model->notesEditorUsername)
 		)
 	),

@@ -5,7 +5,9 @@ if (!$this->isUser())
 	);
 
 $this->menu=array(
-	array('label'=>'Add Query', 'url'=>array('add'), 'visible' => $this->isAdmin())
+	array('label'=>'Add Query', 'url'=>array('add'), 'visible' => $this->isAdmin()),
+	array('label' => 'Assign Queries', 'url' => array('user/assignQueryAll'), 'visible' => $this->isAdmin()),
+	array('label' => 'Remove Queries', 'url' => array('user/removeQueryAll'), 'visible' => $this->isAdmin())
 );
 
 Yii::app()->clientScript->registerScript('search', "
