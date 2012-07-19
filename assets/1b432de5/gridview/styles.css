@@ -13,7 +13,7 @@
 	background: white;
 	border-collapse: collapse;
 	width: 100%;
-	border: 1px #dfdd57 solid;
+	border: 1px #D0E3EF solid;
 }
 
 .grid-view table.items th, .grid-view table.items td
@@ -61,7 +61,6 @@
 
 .grid-view table.items tr.odd
 {
-
 	background: #E5F1F4;
 }
 
