@@ -155,7 +155,8 @@ class User extends BaseEntity
 	
 	
 	protected function afterValidate() {
-		$this->password = $this->encrypt($this->password);
+		if ($this->isNewRecord)
+			$this->password = $this->encrypt($this->password);
 	}
 	
 	protected function afterSave()

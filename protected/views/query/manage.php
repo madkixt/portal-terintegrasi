@@ -1,7 +1,8 @@
 <?php
-$this->breadcrumbs=array(
-	'Queries'
-);
+if (!$this->isUser())
+	$this->breadcrumbs=array(
+		'Queries'
+	);
 
 $this->menu=array(
 	array('label'=>'Add Query', 'url'=>array('add'), 'visible' => $this->isAdmin())

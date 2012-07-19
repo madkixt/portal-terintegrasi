@@ -115,7 +115,7 @@ class SiteController extends Controller
 	 * Displays the execution page
 	 */
 	public function actionExec($id = null) {
-		$model = new ExecForm;	
+		$model = new ExecForm;
 		
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form') {
@@ -124,12 +124,12 @@ class SiteController extends Controller
 		} 
 		
 		// collect user input data
-		if(isset($_POST['ExecForm']))
-		{
-			$model->attributes=$_POST['ExecForm'];
-			if($model->validate() && $model->exec())
+		if(isset($_POST['ExecForm'])) {
+			$model->attributes = $_POST['ExecForm'];
+			if ($model->validate() && $model->exec())
 				$this->redirect(Yii::app()->user->returnUrl);
 		} 
+		
 		$statements = null;
 		// display the exec form
 		$this->render('exec',array(
@@ -332,8 +332,9 @@ class SiteController extends Controller
 	}
 	
 	public function actionResult() {
-		if ((($cmd = Yii::app()->user->getState('conn')) == null) && !isset($_POST['isiquery1']))
+		if ((($cmd = Yii::app()->user->getState('conn')) == null) && !isset($_POST['isiquery1'])) {
 			throw new CHttpException(403, 'No query found.');
+		}
 		
 		$error = '';
 		$data = array();
