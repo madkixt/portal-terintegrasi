@@ -236,18 +236,23 @@ class SiteController extends Controller
 			foreach ($notes as $i => $note) {
 				$str .= "<tr border='1' width='530px' style='max-width: 530px'>
 				<td width='370px' style='max-width: 370px'><div id='my" . $i . "' width='355px' style='max-width: 355px'>";
-				$str .= CHtml::checkBox('checkbox', false, array(
+
+				$str .= CHtml::checkBox('checkbox', true, array(
 					'id' => 'checkbox' . $i ,
-					'onclick'=>'javascript: coba(checkbox' . $i . ');'
+					'checked' => 'checked',
+					'style' => 'visibility: hidden;' , 
+					'onchange'=>'javascript: coba(checkbox' . $i . ');'
 				));
 				
-				$str .= "<b>  Statement " . $i . "</b>";
+				$str .= "<b>Notes</b>";
 				$str .= CHtml::tag('br');
 				$str .= CHtml::textArea('statement' . $i, $statements[$i], array('id' => 'statement' . $i, 'cols' => 0, 'rows' => 0, 'style' => 'visibility: hidden; width: 0px; height: 0px'));
-				$str .= CHtml::textArea('notes' . $i, $notes[$i], array('id' => 'notes' . $i, 'cols' => 40, 'rows' => 5, 'readonly' => "readonly"));
+				$str .="<p>$notes[$i]</p>";
+				
 				$str .= "</div></td><td width='460px' style='max-width: 460px'>";
 				$str .= CHtml::tag('div', array('id' => 'vars' . $i, 'width' => '440px'));
-
+				
+					echo '<script type="text/javascript">splitQuery('.$i.');</script>';
 				$str .= "</td>";
 				$i++;
 			}
@@ -274,6 +279,7 @@ class SiteController extends Controller
 			
 			$ret = $table . $btn . "<br /><br />" . $notediv;
 			echo $ret;
+			echo '<script type="text/javascript">setText();</script>';
 		}
 	}
 		
