@@ -104,7 +104,7 @@
 			var z = ($('textarea[name="isiquery1"]').val());
 			if (z == "") {
 				$('textarea[name="isiquery1"]').addClass('error');
-				error = 1;
+				error = 3;
 			} else {
 				$('textarea[name="isiquery1"]').removeClass('error');
 			}
@@ -114,13 +114,24 @@
 			selected = selected[0].value;
 			if (selected == "") {
 				$('#connection').addClass('error');
-				error = 1;
+				if (error == 3) 
+				{
+					error =2 ;
+				} else 
+				{
+					error = 1;
+				}
 			} else if (selected == "other") {
 				var IP1 = $('input[name="IP"]');
 				IP1 = IP1[0].value;
 				if (IP1 == "") {
 					$('input[name="IP"]').addClass('error');
-					error = 1;
+					if (error == 3) {
+						error = 2;
+					}
+					else {
+						error = 1;
+					}
 				}
 				else {
 					$('#connection').removeClass('error');
@@ -144,7 +155,13 @@
 							x = x[0].value;
 							if (x == "") {	
 								$('input[name="vari'+i+ varname+'"]').addClass('error');
-								error = 1;
+								if (error == 3)
+								{
+									error =2;
+								}
+								else {
+									error =1;
+								}
 							} else {
 								$('input[name="vari'+i+ varname+'"]').removeClass('error');
 							}
@@ -155,6 +172,14 @@
 			
 			if (error == 1) {
 				alert('Please fill all fields with red border');
+				return false;
+			}
+			else if (error ==2) {
+				alert('Query must not be empty and fill all fields with red border');
+				return false;
+			}
+			else if (error ==3) {
+				alert('Query must not be empty');
 				return false;
 			}
 		});
