@@ -37,9 +37,9 @@ if ($this->isAdmin() && ($this->userID !== $model->userID)) { ?>
 		<?php echo $form->error($model,'password_repeat'); ?>
 	</div>
 
-<?php } else if (Yii::app()->controller->action->id == 'edit') { ?>
+<?php } elseif ($this->isAdmin() && (Yii::app()->controller->action->id == 'edit')) { ?>
 	<div class="row">
-		[<?php echo CHtml::link('Change Password', array('user/changePassword','id'=>$model->userID)); ?>]
+		<p>[<?php echo CHtml::link('Change Password', array('user/changePassword','id'=>$model->userID)); ?>]</p>
 	</div>
 <?php } ?>
 	

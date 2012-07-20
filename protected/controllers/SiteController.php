@@ -409,7 +409,10 @@ class SiteController extends Controller
 			$tb = array();
 			if (count($data) > 1)
 				$tb[] = array('Statement ' . $j++);
-				
+			
+			if (count($datum) === 0)
+				continue;
+			
 			$header = array();
 			
 			foreach ($datum[0] as $property => $value) {
@@ -442,6 +445,9 @@ class SiteController extends Controller
 			if (count($data) > 1)
 				echo "Statement " . $i++ . "\n";
 				
+			if (count($datum) === 0)
+				continue;
+			
 			if (count($datum) <= $th->rowsPerWrite) {
 				echo $th->toText($datum);
 			} else {
