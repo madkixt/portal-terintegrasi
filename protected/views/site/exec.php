@@ -1,90 +1,13 @@
-<?php
-	$this->pageTitle=Yii::app()->name . ' - Exec';
-?>
-<h1>Execution</h1>
-
-
-	<link rel="stylesheet" type="text/css" href="/portal/assets/44e798dc/jui/css/base/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="/portal/assets/73c60228/gridview/styles.css" />
-
-
-
-<div class="form">
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'exec-form',
-	'enableAjaxValidation' => true,
-	'action' => CHtml::normalizeUrl(array('result'))
-)); ?>
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-	
-	
-	<div class="row">
-	<table>
-		<tr>
-			<td>
-				<div id = "koneksi">
-					<?php echo $form->labelEx($model,'connection'); ?>
-					<?php echo $form->dropDownList($model,'connection', $model->getConnection(), array (
-						'id'=>'connection',
-						'empty'=>'Choose connection',						
-						'onchange'=>'javascript: TambahTextField();'
-					)); ?>
-					<?php echo $form->error($model,'connection'); ?>
-				</div> 
-			</td>
-			<td>
-				<br />
-				<div id = "koneksibaru">	
-				</div> 
-			</td> 
-		</tr>
-	</table>
-	</div>
-	
-	<div class="row">
-		<table>
-			<tr>
-			<td>
-		<?php echo $form->labelEx($model,'queryID'); ?>
-		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
-		array(
-			'empty'=>'Choose query',
-			'options'=>array($id => array('selected'=>'selected')),
-			'onchange'=> 'javascript: setText();',
-			'ajax' => array(
-				'type'=>'POST',
-				'url'=> CController::createUrl('dinamik'),
-				'data'=>'js:"queryID="+jQuery(this).val()',
-				'update'=>'#campur',
-				
-			))
-						
-			); ?>
-		<?php echo $form->error($model,'queryID'); ?>
-		</td>
-			</tr>
-		</table>
-	</div>
-	
-	<div id = "campur">
-		<?php if ($id !== null) { $this->actionDinamik($id); }//echo $this->autoGen($id); } ?>
-	</div>
-	
-<style type="text/css"><!--
-.error { border:2px solid red; }
---></style>
-
-<?php $this->endWidget(); ?>	
-
-</div><!-- form -->
-
 <link href="datepicker/jquery.ui.all.css"  rel="stylesheet" type="text/css" />
-
 <script type="text/javascript" src="datepicker/jquery.ui.core.js"></script>
-
 <script type="text/javascript" src="datepicker/jquery.ui.datepicker.js"></script>
-
 <script type="text/javascript">
+	function split() {
+		var i = document.getElementsByName('checkbox').length;
+		for (var j = 1; j <= i; j++)
+			splitQuery(j);
+	}
+	
 	function shownote() {
 		if ($('#textnotes').css('opacity') == 0) {
 			$('#shownote').text('Hide Notes');
@@ -212,7 +135,7 @@
 	
 	function splitQuery(i) {
 		if  ($('#checkbox' + i).is(':checked')) {
-			str = $('textarea[name="statement' + i + '"]').text();
+			var str = $('textarea[name="statement' + i + '"]').text();
 			var variables = parseVariable(str);
 			for (varname in variables) {
 				if (varname.substr(varname.length - 2, 2) == ':d') {
@@ -354,3 +277,88 @@
 		
 	}
 </script>
+
+<?php
+	$this->pageTitle=Yii::app()->name . ' - Exec';
+?>
+<h1>Execution</h1>
+
+
+	<link rel="stylesheet" type="text/css" href="/portal/assets/44e798dc/jui/css/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/portal/assets/73c60228/gridview/styles.css" />
+
+
+
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'exec-form',
+	'enableAjaxValidation' => true,
+	'action' => CHtml::normalizeUrl(array('result'))
+)); ?>
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	
+	
+	<div class="row">
+	<table>
+		<tr>
+			<td>
+				<div id = "koneksi">
+					<?php echo $form->labelEx($model,'connection'); ?>
+					<?php echo $form->dropDownList($model,'connection', $model->getConnection(), array (
+						'id'=>'connection',
+						'empty'=>'Choose connection',						
+						'onchange'=>'javascript: TambahTextField();'
+					)); ?>
+					<?php echo $form->error($model,'connection'); ?>
+				</div> 
+			</td>
+			<td>
+				<br />
+				<div id = "koneksibaru">	
+				</div> 
+			</td> 
+		</tr>
+	</table>
+	</div>
+	
+	<div class="row">
+		<table>
+			<tr>
+			<td>
+		<?php echo $form->labelEx($model,'queryID'); ?>
+		<?php echo $form->dropDownList($model, 'queryID', $model->getJudul(), 
+		array(
+			'empty'=>'Choose query',
+			'options'=>array($id => array('selected'=>'selected')),
+			'onchange'=> 'javascript: setText();',
+			'ajax' => array(
+				'type'=>'POST',
+				'url'=> CController::createUrl('dinamik'),
+				'data'=>'js:"queryID="+jQuery(this).val()',
+				'update'=>'#campur',
+				
+			))
+						
+			); ?>
+		<?php echo $form->error($model,'queryID'); ?>
+		</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div id = "campur">
+		<?php if ($id !== null) {
+			$this->actionDinamik($id); ?>
+			<script type='text/javascript'>split();</script>
+		<?php
+		}//echo $this->autoGen($id); } ?>
+	</div>
+	
+<style type="text/css"><!--
+.error { border:2px solid red; }
+--></style>
+
+<?php $this->endWidget(); ?>	
+
+</div><!-- form -->
+
