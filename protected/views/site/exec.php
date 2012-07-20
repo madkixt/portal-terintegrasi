@@ -50,11 +50,13 @@
 		array(
 			'empty'=>'Choose query',
 			'options'=>array($id => array('selected'=>'selected')),
+			'onchange'=> 'javascript: setText();',
 			'ajax' => array(
 				'type'=>'POST',
 				'url'=> CController::createUrl('dinamik'),
 				'data'=>'js:"queryID="+jQuery(this).val()',
 				'update'=>'#campur',
+				
 			))
 						
 			); ?>
