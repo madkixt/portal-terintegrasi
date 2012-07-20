@@ -251,8 +251,7 @@ class SiteController extends Controller
 				
 				$str .= "</div></td><td width='460px' style='max-width: 460px'>";
 				$str .= CHtml::tag('div', array('id' => 'vars' . $i, 'width' => '440px'));
-				
-					echo '<script type="text/javascript">splitQuery('.$i.');</script>';
+				echo "<script type='text/javascript'>splitQuery($i);</script>";
 				$str .= "</td>";
 				$i++;
 			}
