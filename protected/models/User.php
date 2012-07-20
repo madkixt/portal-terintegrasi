@@ -9,7 +9,6 @@
  * @property string $username
  * @property string $password
  * @property string $description
- * @property integer $supervisor
  * @property string $creationDate
  * @property string $modifiedDate
  * @property integer $createdBy
@@ -41,22 +40,19 @@ class User extends BaseEntity
 	 * @param string $className active record class name.
 	 * @return User the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName() {
 		return 'tbl_user';
 	}
 	
 	/*return array user atau admin*/
-	public static function getUserRoles()
-	{
+	public static function getUserRoles() {
 		return array(
 			self::ROLE_ADMINISTRATOR => 'Administrator',
 			self::ROLE_OPERATOR => 'Operator',
@@ -323,8 +319,8 @@ class User extends BaseEntity
 		return User::model()->findAll(
 			'role = :r1 OR role = :r2',
 			array(
-				':r1' => 1,
-				':r2' => 2
+				':r1' => self::ROLE_OPERATOR,
+				':r2' => self::ROLE_USER
 			)
 		);
 	}

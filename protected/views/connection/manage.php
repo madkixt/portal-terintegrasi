@@ -43,7 +43,10 @@ $('.search-form form').submit(function(){
 			'visible' => !$this->isUser()
 		),
 		'IPAddress',
-		'username',
+		array(
+			'name' => 'username',
+			'visible' => $this->isAdmin(),
+		),
 		array(
 			'name' => 'dbms',
 			'value' => 'Connection::model()->dbmsOptions[$data["dbms"]]'

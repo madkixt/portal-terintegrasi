@@ -67,7 +67,6 @@
 		)); ?>
 	</div>
 
-<?php if (!$this->isUser()) { ?>
 	<div class="row">
 		<?php echo $form->label($model,'createdBy'); ?>
 		<?php echo $form->textField($model,'createdBy'); ?>
@@ -82,7 +81,6 @@
 		<?php echo $form->label($model,'lastNotesEditor'); ?>
 		<?php echo $form->textField($model,'lastNotesEditor'); ?>
 	</div>
-<?php } ?>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>

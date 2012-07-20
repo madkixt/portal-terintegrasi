@@ -140,10 +140,11 @@ class Connection extends BaseEntity
 	}
 	
 	public function getName() {
-		if ($this->username === '')
-			return $this->IPAddress;
-			
-		return $this->IPAddress . ':' . $this->username;
+		return $this->IPAddress;
+		// if ($this->username === '')
+			// return $this->IPAddress;
+		
+		// return $this->IPAddress . ':' . $this->username;
 	}
 	
 	protected function afterSave()

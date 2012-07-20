@@ -27,7 +27,10 @@ $this->menu=array(
 			'name' => 'dbms',
 			'value' => Connection::model()->dbmsOptions[$model->dbms]
 		),
-		'username',
+		array(
+			'name' => 'username',
+			'visible' => $this->isAdmin(),
+		),
 		array(
 			'name' => 'password',
 			'visible' => $this->isAdmin()
