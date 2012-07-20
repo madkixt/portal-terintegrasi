@@ -17,7 +17,7 @@ class UserController extends Controller
 			'accessControl', // perform access control for CRUD operations
 			'admin - view, changePassword',
 			'accessID + view, edit',
-			'selfAdmin + edit, delete',
+			'selfAdmin + edit, delete, changePassword',
 			'assign + assignQuery, assignConnection'
 		);
 	}
@@ -386,10 +386,7 @@ class UserController extends Controller
 		$user = $this->loadModel($_GET['id']);
 		
 		if (($user->role == User::ROLE_ADMINISTRATOR) && (Yii::app()->user->getId() != $user->userID)) {
-			if (Yii::app()->controller->action->id == 'edit')
-				throw new CHttpException(403, "You are not authorized to view this page.");
-			else if (Yii::app()->controller->action->id == 'delete')
-				throw new CHttpException(403, "You are not authorized to do this action.");
+			throw new CHttpException(403, "You are not authorized to view this page.");
 		}
 		
 		$filterChain->run();

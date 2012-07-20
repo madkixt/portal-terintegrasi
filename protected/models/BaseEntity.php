@@ -38,6 +38,9 @@ abstract class BaseEntity extends CActiveRecord {
 				$ret[] = $i;
 			}
 		}
+		
+		if (count($ret) == 0)
+			return -1;
 		return $ret;
 	}
 	

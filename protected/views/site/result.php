@@ -7,7 +7,7 @@ if ($error !== '') {
 }?>
 
 <p><?php
-	echo CHtml::link('Download as Excel (.xls)', array('download', 'download' => 'txt'));
+	echo CHtml::link('Download as Excel (.xls)', array('download', 'type' => 'xls'));
 ?></p>
 <p>
 <?php
