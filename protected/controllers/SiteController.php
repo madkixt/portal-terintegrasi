@@ -247,7 +247,8 @@ class SiteController extends Controller
 				$str .= "<b>Notes</b>";
 				$str .= CHtml::tag('br');
 				$str .= CHtml::textArea('statement' . $i, $statements[$i], array('id' => 'statement' . $i, 'cols' => 0, 'rows' => 0, 'style' => 'visibility: hidden; width: 0px; height: 0px'));
-				$str .="<p>$notes[$i]</p>";
+				$str .=CHtml::textArea('Notes' . $i, $notes[$i], array('id' => 'notes' . $i, 'cols' => 40, 'rows' => 10, ));
+				
 				
 				$str .= "</div></td><td width='460px' style='max-width: 460px'>";
 				$str .= CHtml::tag('div', array('id' => 'vars' . $i, 'width' => '440px'));

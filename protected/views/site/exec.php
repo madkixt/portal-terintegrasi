@@ -140,12 +140,12 @@
 			for (varname in variables) {
 				if (varname.substr(varname.length - 2, 2) == ':d') {
 					varname = varname.substr(0, varname.length - 2);
-					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":d"] + "' onchange='setText()' /></td></tr>");
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='40px' style='max-width: 40px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":d"] + "' onchange='setText()' /></td></tr>");
 					
 					$('#vari' + i +varname).datepicker({dateFormat: 'yy-mm-dd'});
 				}
 				else
-					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>"+varname + "</td><td width='250px' style='max-width: 125px'><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='40px' style='max-width: 40px'>"+varname + "</td><td width='250px' style='max-width: 125px'><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
 			}
 		}
 	}
