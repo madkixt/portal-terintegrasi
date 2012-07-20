@@ -260,9 +260,6 @@ class SiteController extends Controller
 				'cols' => 0, 'rows' => 0, 'style' => 'visibility: hidden; width: 0px; height: 0px'
 			));
 			echo $tarea;
-			
-			$btn = CHtml::submitButton('Execute',array('id'=> 'Exec'));
-			
 			$notebtn = CHtml::link('Show Notes', '#notes', array('id'=>'shownote', 'onclick'=>'javascript: shownote();'));
 			$notearea = CHtml::textArea('textnotes', $data->notes, array(
 				'id' => 'textnotes',
@@ -270,6 +267,8 @@ class SiteController extends Controller
 				'cols'=>30,'rows'=>5, 'readonly'=>"readonly")
 			);
 			$notediv = CHtml::tag('div', array('id' => 'notes'), $notebtn . "<br />" . $notearea);
+			
+			$btn = CHtml::submitButton('Execute',array('id'=> 'Exec'));
 			
 			$table = CHtml::tag('table', array(), $str);
 			
