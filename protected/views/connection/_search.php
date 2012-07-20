@@ -22,10 +22,12 @@
 		<?php echo $form->textField($model,'IPAddress',array('size'=>15,'maxlength'=>15)); ?>
 	</div>
 
+<?php if ($this->isAdmin()) { ?>
 	<div class="row">
 		<?php echo $form->label($model,'username'); ?>
 		<?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
+<?php } ?>
 	
 	<div class="row">
 		<?php echo $form->label($model,'serverName'); ?>
