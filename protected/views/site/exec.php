@@ -3,6 +3,12 @@
 ?>
 <h1>Execution</h1>
 
+
+	<link rel="stylesheet" type="text/css" href="/portal/assets/44e798dc/jui/css/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/portal/assets/73c60228/gridview/styles.css" />
+
+
+
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'exec-form',
@@ -70,6 +76,12 @@
 
 </div><!-- form -->
 
+<link href="datepicker/jquery.ui.all.css"  rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="datepicker/jquery.ui.core.js"></script>
+
+<script type="text/javascript" src="datepicker/jquery.ui.datepicker.js"></script>
+
 <script type="text/javascript">
 	function shownote() {
 		if ($('#textnotes').css('opacity') == 0) {
@@ -88,7 +100,6 @@
 	$(document).ready(function() {
 		$('.form').submit(function(){
 			var error = 0;
-			
 			// Isiquery
 			var z = ($('textarea[name="isiquery1"]').val());
 			if (z == "") {
@@ -125,6 +136,10 @@
 					if  ($('#checkbox' + i).is(':checked')) {
 						var arr = parseVariable($('#statement' + i).text());
 						for (varname in arr) {
+							if (varname.substr(varname.length - 2, 2) == ':d') {
+								varname = varname.substr(0, varname.length - 2);
+							}
+						
 							var x = $('input[name="vari'+i+ varname+'"]');
 							x = x[0].value;
 							if (x == "") {	
@@ -166,6 +181,8 @@
 		$('#isiquery').val(txt);
 	}
 	
+	
+	
 	function splitQuery(i) {
 		if  ($('#checkbox' + i).is(':checked')) {
 			str = $('textarea[name="statement' + i + '"]').text();
@@ -173,8 +190,9 @@
 			for (varname in variables) {
 				if (varname.substr(varname.length - 2, 2) == ':d') {
 					varname = varname.substr(0, varname.length - 2);
-					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari1b' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":d"] + "' onchange='setText()' /></td></tr>");
-					//Datepicker
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":d"] + "' onchange='setText()' /></td></tr>");
+					
+					$('#vari' + i +varname).datepicker({dateFormat: 'yy-mm-dd'});
 				}
 				else
 					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='20px' style='max-width: 20px'>"+varname + "</td><td width='250px' style='max-width: 125px'><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
