@@ -73,27 +73,32 @@ class SiteController extends Controller
 	public function actionContact()
 	{
 		$model=new ContactForm;
-		// if(isset($_POST['ContactForm'])) {
-			// $model->attributes=$_POST['ContactForm'];
-			// if ($model->validate()) {
+		$error = null;
+		
+		if(isset($_POST['ContactForm'])) {
+			$model->attributes=$_POST['ContactForm'];
+			if ($model->validate()) {
 				Yii::import('application.extensions.phpgmailer.*');
 				$mail = new PHPGmailer;
-				$mail->Username = 'prmps.adm@gmail.com'; 
-				$mail->Password = 'prmps.adm';
+				$mail->Username = Yii::app()->params['adminEmail']; 
+				$mail->Password = Yii::app()->params['adminEmailPass'];
 				$mail->From = 'prmps.adm@gmail.com'; 
-				$mail->FromName = 'Test';
-				$mail->Subject = 'Subject';
+				$mail->FromName = 'Portal Reporting MPS';
+				$mail->Subject = $model->subject;
 				$mail->AddAddress('okiriza.wibisono@gmail.com');
-				$mail->Body = 'Hey buddy';
-				$mail->Send();
+				$mail->Body = "Portal Reporting Mandiri Prepaid System\n" . $model->name . " (" . $model->email . ")" . " wrote:\n\n" . $model->body;
 				
-				// $headers="From: {$model->email}\r\nReply-To: {$model->email}";
-				// mail(Yii::app()->params['adminEmail'],$model->subject,$model->body,$headers);
-				// Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
-				// $this->refresh();
-			// }
-		// }
-		// $this->render('contact',array('model'=>$model));
+				try {
+					$mail->Send();
+					Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
+					$this->refresh();
+				} catch (Exception $e) {
+					$error = "Mail not sent. For the time, please contact us at <strong>prmps.adm@gmail.com</strong>. We are sorry for this incovenience.";
+				}
+			}
+		}
+		
+		$this->render('contact',array('model'=>$model, 'error' => $error));
 	}
 
 	/**
@@ -413,7 +418,7 @@ class SiteController extends Controller
 		$j = 1;
 		foreach ($data as $datum) {
 			$tb = array();
-			if (count($data) > 1)
+			if ((count($data) > 1) && !$this->isUser())
 				$tb[] = array('Statement ' . $j++);
 			
 			if (count($datum) === 0)
@@ -448,7 +453,7 @@ class SiteController extends Controller
 		
 		$i = 1;
 		foreach ($data as $datum) {
-			if (count($data) > 1)
+			if ((count($data) > 1) && !$this->isUser())
 				echo "Statement " . $i++ . "\n";
 				
 			if (count($datum) === 0)

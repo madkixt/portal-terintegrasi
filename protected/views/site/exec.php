@@ -141,10 +141,11 @@
 				if (varname.substr(varname.length - 2, 2) == ':d') {
 					varname = varname.substr(0, varname.length - 2);
 					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='40px' style='max-width: 40px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":d"] + "' onchange='setText()' /></td></tr>");
-					
 					$('#vari' + i +varname).datepicker({dateFormat: 'yy-mm-dd'});
-				}
-				else
+				} else if (varname.substr(varname.length - 2, 2) == ':i') {
+					varname = varname.substr(0, varname.length - 2);
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='40px' style='max-width: 40px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":i"] + "' onchange='setText()' /></td></tr>");
+				} else
 					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='40px' style='max-width: 40px'>"+varname + "</td><td width='250px' style='max-width: 125px'><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
 			}
 		}
@@ -174,13 +175,14 @@
 						varval = sub.substring(terminIdx + 1, curlIdx);
 						if (sub.charAt(curlIdx + 1) == 'd') {
 							varname += ':d';
+						} else if (sub.charAt(curlIdx + 1) == 'i') {
+							varname += ':i';
 						}
 					}
 				}
 			}
 			else
 				varname = txt.substr(idxQ + 1);
-			varval = varval.replace(/\'/g, "woi");
 			ret[varname] = varval;
 		}
 		
@@ -223,7 +225,20 @@
 					if (curlIdx != -1) {
 						if (sub.charAt(curlIdx + 1) == 'd')
 							txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 2);
-						else
+						else if (sub.charAt(curlIdx + 1) == 'i') {
+							if (varval == '?' + varname) {
+								txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 2);
+							} else {
+								varval = varval.substring(1, varval.length - 1);
+								var arr = varval.split(/\s*\,\s*/);
+								var val = '(';
+								for (var j = 0; j < arr.length - 1; j++) {
+									val += "'" + arr[j] + "', ";
+								}
+								val += "'" + arr[arr.length - 1] + "')";
+								txt = txt.substring(0, idxQ) + val + sub.substring(curlIdx + 2);
+							}
+						} else
 							txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 1);
 					} else {
 						txt = txt.substring(0, idxQ) + varval + sub.substring(terminIdx);
