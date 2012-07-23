@@ -89,6 +89,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'prmps.adm@gmail.com',
+		'adminEmailPass' => 'prmps.adm'
 	),
 	
 );

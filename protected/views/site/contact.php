@@ -8,13 +8,16 @@ $this->breadcrumbs=array(
 <h1>Contact Us</h1>
 
 <?php if(Yii::app()->user->hasFlash('contact')): ?>
-
 <div class="flash-success">
 	<?php echo Yii::app()->user->getFlash('contact'); ?>
 </div>
 
-<?php else: ?>
+<?php elseif ($error !== null): ?>
+<div class="flash-error">
+	<?php echo $error; ?>
+</div>
 
+<?php else: ?>
 <p>
 If you have questions, please fill out the following form to contact us. Thank you.
 </p>
