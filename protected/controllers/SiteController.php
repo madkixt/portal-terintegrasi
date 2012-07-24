@@ -201,7 +201,7 @@ class SiteController extends Controller
 				$str .= CHtml::tag('br');
 				$str .= CHtml::tag('br');
 				$str .= CHtml::tag('br');
-				$str .= "</div></td><td width= '180px' style ='max-width: 180px'>";
+				$str .= "</div></td><td width= '180px' style ='max-width: 180px; vertical-align: top'>";
 				$str .= CHtml::tag('div', array('id' => 'vars' . $i));
 
 				$str .= "</td>";
@@ -239,9 +239,13 @@ class SiteController extends Controller
 			
 			$str = '';
 			foreach ($notes as $i => $note) {
-				$str .= "<tr border='1' width='530px' style='max-width: 530px'>
-				<td width='370px' style='max-width: 370px'><div id='my" . $i . "' width='355px' style='max-width: 355px'>";
-
+				$str .= "<tr border='1' width='530px' style='max-width: 530px'>";
+				$str .= "<td width='120px' style='max-width: 120px; vertical-align: top'>";
+				$str .= CHtml::tag('div', array('id' => 'vars' . $i, 'width' => '120px', 'style' => 'vertical-align: top; padding-top: 0px'));
+				echo "<script type='text/javascript'>splitQuery($i);</script>";
+				$str .= "</td>";
+				
+				$str .= "<td width='370px' style='max-width: 370px'><div id='my" . $i . "' width='355px' style='max-width: 355px'>";
 				$str .= CHtml::checkBox('checkbox', true, array(
 					'id' => 'checkbox' . $i ,
 					'checked' => 'checked',
@@ -255,10 +259,7 @@ class SiteController extends Controller
 				$str .=CHtml::textArea('Notes' . $i, $notes[$i], array('id' => 'notes' . $i, 'cols' => 40, 'rows' => 10, ));
 				
 				
-				$str .= "</div></td><td width='460px' style='max-width: 460px'>";
-				$str .= CHtml::tag('div', array('id' => 'vars' . $i, 'width' => '440px'));
-				echo "<script type='text/javascript'>splitQuery($i);</script>";
-				$str .= "</td>";
+				$str .= "</div></td>";
 				$i++;
 			}
 			
@@ -451,11 +452,11 @@ class SiteController extends Controller
 		header("Content-Type: application/force-download");
 		header("Connection: close");
 		
-		$i = 1;
+		$j = 1;
 		foreach ($data as $datum) {
 			if ((count($data) > 1) && !$this->isUser())
-				echo "Statement " . $i++ . "\n";
-				
+				echo "Statement " . $j++ . "\r\n";
+			
 			if (count($datum) === 0)
 				continue;
 			
@@ -469,10 +470,11 @@ class SiteController extends Controller
 				for ($i = 0; $i < $iter; $i++) {
 					echo $th->partText($datum, $i, $lengths);
 				}
+				echo $th->line($lengths);
 			}
 			
 			if (count($data) > 1)
-				echo "\n\n";
+				echo "\r\n\r\n";
 		}
 	}
 	

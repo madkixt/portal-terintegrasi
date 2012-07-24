@@ -31,7 +31,7 @@ class TextHelper {
 		foreach ($lengths as $key => $length) {
 			$str .= $this->padCol($key, $length, $char, $spacing, $vborder);
 		}
-		$str .= $vborder . "\n";
+		$str .= $vborder . "\r\n";
 		
 		$str .= $this->line($lengths, $hborder, $spacing, $vborder);
 		
@@ -58,7 +58,7 @@ class TextHelper {
 		foreach ($lengths as $length) {
 			$str .= $this->padCol('', $length, $char, $spacing, $vborder);
 		}
-		$str .= $vborder . "\n";
+		$str .= $vborder . "\r\n";
 		
 		return $str;
 	}
@@ -122,7 +122,7 @@ class TextHelper {
 					$data[$key] = substr($data[$key], $nlinepos + 1);
 				}
 			}
-			$str .= $vborder . "\n";
+			$str .= $vborder . "\r\n";
 		}
 		
 		if ($inborder)
