@@ -41,7 +41,7 @@
 				$('#connection').addClass('error');
 				if (error == 3) 
 				{
-					error =2 ;
+					error = 2;
 				} else 
 				{
 					error = 1;
@@ -74,17 +74,19 @@
 						for (varname in arr) {
 							if (varname.substr(varname.length - 2, 2) == ':d') {
 								varname = varname.substr(0, varname.length - 2);
+							} else if (varname.substr(varname.length - 2, 2) == ':t') {
+								varname = varname.substr(0, varname.length - 2);
+							} else if (varname.substr(varname.length - 2, 2) == ':i') {
+								varname = varname.substr(0, varname.length - 2);
 							}
 						
 							var x = $('input[name="vari'+i+ varname+'"]');
 							x = x[0].value;
 							if (x == "") {	
 								$('input[name="vari'+i+ varname+'"]').addClass('error');
-								if (error == 3)
-								{
+								if (error == 3) {
 									error =2;
-								}
-								else {
+								} else {
 									error =1;
 								}
 							} else {
@@ -97,14 +99,15 @@
 			
 			if (error == 1) {
 				alert('Please fill all fields with red border');
-				return false;
 			}
 			else if (error ==2) {
 				alert('Query must not be empty and fill all fields with red border');
-				return false;
 			}
 			else if (error ==3) {
 				alert('Query must not be empty');
+			}
+			
+			if (error > 0) {
 				return false;
 			}
 		});
@@ -140,14 +143,18 @@
 			for (varname in variables) {
 				if (varname.substr(varname.length - 2, 2) == ':d') {
 					varname = varname.substr(0, varname.length - 2);
-					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='40px' style='max-width: 40px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":d"] + "' onchange='setText()' /></td></tr>");
-					$('#vari' + i +varname).datepicker({dateFormat: 'yy-mm-dd'});
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='290px' style='max-width: 165px'><strong>" + varname + "</strong><br /><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class='required dp' size= '15' type='text' value='" + variables[varname + ":d"] + "' onchange='setText()' /></td></tr>");
+				} else if (varname.substr(varname.length - 2, 2) == ':t') {
+					varname = varname.substr(0, varname.length - 2);
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='290px' style='max-width: 165px'><strong>" + varname + "</strong><br /><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required tp' size= '15' type='text' value='" + variables[varname + ":t"] + "' onchange='setText()' /></td></tr>");
 				} else if (varname.substr(varname.length - 2, 2) == ':i') {
 					varname = varname.substr(0, varname.length - 2);
-					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='40px' style='max-width: 40px'>" + varname + "</td><td width='250px' style='max-width: 125px'><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":i"] + "' onchange='setText()' /></td></tr>");
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='290px' style='max-width: 165px'><strong>" + varname + "</strong><br /><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":i"] + "' onchange='setText()' /></td></tr>");
 				} else
-					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='40px' style='max-width: 40px'>"+varname + "</td><td width='250px' style='max-width: 125px'><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='290px' style='max-width: 165px'><strong>" + varname + "</strong><br /><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
 			}
+			$('input[class~="dp"]').datepicker({dateFormat: 'yy-mm-dd'});
+			$('input[class~="tp"]').datepicker({dateFormat: 'yy-mm-dd 00:00:00'});
 		}
 	}
 		
@@ -175,6 +182,8 @@
 						varval = sub.substring(terminIdx + 1, curlIdx);
 						if (sub.charAt(curlIdx + 1) == 'd') {
 							varname += ':d';
+						} else if (sub.charAt(curlIdx + 1) == 't') {
+							varname += ':t';
 						} else if (sub.charAt(curlIdx + 1) == 'i') {
 							varname += ':i';
 						}
@@ -224,6 +233,8 @@
 					var curlIdx = sub.indexOf('}', terminIdx);
 					if (curlIdx != -1) {
 						if (sub.charAt(curlIdx + 1) == 'd')
+							txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 2);
+						else if (sub.charAt(curlIdx + 1) == 't')
 							txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 2);
 						else if (sub.charAt(curlIdx + 1) == 'i') {
 							if (varval == '?' + varname) {

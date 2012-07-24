@@ -75,8 +75,7 @@ class Statement extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -89,5 +88,19 @@ class Statement extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	protected function beforeSave() {
+		if($this->hasEventHandler('onBeforeSave')) {
+			$event=new CModelEvent($this);
+			$this->onBeforeSave($event);
+			return $event->isValid;
+		} else {
+			$this->queryStatement = trim($this->queryStatement);
+			if (substr($this->queryStatement, strlen($this->queryStatement) - 1, 1) === ';')
+				$this->queryStatement = substr($this->queryStatement, 0, strlen($this->queryStatement) - 1);
+			
+			return true;
+		}
 	}
 }
