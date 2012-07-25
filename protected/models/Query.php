@@ -53,7 +53,7 @@ class Query extends BaseEntity
 		return array(
 			array('title, databaseName', 'required'),
 			array('createdBy, lastModifiedBy, lastNotesEditor', 'numerical', 'integerOnly' => true),
-			array('title', 'length', 'max'=>50),
+			array('title', 'length', 'max'=>70),
 			array('databaseName', 'length', 'max'=>30),
 			array('notes', 'safe'),
 			// The following rule is used by search().
