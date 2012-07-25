@@ -482,7 +482,7 @@ class SiteController extends Controller
 		$rtrim = rtrim($text);
 		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ";")
 			$text .= ";";
-			
+		
 		$data = array();
 		
 		$conn->active = true;
