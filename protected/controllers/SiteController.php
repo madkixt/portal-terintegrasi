@@ -5,8 +5,12 @@ class SiteController extends Controller
 	public $defaultAction = 'exec';
 	public $filename = 'export';
 	
-	public function filters()
-	{
+	const MAX_ROWS = 10000;
+	const DISPLAYED_ROWS = 100;
+	
+	const WORKSHEET_LENGTH = 50000;
+	
+	public function filters() {
 		return array(
 			'accessControl + exec', // perform access control for CRUD operations
 			'dinamik + dinamik',
@@ -338,17 +342,22 @@ class SiteController extends Controller
 		return $retval;
 	}	
 	
-	public function actionDownload($type = 'xls') {
+	public function actionDownload($type) {
 		if (($cmd = Yii::app()->user->getState('conn')) == null)
 			throw new CHttpException(403, 'No query result found.');
 		
-		$data = $this->queryAll($cmd->connection, $cmd->text);
+		$queries = $this->getQueries($cmd->text);
+		$cmd->connection->active = true;
+		
 		if ($type === 'xls') {
-			$this->generateExcel($data);
-		}
-		elseif ($type === 'txt') {
+			$this->generateExcel($cmd, $queries);
+		} elseif ($type === 'mdb') {
+			$this->generateAccess($cmd, $queries);
+		} elseif ($type === 'txt') {
 			$this->generateText($data);
 		}
+		
+		$cmd->connection->active = false;
 	}
 	
 	public function actionResult() {
@@ -392,8 +401,9 @@ class SiteController extends Controller
 		}
 		
 		try {
-			$data = $this->queryAll($cmd->connection, $cmd->text);
+			$data = $this->queryAll($cmd->connection, $cmd->text, $dbms);
 		} catch (Exception $e) {
+			echo $e;
 			$error = 'Query failed. Please check the <strong>query syntax</strong>.';
 			$this->render('result', array('data' => $data, 'query' => '', 'error' => $error));
 			return;
@@ -412,37 +422,111 @@ class SiteController extends Controller
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
-	private function generateExcel($data) {
+	private function generateExcel($cmd, $queries) {
 		Yii::import('application.extensions.phpexcel.JPhpExcel');
 	    $xls = new JPhpExcel('UTF-8', false, 'mandiri');
 		
-		$j = 1;
-		foreach ($data as $datum) {
-			$tb = array();
-			if ((count($data) > 1) && !$this->isUser())
-				$tb[] = array('Statement ' . $j++);
+		header("Content-Type: application/vnd.ms-excel; charset=UTF-8");
+        header("Content-Disposition: inline; filename=\"" . $this->filename . ".xls\"");
+
+        echo stripslashes (sprintf("<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">", "UTF-8"));
+		
+		$j = 1;		// Statement count
+		foreach ($queries as $query) {
+			$stop = false;
+			$offset = 0;
+			$rowPrinted = 0;
+			$sheet = 1;
 			
-			if (count($datum) === 0)
-				continue;
-			
-			$header = array();
-			
-			foreach ($datum[0] as $property => $value) {
-				$headr[] = $property;
+			while (!$stop) {
+				echo $rowPrinted ."<br />";
+				$data = $this->query($cmd->connection, $query, 0, self::MAX_ROWS, $offset);
+				$n = count($data);
+				
+				if ($n === 0)
+					break;
+				
+				if ($n < self::MAX_ROWS) {
+					$stop = true;
+				}
+				
+				$xls->setArray(array());
+				if ($rowPrinted === 0) {
+					if ($this->isUser())
+						echo "\n<Worksheet ss:Name=\"" . $j . ". Rows " . (($sheet - 1)*self::WORKSHEET_LENGTH + 1) . "-" . ($sheet*self::WORKSHEET_LENGTH) . "\">\n<Table>\n";
+					else
+						echo "\n<Worksheet ss:Name=\"Rows " . (($sheet - 1)*self::WORKSHEET_LENGTH + 1) . "-" . ($sheet*self::WORKSHEET_LENGTH) . "\">\n<Table>\n";
+						
+					$header = array();
+					foreach ($data[0] as $property => $value) {
+						$header[] = $property;
+					}
+					$xls->addRow($header);
+				}
+				
+				foreach ($data as $datum)
+					$xls->addRow($datum);
+				
+				foreach ($xls->getLines() as $line)
+					echo $line;
+						
+				$rowPrinted += $n;
+				if ($rowPrinted === self::WORKSHEET_LENGTH || $stop) {
+					echo "</Table>\n</Worksheet>";
+					$rowPrinted = 0;
+					$sheet++;
+				}
+				
+				$offset += self::MAX_ROWS;
 			}
 			
-			$tb[] = $headr;
-			foreach ($datum as $i) {
-				$tb[] = $i;
-			}
-			
-			if (count($data) > 1)
-				$tb[] = array('');
-			
-			$xls->addArray($tb);
+			$j++;
 		}
 		
-	    $xls->generateXML($this->filename);
+		echo "</Workbook>";
+	}
+	
+	private function generateAccess($cmd, $queries) {
+	
+	}
+	
+	private function excelTest() {
+		if (($cmd = Yii::app()->user->getState('conn')) == null)
+			throw new CHttpException(403, 'No query result found.');
+		
+		$text = $cmd->text;
+		$rtrim = rtrim($text);
+		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ';')
+			$text .= ';';
+		
+		$queries = explode(";", $text);
+		$conn = $cmd->connection;
+		$conn->active = true;
+		
+		for ($i = 0; $i < count($queries) - 1; $i++) {
+			$stop = false;
+			$offset = 0;
+			
+			while (!$stop) {
+				$data = $this->query($conn, $queries[$i], 0, self::MAX_ROWS, $offset);
+				$n = count($data);
+				
+				if ($n === 0)
+					break;
+					
+				if ($n < self::MAX_ROWS) {
+					$stop = true;
+				}
+				
+				echo ($offset + 1) . "-" . ($offset + $n) . "<br />";
+				foreach ($data as $row)
+					echo $row['FirstName'] . " " . $row['MiddleName'] . " " . $row['LastName'];
+				echo "<br /><br />";
+				$offset += self::MAX_ROWS;
+			}
+		}
+		
+		$conn->active = false;
 	}
 	
 	private function generateText($data) {
@@ -478,22 +562,28 @@ class SiteController extends Controller
 		}
 	}
 	
-	private function queryAll($conn, $text) {
+	private function queryAll($conn, $text, $dbms) {
 		$rtrim = rtrim($text);
-		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ";")
-			$text .= ";";
-		
-		$data = array();
-		
-		$conn->active = true;
+		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ';')
+			$text .= ';';
 		
 		$queries = explode(";", $text);
+		$data = array();
 		for ($i = 0; $i < count($queries) - 1; $i++) {
-			$cmd = $conn->createCommand($queries[$i]);
-			$data[] = $cmd->queryAll();
+			$data[$i] = $this->query($conn, $queries[$i], $dbms, self::DISPLAYED_ROWS, 0);
 		}
 		
-		$conn->active = false;
+		return $data;
+	}
+	
+	private function query($conn, $query, $dbms, $count = self::MAX_ROWS, $offset = 0) {
+		$data = $conn->createCommand($this->limitResult($query, $dbms, $count, $offset))->queryAll();
+		
+		for ($i = 0; $i < count($data); $i++) {
+			unset($data[$i]['RowNumber']);
+			unset($data[$i]['__dummy__']);
+		}
+		
 		return $data;
 	}
 	
@@ -564,6 +654,57 @@ class SiteController extends Controller
 		}
 		
 		$filterChain->run();
+	}
+	
+	private function limitResult($query, $dbms = Connection::DBMS_MSSQL, $count = 100, $offset = 0) {
+		if ($dbms === null)
+			return $query;
+		
+		switch ($dbms) {
+			case Connection::DBMS_MSSQL:
+				// $query = "WITH __dummy__ AS (SELECT __xx__ = '') " .
+					// "SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY __xx__) AS RowNumber, __original__.* FROM ".
+					// "(" . $query . ") AS __original__, __dummy__) AS __limited__ ".
+					// "WHERE RowNumber BETWEEN " . ($offset + 1) . " AND " . ($offset + $count);
+				 $query = "SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY __dummy__) AS RowNumber, * FROM " .
+					"(SELECT *, __dummy__ = '' FROM (" . $query . ") AS __original__) AS __inner__) AS __outer__ ".
+					"WHERE RowNumber BETWEEN " . ($offset + 1) . " AND " . ($offset + $count);
+				break;
+			case Connection::DBMS_MYSQL:
+				$query .= " LIMIT 0, 100";
+				break;
+		}
+		
+		return $query;
+	}
+	
+	public function actionAccessDel() {
+		$file = 'D:/Downloads/Database21.accdb';
+		// if (file_exists($file)) {
+			// header('Content-Description: File Transfer');
+			// header('Content-Type: application/octet-stream');
+			// header('Content-Disposition: attachment; filename=' . basename($file));
+			// header('Content-Transfer-Encoding: binary');
+			// header('Expires: 0');
+			// header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			// header('Pragma: public');
+			// header('Content-Length: ' . filesize($file));
+			// ob_clean();
+			// flush();
+			// readfile($file);
+			// exit;
+		// }
+		unlink($file);
+	}
+	
+	private function getQueries($text) {
+		$rtrim = rtrim($text);
+		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ';')
+			$text .= ';';
+		
+		$queries = explode(";", $text);
+		unset($queries[count($queries) - 1]);
+		return $queries;
 	}
 }
 

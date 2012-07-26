@@ -25,6 +25,14 @@
 
 require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'php-excel.class.php';
 
-class JPhpExcel extends Excel_XML
-{
+class JPhpExcel extends Excel_XML {
+	public function setArray($array) {
+		$this->lines = array();
+		foreach ($array as $k => $v)
+			$this->addRow($v);
+	}
+	
+	public function getLines() {
+		return $this->lines;
+	}
 }
