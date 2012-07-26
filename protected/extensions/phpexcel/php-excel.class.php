@@ -44,7 +44,7 @@ class Excel_XML
          * Lines to output in the excel document
          * @var array
          */
-        private $lines = array();
+        protected $lines = array();
 
         /**
          * Used encoding
@@ -121,7 +121,7 @@ class Excel_XML
          * 
          * @param array $array One-dimensional array with row content
          */
-        private function addRow ($array)
+        public function addRow ($array)
         {
         	$cells = "";
                 foreach ($array as $k => $v):
@@ -142,7 +142,7 @@ class Excel_XML
         public function addArray ($array)
         {
                 foreach ($array as $k => $v)
-                        $this->addRow ($v);
+                        $this->addRow($v);
         }
 
 

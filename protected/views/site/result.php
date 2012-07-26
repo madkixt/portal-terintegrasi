@@ -11,6 +11,9 @@ if ($error !== '') {
 ?></p>
 <p>
 <?php
+	echo CHtml::link('Download as Access (.accdb)', array('download', 'type' => 'mdb'));
+?></p>
+<?php
 	echo CHtml::link('Download as Text (.txt)', array('download', 'type' => 'txt'));
 ?></p>
 <br />
@@ -18,22 +21,24 @@ if ($error !== '') {
 <?php
 $queries = explode(";", $query);
 
-for ($i = 0; $i < count($data); $i++) { ?>
-	<p><strong>Statement
-<?php
-	echo ($i+1);
-	if (!$this->isUser())
-		echo ": " . $queries[$i];
-?></strong></p>
+for ($i = 0; $i < count($data); $i++) {
+	if (!$this->isUser()) { ?>
+	
+<p><strong>Statement <?php echo ($i + 1) . ": " . $queries[$i]; ?></strong></p>
+	
+<?php }
+	if (count($data[$i]) === 100) { ?>
+
+<p style='font-size: 12pt; color: orange;'>Only the first 100 rows are displayed.</p>
+	
+<?php } ?>
 
 <div style='overflow: auto; height: 600px'>
 <?php
 	$this->widget('PGridView', array(
     	'dataProvider'=> new CArrayDataProvider($data[$i], array(
 			'keyField' => false,
-			'pagination' => false, //array(
-				// 'pageSize' => 100
-			// ),
+			'pagination' => false,
 		)),
 	));
 ?>

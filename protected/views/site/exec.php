@@ -114,6 +114,10 @@
 	});
 
 	function coba(chk) {
+		if  ($('#enableediting').is(':checked')) {
+			return;
+		}
+		
 		var id = chk.id.substr(chk.id.length-1);
 		if (chk.checked) {
 			splitQuery(id);
