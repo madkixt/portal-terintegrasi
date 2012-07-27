@@ -6,6 +6,7 @@
 		var i = document.getElementsByName('checkbox').length;
 		for (var j = 1; j <= i; j++)
 			splitQuery(j);
+		setText();
 	}
 	
 	function shownote() {
@@ -77,6 +78,8 @@
 							} else if (varname.substr(varname.length - 2, 2) == ':t') {
 								varname = varname.substr(0, varname.length - 2);
 							} else if (varname.substr(varname.length - 2, 2) == ':i') {
+								varname = varname.substr(0, varname.length - 2);
+							} else if (varname.substr(varname.length - 2, 2) == ':n') {
 								varname = varname.substr(0, varname.length - 2);
 							}
 						
@@ -154,6 +157,9 @@
 				} else if (varname.substr(varname.length - 2, 2) == ':i') {
 					varname = varname.substr(0, varname.length - 2);
 					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='290px' style='max-width: 165px'><strong>" + varname + "</strong><br /><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":i"] + "' onchange='setText()' /></td></tr>");
+				} else if (varname.substr(varname.length - 2, 2) == ':n') {
+					varname = varname.substr(0, varname.length - 2);
+					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='290px' style='max-width: 165px'><strong>" + varname + "</strong><br /><input id='vari"+i +varname+"' name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname + ":n"] + "' onchange='setText()' /></td></tr>");
 				} else
 					$('#vars' + i).html($('#vars' + i).html() + "<tr><td width='290px' style='max-width: 165px'><strong>" + varname + "</strong><br /><input name='vari"+i+ varname + "' class= 'required' size= '15' type='text' value='" + variables[varname] + "' onchange='setText()' /></td></tr>");
 			}
@@ -190,6 +196,8 @@
 							varname += ':t';
 						} else if (sub.charAt(curlIdx + 1) == 'i') {
 							varname += ':i';
+						} else if (sub.charAt(curlIdx + 1) == 'n') {
+							varname += ':n';
 						}
 					}
 				}
@@ -253,6 +261,13 @@
 								val += "'" + arr[arr.length - 1] + "')";
 								txt = txt.substring(0, idxQ) + val + sub.substring(curlIdx + 2);
 							}
+						} else if (sub.charAt(curlIdx + 1) == 'n') {
+							if (varval == '?' + varname) {
+								txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 2);
+							} else {
+								varval = varval.substring(1, varval.length - 1);
+								txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 2);
+							}
 						} else
 							txt = txt.substring(0, idxQ) + varval + sub.substring(curlIdx + 1);
 					} else {
@@ -313,11 +328,15 @@
 ?>
 <h1>Execution</h1>
 
-
-	<link rel="stylesheet" type="text/css" href="/portal/assets/44e798dc/jui/css/base/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/portal/assets/44e798dc/jui/css/base/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="/portal/assets/73c60228/gridview/styles.css" />
 
-
+<?php
+if (Yii::app()->user->hasFlash('dltAcc')) { ?>
+<div class='flash-success'>
+	<em><?php echo Yii::app()->user->getFlash('dltAcc'); ?></em>
+</div>
+<?php } ?>
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(

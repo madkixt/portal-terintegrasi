@@ -15,7 +15,8 @@ class SiteController extends Controller
 		return array(
 			'accessControl + exec', // perform access control for CRUD operations
 			'dinamik + dinamik',
-			'queryID + exec'
+			'queryID + exec',
+			'deleteAccess + admin'
 		);
 	}
 	
@@ -369,6 +370,26 @@ class SiteController extends Controller
 		$cmd->connection->active = false;
 	}
 	
+	public function actionDeleteAccess() {
+		$dir = Yii::app()->basePath . '/../access';
+		if (is_dir($dir)) {
+			if ($dh = opendir($dir)) {
+				while (($file = readdir($dh)) !== false) {
+					if (strcasecmp(substr($file, strlen($file) - 5, 5), 'accdb') == 0) {
+						unlink($dir . '/' . $file);
+						Yii::app()->user->setFlash('dltAcc', 'All MS Access files in the server have been deleted.');
+					} elseif (strcasecmp(substr($file, strlen($file) - 3, 3), 'mdb') == 0) {
+						unlink($dir . '/' . $file);
+						Yii::app()->user->setFlash('dltAcc', 'All MS Access files in the server have been deleted.');
+					}
+				}
+				closedir($dh);
+			}
+		}
+		
+		$this->actionExec(null);
+	}
+	
 	private function generateExcel($cmd, $queries) {
 		Yii::import('application.extensions.phpexcel.JPhpExcel');
 	    $xls = new JPhpExcel('UTF-8', false, 'mandiri');
@@ -448,7 +469,7 @@ class SiteController extends Controller
 		
 		$adox_catalog  = new COM("ADOX.Catalog");
 		$adox_catalog->Create('Provider = Microsoft.Jet.OLEDB.4.0; Data Source=' . $fname);
-				
+		
 		try{
 			$conn = new PDO("odbc:DRIVER={Microsoft Access Driver (*.mdb, *.accdb)}; DBQ=$fname; Uid=; Pwd=;");
 		} catch (Exception $e) {
@@ -545,7 +566,7 @@ class SiteController extends Controller
 		if (file_exists($fname)) {
 			header('Content-Description: File Transfer');
 			header('Content-Type: application/octet-stream');
-			header('Content-Disposition: attachment; filename=' . basename($fname));
+			header('Content-Disposition: attachment; filename=' . $this->filename . '.' . $ext);
 			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -587,6 +608,8 @@ class SiteController extends Controller
 				if ($n === 0) {
 					if (!$first)
 						echo $th->line($lengths);
+					else
+						echo "(Empty)\r\n";
 					break;
 				}
 				
