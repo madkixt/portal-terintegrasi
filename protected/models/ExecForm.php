@@ -1,9 +1,11 @@
 <?php
 
-/** halaman eksekusi query */
-
-function sortee($a, $b) {
+function sortConn($a, $b) {
 	return strcasecmp($a->name, $b->name);
+}
+
+function sortQuery($a, $b) {
+	return strcasecmp($a->title, $b->title);
 }
 
 class ExecForm extends CFormModel {
@@ -47,7 +49,7 @@ class ExecForm extends CFormModel {
 		$user = User::model()->findByPk(Yii::app()->user->getId());
 		$model = $user->tblConnections;
 		
-		uasort($model, "sortee");
+		uasort($model, "sortConn");
 		if (Controller::isAdmin()) {
 			$conn = new Connection;
 			$conn->connectionID = 'other';
@@ -59,10 +61,11 @@ class ExecForm extends CFormModel {
 		return CHtml::listData($model, 'connectionID', 'name');
 	}
 	
-	public static function getJudul()
-	{
+	public static function getJudul() {
 		$user = User::model()->findByPk(Yii::app()->user->getId());
-		$judulArray= CHtml::listData($user->tblQueries, 'queryID', 'title');
-		return $judulArray;
+		$model = $user->tblQueries;
+		
+		uasort($model, "sortQuery");
+		return CHtml::listData($model, 'queryID', 'title');
 	}
 }
