@@ -76,36 +76,36 @@ class SiteController extends Controller
 	/**
 	 * Displays the contact page
 	 */
-	public function actionContact()
-	{
-		$model=new ContactForm;
-		$error = null;
+	// public function actionContact()
+	// {
+		// $model=new ContactForm;
+		// $error = null;
 		
-		if(isset($_POST['ContactForm'])) {
-			$model->attributes=$_POST['ContactForm'];
-			if ($model->validate()) {
-				Yii::import('application.extensions.phpgmailer.*');
-				$mail = new PHPGmailer;
-				$mail->Username = Yii::app()->params['adminEmail']; 
-				$mail->Password = Yii::app()->params['adminEmailPass'];
-				$mail->From = 'prmps.adm@gmail.com'; 
-				$mail->FromName = 'Portal Reporting MPS';
-				$mail->Subject = $model->subject;
-				$mail->AddAddress('okiriza.wibisono@gmail.com');
-				$mail->Body = "Portal Reporting Mandiri Prepaid System\n" . $model->name . " (" . $model->email . ")" . " wrote:\n\n" . $model->body;
+		// if(isset($_POST['ContactForm'])) {
+			// $model->attributes=$_POST['ContactForm'];
+			// if ($model->validate()) {
+				// Yii::import('application.extensions.phpgmailer.*');
+				// $mail = new PHPGmailer;
+				// $mail->Username = Yii::app()->params['adminEmail']; 
+				// $mail->Password = Yii::app()->params['adminEmailPass'];
+				// $mail->From = 'prmps.adm@gmail.com'; 
+				// $mail->FromName = 'Portal Reporting MPS';
+				// $mail->Subject = $model->subject;
+				// $mail->AddAddress('okiriza.wibisono@gmail.com');
+				// $mail->Body = "Portal Reporting Mandiri Prepaid System\n" . $model->name . " (" . $model->email . ")" . " wrote:\n\n" . $model->body;
 				
-				try {
-					$mail->Send();
-					Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
-					$this->refresh();
-				} catch (Exception $e) {
-					$error = "Mail not sent. For the time, please contact us at <strong>prmps.adm@gmail.com</strong>. We are sorry for this incovenience.";
-				}
-			}
-		}
+				// try {
+					// $mail->Send();
+					// Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
+					// $this->refresh();
+				// } catch (Exception $e) {
+					// $error = "Mail not sent. For the time, please contact us at <strong>prmps.adm@gmail.com</strong>. We are sorry for this incovenience.";
+				// }
+			// }
+		// }
 		
-		$this->render('contact',array('model'=>$model, 'error' => $error));
-	}
+		// $this->render('contact',array('model'=>$model, 'error' => $error));
+	// }
 
 	/**
 	 * Displays the login page
