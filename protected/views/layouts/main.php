@@ -49,7 +49,7 @@
 	<div class="clear"></div>
 
 	<div id="footer">
-		<?php echo CHtml::link('About', array('site/page', 'view' => 'about')); ?> | <?php echo CHtml::link('Contact Us', array('site/contact')); ?><br />
+		<?php echo CHtml::link('About', array('site/page', 'view' => 'about')); ?><br />
 		Copyright &copy; 2012<br />
 		IF ITB 2009<br/>
 		<?php echo Yii::powered(); ?>
