@@ -5,10 +5,11 @@ class SiteController extends Controller
 	public $defaultAction = 'exec';
 	public $filename = 'export';
 	
-	const MAX_ROWS = 10000;
+	const MAX_ROWS = 25000;
 	const DISPLAYED_ROWS = 100;
 	
-	const WORKSHEET_LENGTH = 50000;
+	const EXCEL_SHEET_LENGTH = 50000;
+	const ACCESS_INSERT = 25;
 	
 	public function filters() {
 		return array(
@@ -130,31 +131,12 @@ class SiteController extends Controller
 	}
 	
 	/**
-	 * Displays the execution page
+	 * Logs out the current user and redirect to homepage.
 	 */
-	public function actionExec($id = null) {
-		$model = new ExecForm;
-		
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form') {
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		} 
-		
-		// collect user input data
-		if(isset($_POST['ExecForm'])) {
-			$model->attributes = $_POST['ExecForm'];
-			if ($model->validate() && $model->exec())
-				$this->redirect(Yii::app()->user->returnUrl);
-		} 
-		
-		$statements = null;
-		// display the exec form
-		$this->render('exec',array(
-			'model' => $model,
-			'statements' => $statements,
-			'id' => $id
-		));
+	public function actionLogout()
+	{
+		Yii::app()->user->logout();
+		$this->redirect(Yii::app()->homeUrl);
 	}
 	
 	public function actionDinamik($id = null) {
@@ -293,71 +275,32 @@ class SiteController extends Controller
 		}
 	}
 		
-	public function autoGen($id) {
-		$data = Query::model()->findByPk($id);	
-		$statements = $data->loadStatements();
+	/**
+	 * Displays the execution page
+	 */
+	public function actionExec($id = null) {
+		$model = new ExecForm;
 		
-		$enableEditing = CHtml::checkBox('enable editing',false,array(
-				'id' => 'enableediting',
-				'name'=> 'aa',
-				'onclick'=>'javascript: changeedit();'		
-			));
+		// if it is ajax validation request
+		if(isset($_POST['ajax']) && $_POST['ajax']==='exec-form') {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		} 
 		
+		// collect user input data
+		if(isset($_POST['ExecForm'])) {
+			$model->attributes = $_POST['ExecForm'];
+			if ($model->validate() && $model->exec())
+				$this->redirect(Yii::app()->user->returnUrl);
+		} 
 		
-		$tarea = CHtml::textArea('isiquery1','',array('id'=>'isiquery', 'cols'=>60,'rows'=>5, 'readonly'=>"readonly" ));
-		$retval = '';
-		$retval .= '<b>&nbsp; Database</b>';
-		$stt = "&nbsp;" . CHtml::textField('database', $data->databaseName);
-		$stt .= CHtml::tag('br');
-		$stt .= CHtml::tag('br');
-		$retval .= CHtml::tag('div', array('id' => 'database'), $stt);
-		
-		$i = 1;
-		$str = '';
-		foreach ($statements as $stmt => $statement) {
-			$str .= "<tr border= '10'><td width ='200px'><div id='my " . $i . "'>";
-			$str .= CHtml::checkBox('checkbox',false,array(
-				'id' => 'checkbox'.$i ,
-				'onclick'=>'javascript: coba(checkbox'.$i.');'		
-			));
-			
-			$str .= "<b> Statement $stmt</b>";
-			$str .= CHtml::tag('br');
-			$str .= CHtml::textArea('statement' .$i, $statement, array('id' => 'statement' . $i, 'cols'=>30,'rows'=>5, 'readonly'=>"readonly"));
-			$str .= CHtml::tag('br');
-			$str .= CHtml::tag('br');
-			$str .= CHtml::tag('br');
-			$str .= "</div></td><td>";
-			$str .= CHtml::tag('div', array('id' => 'vars' . $i));
-			$str .= "</td></tr>";
-			$i++;
-		}
-		$retval .= CHtml::tag('table', array('id'=>'vi2'), $str) . "</br>";
-		$std = $enableEditing;
-		$std .= '  Enable Editing';
-		$std .= CHtml::tag('br');
-		$std .= $tarea;
-		$stx = CHtml::tag('table', array(), $std);
-		$retval .= $stx;
-		return $retval;
-	}	
-	
-	public function actionDownload($type) {
-		if (($cmd = Yii::app()->user->getState('conn')) == null)
-			throw new CHttpException(403, 'No query result found.');
-		
-		$queries = $this->getQueries($cmd->text);
-		$cmd->connection->active = true;
-		
-		if ($type === 'xls') {
-			$this->generateExcel($cmd, $queries);
-		} elseif ($type === 'mdb') {
-			$this->generateAccess($cmd, $queries);
-		} elseif ($type === 'txt') {
-			$this->generateText($data);
-		}
-		
-		$cmd->connection->active = false;
+		$statements = null;
+		// display the exec form
+		$this->render('exec',array(
+			'model' => $model,
+			'statements' => $statements,
+			'id' => $id
+		));
 	}
 	
 	public function actionResult() {
@@ -382,10 +325,6 @@ class SiteController extends Controller
 				$dbms = $con->dbms;
 			}
 			
-			// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
-			// $username = 'sa';
-			// $password = 'm4nd1r1db';
-			
 			$dsn = Connection::getDsn($dbms, $IPAddress, $_POST['database']);
 			$username = $username;
 			$password = $password;
@@ -401,9 +340,8 @@ class SiteController extends Controller
 		}
 		
 		try {
-			$data = $this->queryAll($cmd->connection, $cmd->text, $dbms);
+			$data = $this->queryDisplay($cmd->connection, $cmd->text, $dbms);
 		} catch (Exception $e) {
-			echo $e;
 			$error = 'Query failed. Please check the <strong>query syntax</strong>.';
 			$this->render('result', array('data' => $data, 'query' => '', 'error' => $error));
 			return;
@@ -413,23 +351,31 @@ class SiteController extends Controller
 		$this->render('result', array('data' => $data, 'query' => $cmd->text, 'error' => $error));
 	}
 	
-		/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionLogout()
-	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+	public function actionDownload($type) {
+		if (($cmd = Yii::app()->user->getState('conn')) == null)
+			throw new CHttpException(403, 'No query result found.');
+		
+		$queries = $this->getQueries($cmd->text);
+		$cmd->connection->active = true;
+		
+		if ($type === 'xls') {
+			$this->generateExcel($cmd, $queries);
+		} elseif (($type === 'accdb') || ($type === 'mdb')) {
+			$this->generateAccess($cmd, $queries, $type);
+		} elseif ($type === 'txt') {
+			$this->generateText($cmd, $queries);
+		}
+		
+		$cmd->connection->active = false;
 	}
-
+	
 	private function generateExcel($cmd, $queries) {
 		Yii::import('application.extensions.phpexcel.JPhpExcel');
 	    $xls = new JPhpExcel('UTF-8', false, 'mandiri');
 		
 		header("Content-Type: application/vnd.ms-excel; charset=UTF-8");
         header("Content-Disposition: inline; filename=\"" . $this->filename . ".xls\"");
-
-        echo stripslashes (sprintf("<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">", "UTF-8"));
+        echo stripslashes(sprintf("<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">", "UTF-8"));
 		
 		$j = 1;		// Statement count
 		foreach ($queries as $query) {
@@ -437,14 +383,23 @@ class SiteController extends Controller
 			$offset = 0;
 			$rowPrinted = 0;
 			$sheet = 1;
+			$first = true;
 			
 			while (!$stop) {
-				echo $rowPrinted ."<br />";
-				$data = $this->query($cmd->connection, $query, 0, self::MAX_ROWS, $offset);
+				$data = $this->query($cmd->connection, $query, $this->getDbms($cmd->connection->connectionString), self::MAX_ROWS, $offset);
 				$n = count($data);
 				
-				if ($n === 0)
+				if ($n === 0) {
+					if ($first) {
+						if ($this->isUser())
+							echo "\n<Worksheet ss:Name=\"Empty\">\n<Table>\n</Table>\n</Worksheet>";
+						else
+							echo "\n<Worksheet ss:Name=\"" . $j . ". Empty\">\n<Table>\n</Table>\n</Worksheet>";
+					}
 					break;
+				}
+				
+				$first = false;
 				
 				if ($n < self::MAX_ROWS) {
 					$stop = true;
@@ -452,10 +407,10 @@ class SiteController extends Controller
 				
 				$xls->setArray(array());
 				if ($rowPrinted === 0) {
-					if ($this->isUser())
-						echo "\n<Worksheet ss:Name=\"" . $j . ". Rows " . (($sheet - 1)*self::WORKSHEET_LENGTH + 1) . "-" . ($sheet*self::WORKSHEET_LENGTH) . "\">\n<Table>\n";
+					if (!$this->isUser())
+						echo "\n<Worksheet ss:Name=\"" . $j . ". Rows " . (($sheet - 1)*self::EXCEL_SHEET_LENGTH + 1) . "-" . ($sheet*self::EXCEL_SHEET_LENGTH) . "\">\n<Table>\n";
 					else
-						echo "\n<Worksheet ss:Name=\"Rows " . (($sheet - 1)*self::WORKSHEET_LENGTH + 1) . "-" . ($sheet*self::WORKSHEET_LENGTH) . "\">\n<Table>\n";
+						echo "\n<Worksheet ss:Name=\"Rows " . (($sheet - 1)*self::EXCEL_SHEET_LENGTH + 1) . "-" . ($sheet*self::EXCEL_SHEET_LENGTH) . "\">\n<Table>\n";
 						
 					$header = array();
 					foreach ($data[0] as $property => $value) {
@@ -471,7 +426,7 @@ class SiteController extends Controller
 					echo $line;
 						
 				$rowPrinted += $n;
-				if ($rowPrinted === self::WORKSHEET_LENGTH || $stop) {
+				if ($rowPrinted === self::EXCEL_SHEET_LENGTH || $stop) {
 					echo "</Table>\n</Worksheet>";
 					$rowPrinted = 0;
 					$sheet++;
@@ -486,50 +441,128 @@ class SiteController extends Controller
 		echo "</Workbook>";
 	}
 	
-	private function generateAccess($cmd, $queries) {
-	
-	}
-	
-	private function excelTest() {
-		if (($cmd = Yii::app()->user->getState('conn')) == null)
-			throw new CHttpException(403, 'No query result found.');
+	private function generateAccess($cmd, $queries, $ext = 'accdb') {
+		date_default_timezone_set('Asia/Bangkok');
+		$date = date('_H_i_s', time());
+		$fname =  Yii::app()->basePath . '/../access/' . $this->filename . $date . '.' . $ext;
 		
-		$text = $cmd->text;
-		$rtrim = rtrim($text);
-		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ';')
-			$text .= ';';
-		
-		$queries = explode(";", $text);
-		$conn = $cmd->connection;
-		$conn->active = true;
-		
-		for ($i = 0; $i < count($queries) - 1; $i++) {
-			$stop = false;
+		$adox_catalog  = new COM("ADOX.Catalog");
+		$adox_catalog->Create('Provider = Microsoft.Jet.OLEDB.4.0; Data Source=' . $fname);
+				
+		try{
+			$conn = new PDO("odbc:DRIVER={Microsoft Access Driver (*.mdb, *.accdb)}; DBQ=$fname; Uid=; Pwd=;");
+		} catch (Exception $e) {
+			echo 'Failed to download.';
+		}
+
+		$conn->exec('CREATE TABLE dummy ([ID] TEXT)');
+		$conn->exec('INSERT INTO dummy VALUES (1)');
+
+		$j = 1;
+		foreach ($queries as $query) {
 			$offset = 0;
+			$first = true;
+			$stop = false;
 			
 			while (!$stop) {
-				$data = $this->query($conn, $queries[$i], 0, self::MAX_ROWS, $offset);
+				$data = $this->query($cmd->connection, $query, $this->getDbms($cmd->connection->connectionString), self::MAX_ROWS, $offset);
 				$n = count($data);
+				
+				if ($first) {
+					$first = false;
+					
+					if ($n > 0) {
+						$header = array();
+						$queryCr = 'CREATE TABLE Tabel' . $j . ' (';
+						foreach ($data[0] as $property => $value) {
+							$header[] = "[".$property."] TEXT";
+						}
+						
+						$queryCr .= implode($header, ", ");
+						$queryCr .= ')';
+						
+						$conn->exec($queryCr);
+					}
+				}
 				
 				if ($n === 0)
 					break;
-					
-				if ($n < self::MAX_ROWS) {
+				
+				if ($n < self::MAX_ROWS)
 					$stop = true;
+					
+				$iter = ceil(count($data) / self::ACCESS_INSERT);
+				for ($part = 0; $part < $iter; $part++) {
+					$ins = true;
+					$queryPart = array();
+					
+					for ($count = 0; $count < self::ACCESS_INSERT; $count++) {
+						$idx = $count + $part*self::ACCESS_INSERT;
+						if ($idx === count($data))
+							break;
+						
+						$datum = $data[$idx];
+						
+						if ($ins) {
+							$ins = false;
+							
+							$query1 = 'INSERT INTO Tabel' . $j . " (";
+							foreach ($datum as $key => $val) {
+								$query1 .= "$key, ";
+							}
+							$query1 = substr($query1, 0, strlen($query1) - 2);
+							$query1 .= ') SELECT * FROM (';
+						}
+						
+						$queryPart[$count] = "SELECT TOP 1 ";
+						foreach ($datum as $key => $val) {
+							if ($val !== null)
+								$datum[$key] = "'" . str_replace("'", "''", $val) . "'";
+							else
+								$datum[$key] = 'NULL';
+							
+							$queryPart[$count] .= $datum[$key] . " AS " . $key . ", ";
+						}
+						
+						$queryPart[$count] = substr($queryPart[$count], 0, strlen($queryPart[$count]) - 2);
+						$queryPart[$count] .= " FROM dummy";
+					}
+					
+					$query1 .= implode($queryPart, " UNION ALL ");
+					$query1 .= ")";
+					
+					$conn->exec($query1);
 				}
 				
-				echo ($offset + 1) . "-" . ($offset + $n) . "<br />";
-				foreach ($data as $row)
-					echo $row['FirstName'] . " " . $row['MiddleName'] . " " . $row['LastName'];
-				echo "<br /><br />";
 				$offset += self::MAX_ROWS;
 			}
+			
+			$j++;
 		}
 		
-		$conn->active = false;
+		$conn->exec('DROP TABLE dummy');
+		
+		if (file_exists($fname)) {
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename=' . basename($fname));
+			header('Content-Transfer-Encoding: binary');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($fname));
+			ob_clean();
+			flush();
+			readfile($fname);
+			
+			$adox_catalog->ActiveConnection->Close();
+			unset($conn);
+			unlink($fname);
+		}
 	}
 	
-	private function generateText($data) {
+	private function generateText($cmd, $queries) {
+		Yii::import('application.extensions.TextHelper');
 		$th = new TextHelper;
 		
 		header("Content-Disposition: attachment; filename=\"" . $this->filename . ".txt\"");
@@ -537,32 +570,50 @@ class SiteController extends Controller
 		header("Connection: close");
 		
 		$j = 1;
-		foreach ($data as $datum) {
-			if ((count($data) > 1) && !$this->isUser())
-				echo "Statement " . $j++ . "\r\n";
+		$dbms = $this->getDbms($cmd->connection->connectionString);
+		foreach ($queries as $query) {
+			$stop = false;
+			$offset = 0;
+			$first = true;
+			$lengths = $th->maxAllRowsLength($cmd->connection, $query, $this->getDbms($cmd->connection->connectionString));
 			
-			if (count($datum) === 0)
-				continue;
-			
-			if (count($datum) <= $th->rowsPerWrite) {
-				echo $th->toText($datum);
-			} else {
-				$lengths = $th->maxLengths($datum);
+			if (!$this->isUser())
+				echo "Statement $j\r\n";
 				
-				echo $th->headerText($datum, $lengths);
-				$iter = ceil(count($datum) / $th->rowsPerWrite);
-				for ($i = 0; $i < $iter; $i++) {
-					echo $th->partText($datum, $i, $lengths);
+			while (!$stop) {
+				$data = $this->query($cmd->connection, $query, $this->getDbms($cmd->connection->connectionString), self::MAX_ROWS, $offset);
+				$n = count($data);
+			
+				if ($n === 0) {
+					if (!$first)
+						echo $th->line($lengths);
+					break;
 				}
-				echo $th->line($lengths);
+				
+				if ($n < self::MAX_ROWS) {
+					$stop = true;
+				}
+				
+				if ($first) {
+					$first = false;
+					echo $th->headerText($data, $lengths);
+				}
+				
+				echo $th->bodyText($data, $lengths);
+						
+				if ($stop) {
+					echo $th->line($lengths);
+				}
+				
+				$offset += self::MAX_ROWS;
 			}
 			
-			if (count($data) > 1)
-				echo "\r\n\r\n";
+			echo "\r\n\r\n";
+			$j++;
 		}
 	}
 	
-	private function queryAll($conn, $text, $dbms) {
+	private function queryDisplay($conn, $text, $dbms) {
 		$rtrim = rtrim($text);
 		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ';')
 			$text .= ';';
@@ -576,8 +627,8 @@ class SiteController extends Controller
 		return $data;
 	}
 	
-	private function query($conn, $query, $dbms, $count = self::MAX_ROWS, $offset = 0) {
-		$data = $conn->createCommand($this->limitResult($query, $dbms, $count, $offset))->queryAll();
+	public static function query($conn, $query, $dbms, $count = self::MAX_ROWS, $offset = 0) {
+		$data = $conn->createCommand(SiteController::limitResult($query, $dbms, $count, $offset))->queryAll();
 		
 		for ($i = 0; $i < count($data); $i++) {
 			unset($data[$i]['RowNumber']);
@@ -620,33 +671,6 @@ class SiteController extends Controller
 		$filterChain->run();
 	}
 	
-	public function actionTest() {
-		throw new CHttpException(404, 'Page not found.');
-		// $dsn = 'sqlsrv:server=10.204.35.92;database=MPS';
-		// $username = 'sa';
-		// $password = 'm4nd1r1db';
-		$dsn = 'sqlsrv:server=WIBI-PC;database=AdventureWorks';
-		$username = '';
-		$password = '';
-		// $dsn = 'mysql:host=localhost;dbname=wdshop';
-		// $username = 'root';
-		
-		// $sql = "select cardno, productid,  INTauthamount AS denom, renewalStatus, cardbalance, cardbalanceoncard , ModifiedOn, ModifiedBy from dbo.MPS_CardMaster with (nolock) where cardno in ('6032981019317189')";
-		// $sql = "SELECT * FROM barang";
-		$sql = "SELECT TOP 100 * FROM Production.Product; SELECT TOP 100 * FROM Person.Person";
-		
-		$con = new CDbConnection($dsn, $username, $password);
-		$con->active = true;
-		
-		$cmd = $con->createCommand($sql);
-		$data = $cmd->queryAll();
-		
-		$con->active = false;
-		
-		Yii::app()->user->setState('result', $data);
-		$this->render('result', array('data' => $data));
-	}
-	
 	public function filterDinamik($filterChain) {
 		if (!Yii::app()->request->isAjaxRequest) {
 			$this->redirect(array('/site'));
@@ -656,7 +680,7 @@ class SiteController extends Controller
 		$filterChain->run();
 	}
 	
-	private function limitResult($query, $dbms = Connection::DBMS_MSSQL, $count = 100, $offset = 0) {
+	public static function limitResult($query, $dbms = Connection::DBMS_MSSQL, $count = 100, $offset = 0) {
 		if ($dbms === null)
 			return $query;
 		
@@ -666,9 +690,15 @@ class SiteController extends Controller
 					// "SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY __xx__) AS RowNumber, __original__.* FROM ".
 					// "(" . $query . ") AS __original__, __dummy__) AS __limited__ ".
 					// "WHERE RowNumber BETWEEN " . ($offset + 1) . " AND " . ($offset + $count);
-				 $query = "SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY __dummy__) AS RowNumber, * FROM " .
+				
+				// if ($offset === 0) {
+					// $selIdx = stripos($query, "SELECT");
+					// $query = substr($query, 0, $selIdx + 6) . " TOP $count " . substr($query, $selIdx + 7);
+				// } else {
+					$query = "SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY __dummy__) AS RowNumber, * FROM " .
 					"(SELECT *, __dummy__ = '' FROM (" . $query . ") AS __original__) AS __inner__) AS __outer__ ".
 					"WHERE RowNumber BETWEEN " . ($offset + 1) . " AND " . ($offset + $count);
+				// }
 				break;
 			case Connection::DBMS_MYSQL:
 				$query .= " LIMIT 0, 100";
@@ -678,8 +708,28 @@ class SiteController extends Controller
 		return $query;
 	}
 	
-	public function actionAccessDel() {
-		$file = 'D:/Downloads/Database21.accdb';
+	private function getQueries($text) {
+		$rtrim = rtrim($text);
+		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ';')
+			$text .= ';';
+		
+		$queries = explode(";", $text);
+		unset($queries[count($queries) - 1]);
+		return $queries;
+	}
+	
+	private function getDbms($conString) {
+		if (substr($conString, 0, 6) === 'sqlsrv')
+			return Connection::DBMS_MSSQL;
+			
+		if (substr($conString, 0, 5) === 'mysql')
+			return Connection::DBMS_MYSQL;
+	
+		return -1;
+	}
+	
+	public function actionTest() {
+		$file = 'C:/xampp/htdocs/portal/access/export_08_07_58.accdb';
 		// if (file_exists($file)) {
 			// header('Content-Description: File Transfer');
 			// header('Content-Type: application/octet-stream');
@@ -695,16 +745,7 @@ class SiteController extends Controller
 			// exit;
 		// }
 		unlink($file);
-	}
-	
-	private function getQueries($text) {
-		$rtrim = rtrim($text);
-		if (substr($rtrim, strlen($rtrim) - 1, 1) !== ';')
-			$text .= ';';
-		
-		$queries = explode(";", $text);
-		unset($queries[count($queries) - 1]);
-		return $queries;
+		echo 'a';
 	}
 }
 

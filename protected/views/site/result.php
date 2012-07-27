@@ -11,7 +11,10 @@ if ($error !== '') {
 ?></p>
 <p>
 <?php
-	echo CHtml::link('Download as Access (.accdb)', array('download', 'type' => 'mdb'));
+	echo CHtml::link('Download as Access (.mdb)', array('download', 'type' => 'mdb'));
+?></p>
+<?php
+	echo CHtml::link('Download as Access (.accdb)', array('download', 'type' => 'accdb'));
 ?></p>
 <?php
 	echo CHtml::link('Download as Text (.txt)', array('download', 'type' => 'txt'));
